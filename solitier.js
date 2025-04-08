@@ -279,6 +279,48 @@ document.addEventListener("DOMContentLoaded", function(event) {
             $table.style.opacity = '100';
 
             // console.log('Table Rendered:', table);
+
+            document.querySelectorAll('.pile').forEach(pile => {
+               pile.addEventListener('dragover', event => {
+                   event.preventDefault(); // Разрешить сброс
+               });
+           
+               pile.addEventListener('drop', event => {
+                   event.preventDefault();
+           
+                   // Определяем целевую карту или стопку
+                   const dropTarget = event.target.closest('.card') || pile.querySelector('.card:last-child') || pile;
+           
+                   if (!dropTarget) {
+                       alert('Некуда сбросить карту!');
+                       return;
+                   }
+           
+                   const data = event.dataTransfer.getData('text/plain').split(',');
+                   const draggedRank = data[0];
+                   const draggedSuit = data[1];
+           
+                   // Находим перетаскиваемую карту
+                   const source = document.querySelector(`.card[data-rank="${draggedRank}"][data-suit="${draggedSuit}"]`);
+           
+                   // Логика проверки правильности хода
+                   if (validateMove([draggedRank, draggedSuit], [dropTarget.dataset.rank, dropTarget.dataset.suit])) {
+                     // event.dataset.selected = 'true';
+                     // $table.dataset.move = 'true';
+                     $table.dataset.dest = pile.dataset.pile
+
+                     makeMove();
+                     reset(table);
+                     render(table, playedCards);
+                     play(table);
+                   } else {
+                       alert('Неправильный ход!');
+                   }
+               });
+           });
+           
+           
+
             return;
          }
 
@@ -349,7 +391,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
             e.dataset.suit = s; // set suit attribute
             e.dataset.pile = p; // set pile attribute;
             e.dataset.selected = 'false'; // set selected attribute
-            e.innerHTML = html; // insert html to element
+
+            e.setAttribute('draggable', 'true'); // Разрешить перетаскивание
+            e.addEventListener('dragstart', event => {
+               event.dataTransfer.setData('text/plain', e.dataset.rank + ',' + e.dataset.suit);
+
+               e.dataset.selected = 'true';
+               $table.dataset.move = 'true';
+               $table.dataset.selected = [r,s];
+               $table.dataset.source = e.closest('.pile').dataset.pile;
+            });
+
+            e.innerHTML = html; // insert html to element            
             // query for pile
             var pile = d.querySelector(selector);
             // append to pile
@@ -842,8 +895,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
             // console.log('Making Move...');
 
             // get source and dest
-            var source = $table.dataset.source;
-            var dest = $table.dataset.dest;
+            var source = $table.dataset.source; // number of pile
+            var dest = $table.dataset.dest; // number of pile
             // console.log('From '+source+' pile to '+dest+' pile');
 
             // if pulling card from waste pile
