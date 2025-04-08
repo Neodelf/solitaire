@@ -333,25 +333,30 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
       // create card in pile
          function createCard(card, selector, html, append) {
-            const [rank, suit] = card;
-            // Get pile type from selector using regex match
-            const pileMatch = selector.match(/#(\w+)/);
-            const pile = pileMatch ? pileMatch[1] : '';
-
-            const element = d.createElement('li');
-            Object.assign(element, {
-               className: 'card',
-               innerHTML: html,
-               dataset: {
-                  rank,
-                  suit, 
-                  pile,
-                  selected: 'false'
-               }
-            });
-
-            const container = d.querySelector(selector);
-            append ? container.appendChild(element) : container.insertBefore(element, container.firstChild);
+            var r = card[0]; // get rank
+            var s = card[1]; // get suit
+            // get pile based on selector
+            if ( selector.includes('#stock') ) var p = 'stock';
+            if ( selector.includes('#waste') ) var p = 'waste';
+            if ( selector.includes('#spades') ) var p = 'spades';
+            if ( selector.includes('#hearts') ) var p = 'hearts';
+            if ( selector.includes('#diamonds') ) var p = 'diamonds';
+            if ( selector.includes('#clubs') ) var p = 'clubs';
+            if ( selector.includes('#tab') ) var p = 'tab';
+            var e = d.createElement('li'); // create li element
+            e.className = 'card'; // add .card class to element
+            e.dataset.rank = r; // set rank atribute
+            e.dataset.suit = s; // set suit attribute
+            e.dataset.pile = p; // set pile attribute;
+            e.dataset.selected = 'false'; // set selected attribute
+            e.innerHTML = html; // insert html to element
+            // query for pile
+            var pile = d.querySelector(selector);
+            // append to pile
+            if (append) pile.appendChild(e);
+            // or prepend to pile
+            else pile.insertBefore(e, pile.firstChild);
+            return;
          }
 
       // check for played cards
