@@ -282,40 +282,42 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
             document.querySelectorAll('.pile').forEach(pile => {
                pile.addEventListener('dragover', event => {
-                   event.preventDefault(); // Разрешить сброс
+                  event.preventDefault(); // Разрешить сброс
                });
            
                pile.addEventListener('drop', event => {
-                   event.preventDefault();
-           
-                   // Определяем целевую карту или стопку
-                   const dropTarget = event.target.closest('.card') || pile.querySelector('.card:last-child') || pile;
-           
-                   if (!dropTarget) {
-                       alert('Некуда сбросить карту!');
-                       return;
-                   }
-           
-                   const data = event.dataTransfer.getData('text/plain').split(',');
-                   const draggedRank = data[0];
-                   const draggedSuit = data[1];
-           
-                   // Находим перетаскиваемую карту
-                   const source = document.querySelector(`.card[data-rank="${draggedRank}"][data-suit="${draggedSuit}"]`);
-           
-                   // Логика проверки правильности хода
-                   if (validateMove([draggedRank, draggedSuit], [dropTarget.dataset.rank, dropTarget.dataset.suit])) {
-                     // event.dataset.selected = 'true';
-                     // $table.dataset.move = 'true';
+                  event.preventDefault();
+
+                  // To fix Drag&Drop
+                  if (!$table.dataset.source) {
+                     return;
+                  }
+
+                  // Определяем целевую карту или стопку
+                  const dropTarget = event.target.closest('.card') || pile.querySelector('.card:last-child') || pile;
+         
+                  if (!dropTarget) {
+                     return;
+                  }
+         
+                  const data = event.dataTransfer.getData('text/plain').split(',');
+                  const draggedRank = data[0];
+                  const draggedSuit = data[1];
+         
+                  // Находим перетаскиваемую карту
+                  const source = document.querySelector(`.card[data-rank="${draggedRank}"][data-suit="${draggedSuit}"]`);
+         
+                  // Логика проверки правильности хода
+                  if (validateMove([draggedRank, draggedSuit], [dropTarget.dataset.rank, dropTarget.dataset.suit])) {
                      $table.dataset.dest = pile.dataset.pile
 
                      makeMove();
                      reset(table);
                      render(table, playedCards);
                      play(table);
-                   } else {
-                       alert('Неправильный ход!');
-                   }
+                  } else {
+                     alert('Неправильный ход!');
+                  }
                });
            });
            
@@ -980,6 +982,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             // count move
             countMove(moves++);
 
+            $table.dataset.source = NaN;
             // reset table
             // console.log('Ending Move...');
 
