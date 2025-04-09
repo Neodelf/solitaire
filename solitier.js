@@ -13,6 +13,8 @@ Optional Features:
 document.addEventListener("DOMContentLoaded", function(event) {
    // 0. DECLARE VARS
 
+      window.dataLayer = window.dataLayer || [];
+
       // document
       var d = document;
 
@@ -986,6 +988,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
             // reset table
             // console.log('Ending Move...');
 
+            // Отслеживание хода игрока
+            dataLayer.push({
+               event: 'moveMade'
+             });
+
             return;
          }
 
@@ -1156,6 +1163,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
                updateScore(getBonus());
                // throw confetti
                throwConfetti();
+
+               // Отслеживание выигрыша
+               dataLayer.push({
+                  event: 'gameWon'
+                });
+                
+
                // return true
                return true;
             }
