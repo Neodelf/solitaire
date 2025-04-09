@@ -317,8 +317,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
                      reset(table);
                      render(table, playedCards);
                      play(table);
-                  } else {
-                     alert('Неправильный ход!');
                   }
                });
            });
