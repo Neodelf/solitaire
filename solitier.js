@@ -301,6 +301,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
                   if (!dropTarget) {
                      return;
                   }
+
+                  if (typeof(dropTarget) == 'string') {
+                     dest = dropTarget;
+                  } else {
+                     dest = [dropTarget.dataset.rank, dropTarget.dataset.suit]
+                  }
          
                   const data = event.dataTransfer.getData('text/plain').split(',');
                   const draggedRank = data[0];
@@ -310,7 +316,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                   const source = document.querySelector(`.card[data-rank="${draggedRank}"][data-suit="${draggedSuit}"]`);
          
                   // Логика проверки правильности хода
-                  if (validateMove([draggedRank, draggedSuit], [dropTarget.dataset.rank, dropTarget.dataset.suit])) {
+                  if (validateMove([draggedRank, draggedSuit], dest)) {
                      $table.dataset.dest = pile.dataset.pile
 
                      makeMove();
