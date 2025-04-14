@@ -296,7 +296,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                   }
 
                   // Определяем целевую карту или стопку
-                  const dropTarget = event.target.closest('.card') || pile.querySelector('.card:last-child') || pile;
+                  const dropTarget = event.target.closest('.card') || pile.querySelector('.card:last-child') || pile.getAttribute('data-pile');
          
                   if (!dropTarget) {
                      return;
