@@ -155,6 +155,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
    // 3. DEAL DECK
       table = deal(deck, table);
 
+      // Отслеживание начала новой игры
+      if (window.solitaireAnalytics) {
+         window.solitaireAnalytics.trackGameStart('klondike');
+      }
+
    // 4. RENDER TABLE
       render(table, playedCards);
 
@@ -907,6 +912,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
             var dest = $table.dataset.dest; // number of pile
             // console.log('From '+source+' pile to '+dest+' pile');
 
+            // Получаем информацию о перемещаемой карте для аналитики
+            var selectedCard = $table.dataset.selected;
+            var cardInfo = null;
+            if (selectedCard) {
+               cardInfo = selectedCard.split(',');
+            }
+
             // if pulling card from waste pile
             if ( source === 'waste') {
                // if moving card to foundation pile
@@ -988,14 +1000,20 @@ document.addEventListener("DOMContentLoaded", function(event) {
             // count move
             countMove(moves++);
 
+            // Отслеживание хода игрока
+            if (window.solitaireAnalytics && cardInfo && cardInfo.length >= 2) {
+               window.solitaireAnalytics.trackMove(
+                  source, 
+                  dest, 
+                  cardInfo[0], // rank
+                  cardInfo[1], // suit
+                  'manual'
+               );
+            }
+
             $table.dataset.source = NaN;
             // reset table
             // console.log('Ending Move...');
-
-            // Отслеживание хода игрока
-            dataLayer.push({
-               event: 'moveMade'
-             });
 
             return;
          }
@@ -1078,12 +1096,23 @@ document.addEventListener("DOMContentLoaded", function(event) {
                   $playPause.addEventListener('click', pauseTimer = function(){
                      timer('pause');
                   });
+                  
+                  // Отслеживание возобновления игры
+                  if (window.solitaireAnalytics && gameplay === 'paused') {
+                     window.solitaireAnalytics.trackGameResume();
+                  }
                break;
                // pause timer
                case 'pause' :
                   // console.log('Pausing Timer...');
                   clearInterval(clock);
                   d.body.dataset.gameplay = 'paused';
+                  
+                  // Отслеживание паузы игры
+                  if (window.solitaireAnalytics) {
+                     window.solitaireAnalytics.trackGamePause();
+                  }
+                  
                   // unbind click to pause button
                   if ( gameplay === 'active')
                   $playPause.removeEventListener('click', pauseTimer);
@@ -1169,6 +1198,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
                throwConfetti();
 
                // Отслеживание выигрыша
+               if (window.solitaireAnalytics) {
+                  window.solitaireAnalytics.trackGameWin('manual');
+               }
                dataLayer.push({
                   event: 'gameWon'
                 });
@@ -1197,6 +1229,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
       // auto win
          function autoWin() {
             // console.log('Huzzah!');
+            
+            // Отслеживание использования авто-победы
+            if (window.solitaireAnalytics) {
+               window.solitaireAnalytics.trackAutoWin();
+            }
+            
             // hide auto win button
             $autoWin.style.display = 'none';
             // unbind click to auto win button
