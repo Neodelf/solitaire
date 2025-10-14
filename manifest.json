@@ -14,15 +14,15 @@
   "icons": [
     {
       "src": "img/favicon.png",
-      "sizes": "192x192",
+      "sizes": "32x32",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "img/favicon.png",
-      "sizes": "512x512",
+      "sizes": "32x32",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "maskable"
     }
   ],
   "screenshots": [
@@ -43,7 +43,7 @@
       "icons": [
         {
           "src": "img/favicon.png",
-          "sizes": "192x192"
+          "sizes": "32x32"
         }
       ]
     }
