@@ -1,0 +1,59 @@
+{
+  "name": "World Solitaire - Play Solitaire Online for Free",
+  "short_name": "World Solitaire",
+  "description": "Play classic solitaire online for free! No ads, no sign-up required. Enjoy modern features, daily challenges, and winnable deals.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0e8b44",
+  "theme_color": "#0e8b44",
+  "orientation": "any",
+  "scope": "/",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["games", "entertainment"],
+  "icons": [
+    {
+      "src": "img/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "img/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "img/frontpage_solitaire_desktop@2x.png",
+      "sizes": "1200x628",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "World Solitaire game interface"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Play Solitaire",
+      "short_name": "Play",
+      "description": "Start a new solitaire game",
+      "url": "/",
+      "icons": [
+        {
+          "src": "img/favicon.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  }
+}

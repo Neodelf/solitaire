@@ -1,0 +1,31 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    Developer: World Solitaire Team
+    Contact: info [at] world-solitaire.com
+    From: Worldwide
+
+# THANKS
+
+    Font: Suit Regular by Don Park
+    Analytics: Google Analytics 4
+    Performance: Custom Performance Tracker
+
+# TECHNOLOGY COLOPHON
+
+    HTML5, CSS3, JavaScript ES6+
+    Bootstrap 4
+    Google Tag Manager
+    Schema.org structured data
+    Progressive Web App (PWA)
+    Responsive Design
+    Cross-browser compatibility
+
+# SITE
+
+    Last update: 2024/12/19
+    Language: Multi-language (29 languages)
+    Doctype: HTML5
+    IDE: Various
