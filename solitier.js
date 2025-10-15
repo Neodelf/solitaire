@@ -1487,4 +1487,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
       tick();
 
    }
+
+   // Сделать функцию доступной из консоли
+   window.throwConfetti = throwConfetti;
+
 })
