@@ -28,13 +28,15 @@ class SolitaireAnalytics {
      * Инициализация модуля аналитики
      */
     init() {
-        // Проверяем наличие gtag
-        if (typeof gtag === 'undefined') {
-            console.warn('Google Analytics gtag не найден');
+        // Проверяем наличие хотя бы одного механизма отправки (gtag или dataLayer)
+        const hasGtag = typeof gtag !== 'undefined';
+        const hasDataLayer = Array.isArray(window.dataLayer);
+        if (!hasGtag && !hasDataLayer) {
+            console.warn('Analytics не инициализировалась: нет gtag и dataLayer');
             return;
         }
 
-        // Отправляем событие инициализации
+        // Отправляем событие инициализации (уйдет в gtag если доступен, и/или в dataLayer)
         this.trackEvent('game_initialized', {
             session_id: this.gameSessionId,
             timestamp: new Date().toISOString(),
