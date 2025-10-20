@@ -15,22 +15,13 @@
    <meta name="msapplication-TileColor" content="#0e8b44" />
    <meta name="msapplication-TileImage" content="../img/favicon.png" />
    
-   <!-- Google tag (gtag.js) -->
-   <script async src="https://www.googletagmanager.com/gtag/js?id=G-6CEHHD053K"></script>
-   <script>
-     window.dataLayer = window.dataLayer || [];
-     function gtag(){dataLayer.push(arguments);}
-     gtag('js', new Date());
-
-     gtag('config', 'G-6CEHHD053K');
-   </script>
-   <!-- Google tag (gtag.js) -->
+   
    
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1">
-   <title>World Solitaire - Играйте в солитер онлайн бесплатно | Без рекламы, полный экран</title>
-   <meta name="description" content="Играйте в классический солитер онлайн бесплатно! Без рекламы, без регистрации. Наслаждайтесь современными функциями, ежедневными заданиями и выигрышными раздачами. Отлично работает на настольных и мобильных устройствах по всему миру." />
-   <meta name="keywords" content="солитер, бесплатный солитер, онлайн солитер, солитер клондайк, карточная игра, бесплатная карточная игра, солитер без рекламы, солитер полный экран" />
+   <title>Солитер онлайн бесплатно — без рекламы, на весь экран | World Solitaire</title>
+   <meta name="description" content="Играйте в солитер (пасьянс) онлайн бесплатно. Без рекламы, без регистрации. Полный экран, ежедневные задания, выигрышные раздачи, мобильная версия." />
+   <meta name="keywords" content="солитер, пасьянс, бесплатный солитер, онлайн пасьянс, клондайк, карточная игра, без рекламы, полный экран" />
    <meta name="author" content="World Solitaire" />
    <meta name="robots" content="index, follow" />
    <meta name="googlebot" content="index, follow" />
@@ -50,7 +41,7 @@
    <link rel="preconnect" href="https://fonts.googleapis.com" />
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-   <link rel="preload" as="image" href="../img/card_back_bg_new.jpg" />
+   <link rel="preload" as="image" href="../img/card_back_bg_new.jpg" imagesrcset="../img/card_back_bg_resized.png 1x, ../img/card_back_bg_new.jpg 2x" />
    <link rel="preload" as="image" href="../img/card_face_bg_new.jpg" />
    <link rel="preload" as="image" href="../img/green_felt.jpg" />
 
@@ -137,11 +128,11 @@
 
    <link rel="stylesheet" href="../solitier.css">
    <link rel="stylesheet" href="../bootstrap.min.css">
-   <script src="../analytics.js"></script>
-   <script src="../performance-tracker.js"></script>
-   <script src="../custom-dimensions.js"></script>
-   <script src="../ecommerce-tracker.js"></script>
-   <script src="../solitier.js"></script>
+   <script src="../analytics.js" defer></script>
+   <script src="../performance-tracker.js" defer></script>
+   <script src="../custom-dimensions.js" defer></script>
+   <script src="../ecommerce-tracker.js" defer></script>
+   <script src="../solitier.js" defer></script>
 
    <!-- Structured Data Schema.org -->
    <script type="application/ld+json">
@@ -252,6 +243,54 @@
      ]
    }
    </script>
+
+   <script type="application/ld+json">
+   {
+     "@context": "https://schema.org",
+     "@type": "FAQPage",
+     "mainEntity": [
+       {
+         "@type": "Question",
+         "name": "Как выиграть в солитер Клондайк?",
+         "acceptedAnswer": {
+           "@type": "Answer",
+           "text": "Переместите все карты в четыре фундаментальные стопки по мастям от Туза до Короля. Стройте столбцы в таблице в чередующихся цветах и открывайте перевернутые карты."
+         }
+       },
+       {
+         "@type": "Question",
+         "name": "World Solitaire действительно бесплатен и без рекламы?",
+         "acceptedAnswer": {
+           "@type": "Answer",
+           "text": "Да. World Solitaire полностью бесплатен и без рекламы. Регистрация не требуется."
+         }
+       },
+       {
+         "@type": "Question",
+         "name": "Можно ли играть в полноэкранном режиме на мобильном?",
+         "acceptedAnswer": {
+           "@type": "Answer",
+           "text": "Да. Игра поддерживает полноэкранный режим и оптимизирована для мобильных и десктопов."
+         }
+       }
+     ]
+   }
+   </script>
+
+   <script type="application/ld+json">
+   {
+     "@context": "https://schema.org",
+     "@type": "HowTo",
+     "name": "Как играть в солитер Клондайк",
+     "description": "Краткая инструкция по правилам и шагам игры в Клондайк онлайн.",
+     "step": [
+       {"@type": "HowToStep", "name": "Раздача карт", "text": "Семь столбцов с увеличивающимся числом карт; оставшиеся карты — в запас."},
+       {"@type": "HowToStep", "name": "Постройка таблицы", "text": "Стройте вниз в чередующихся цветах. Перемещайте последовательности между столбцами, чтобы открыть карты."},
+       {"@type": "HowToStep", "name": "Перенос в основания", "text": "Начинайте с Тузов и собирайте по масти до Королей в четырех основаниях."},
+       {"@type": "HowToStep", "name": "Использование запаса", "text": "Тяните из запаса, когда застряли, и ищите возможности открыть скрытые карты."}
+     ]
+   }
+   </script>
 </head>
 <body>
    <!-- Google Tag Manager (noscript) -->
@@ -315,7 +354,7 @@
          </div>
 
          <section class="seo-text">
-            <h1 style="position: absolute; left: -9999px; top: -9999px;">World Solitaire - Играйте в классический солитер онлайн бесплатно</h1>
+           <h1>World Solitaire - Играйте в классический солитер онлайн бесплатно</h1>
             <h2>Играйте в солитер бесплатно онлайн - Лучший опыт карточной игры</h2>
             <p>
               Добро пожаловать в World Solitaire — лучшее место для игры в классический солитер онлайн бесплатно. 
@@ -347,6 +386,7 @@
               в каждой масти. Карты в таблице могут быть построены вниз в чередующихся цветах. Пустые места в таблице 
               могут быть заполнены только королями. Используйте стопку запаса для вытягивания дополнительных карт при необходимости.
             </p>
+            <p>Подробнее: <a href="/en/how-to-play-solitaire/">How to play (EN)</a> · <a href="/en/klondike-rules/">Klondike rules (EN)</a> · <a href="/en/solitaire-strategy/">Strategy (EN)</a></p>
 
             <h3>Доступность и совместимость</h3>
             <p>

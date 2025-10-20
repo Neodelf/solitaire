@@ -48,8 +48,6 @@ class SolitaireAnalytics {
      * Универсальный метод для отправки событий в GA4
      */
     trackEvent(eventName, parameters = {}) {
-        if (typeof gtag === 'undefined') return;
-
         const eventData = {
             event_category: 'solitaire_game',
             session_id: this.gameSessionId,
@@ -57,9 +55,12 @@ class SolitaireAnalytics {
             ...parameters
         };
 
-        gtag('event', eventName, eventData);
-        
-        // Дополнительно отправляем в dataLayer для GTM
+        // Если доступен gtag — отправляем напрямую в GA4
+        if (typeof gtag !== 'undefined') {
+            gtag('event', eventName, eventData);
+        }
+
+        // Всегда отправляем в dataLayer для GTM
         if (window.dataLayer) {
             window.dataLayer.push({
                 event: eventName,
