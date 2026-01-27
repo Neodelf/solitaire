@@ -20,6 +20,47 @@ body {
    background-size: cover;
    background-position: center;
 }
+#locale-ranking {
+   margin: 0.75em 0 0.5em;
+}
+.locale-ranking-grid {
+   display: grid;
+   grid-template-columns: repeat(10, minmax(0, 1fr));
+   gap: 0.35em 0.6em;
+   padding: 0.5em 0.75em;
+   background: rgba(0,0,0,.2);
+   color: #f3f5f7;
+   font-size: 1.275rem;
+   line-height: 1.2;
+   grid-auto-rows: 1.2em;
+   min-height: calc((1.2em * 3) + (0.35em * 2));
+}
+.locale-ranking-item {
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+.locale-ranking-item.is-placeholder {
+   opacity: 0.45;
+}
+.locale-ranking-spinner {
+   display: inline-block;
+   width: 0.9em;
+   height: 0.9em;
+   border: 2px solid rgba(255,255,255,.35);
+   border-top-color: #f3f5f7;
+   border-radius: 50%;
+   animation: localeRankingSpin 0.8s linear infinite;
+}
+@keyframes localeRankingSpin {
+   from { transform: rotate(0deg); }
+   to { transform: rotate(360deg); }
+}
+.locale-ranking-item.is-current {
+   background: rgba(255,255,255,.2);
+   border-radius: 4px;
+   padding: 0.1em 0.25em;
+}
 .navbar {
    background: rgba(8,8,8,.75);
 }
@@ -48,6 +89,9 @@ body {
 #score > * {
    display: inline-block;
    min-width: 100px;
+}
+#score .competition-score {
+   min-width: 140px;
 }
 #score > *:last-child {
    float: right;

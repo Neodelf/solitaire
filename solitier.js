@@ -15,6 +15,124 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
       window.dataLayer = window.dataLayer || [];
 
+      // Google Sheets score endpoint (Apps Script Web App)
+      var SHEETS_ENDPOINT_URL = 'https://script.google.com/macros/s/AKfycbx849n5uNDKicCgh93oa_tOdTlv0IAfXoEE4mTPDtLrEmGx-prvXOsmplRB2HzD_ZDpkA/exec';
+      var SHEETS_ENDPOINT_TOKEN = '';
+      var SUPPORTED_LOCALES = [
+         'bg','cs','da','de','el','en','es','et','fi','fr','he','hr','hu','it',
+         'ja','ko','lt','lv','nb','nl','pl','pt','ro','ru','sk','sl','sr','sv','tr'
+      ];
+      var LOCALE_EMOJI = {
+         bg: '🇧🇬',
+         cs: '🇨🇿',
+         da: '🇩🇰',
+         de: '🇩🇪',
+         el: '🇬🇷',
+         en: '🇺🇸',
+         es: '🇪🇸',
+         et: '🇪🇪',
+         fi: '🇫🇮',
+         fr: '🇫🇷',
+         he: '🇮🇱',
+         hr: '🇭🇷',
+         hu: '🇭🇺',
+         it: '🇮🇹',
+         ja: '🇯🇵',
+         ko: '🇰🇷',
+         lt: '🇱🇹',
+         lv: '🇱🇻',
+         nb: '🇳🇴',
+         nl: '🇳🇱',
+         pl: '🇵🇱',
+         pt: '🇵🇹',
+         ro: '🇷🇴',
+         ru: '🇷🇺',
+         sk: '🇸🇰',
+         sl: '🇸🇮',
+         sr: '🇷🇸',
+         sv: '🇸🇪',
+         tr: '🇹🇷'
+      };
+      var pageLocale = getLocaleFromPath();
+
+      function getLocaleFromPath() {
+         var path = (window.location && window.location.pathname) ? window.location.pathname : '';
+         var parts = path.split('/').filter(Boolean);
+         if (parts.length > 0) {
+            var candidate = parts[0].toLowerCase();
+            if (SUPPORTED_LOCALES.indexOf(candidate) >= 0) return candidate;
+         }
+         return 'en';
+      }
+
+      function renderLocaleRanking() {
+         if (!SHEETS_ENDPOINT_URL) return;
+         var scoreBlock = d.querySelector('#score');
+         if (scoreBlock && scoreBlock.parentNode) {
+            var existing = d.querySelector('#locale-ranking');
+            if (!existing) {
+               var loadingContainer = d.createElement('div');
+               loadingContainer.id = 'locale-ranking';
+               loadingContainer.className = 'is-loading';
+               var loadingGrid = d.createElement('div');
+               loadingGrid.className = 'locale-ranking-grid';
+               for (var i = 0; i < 30; i++) {
+                  var loadingItem = d.createElement('div');
+                  loadingItem.className = 'locale-ranking-item is-placeholder';
+                  var loader = d.createElement('span');
+                  loader.className = 'locale-ranking-spinner';
+                  loadingItem.appendChild(loader);
+                  loadingGrid.appendChild(loadingItem);
+               }
+               loadingContainer.appendChild(loadingGrid);
+               scoreBlock.parentNode.insertBefore(loadingContainer, scoreBlock);
+            }
+         }
+         fetch(SHEETS_ENDPOINT_URL)
+            .then(function(response) {
+               return response.json();
+            })
+            .then(function(payload) {
+               if (!payload || !payload.ok || !payload.totals) return;
+               var entries = Object.keys(payload.totals).map(function(locale) {
+                  return {
+                     locale: locale,
+                     score: parseInt(payload.totals[locale], 10) || 0
+                  };
+               });
+               entries.sort(function(a, b) {
+                  return b.score - a.score;
+               });
+               entries = entries.slice(0, 30);
+
+               var container = d.createElement('div');
+               container.id = 'locale-ranking';
+               var grid = d.createElement('div');
+               grid.className = 'locale-ranking-grid';
+               entries.forEach(function(entry) {
+                  var item = d.createElement('div');
+                  item.className = 'locale-ranking-item';
+                  if (entry.locale === pageLocale) {
+                     item.className += ' is-current';
+                  }
+                  item.textContent = (LOCALE_EMOJI[entry.locale] || '🏳️') +
+                     ' ' + entry.locale.toUpperCase() +
+                     ' ' + entry.score;
+                  grid.appendChild(item);
+               });
+               container.appendChild(grid);
+
+               if (scoreBlock && scoreBlock.parentNode) {
+                  var existing = d.querySelector('#locale-ranking');
+                  if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
+                  scoreBlock.parentNode.insertBefore(container, scoreBlock);
+               }
+            })
+            .catch(function(error) {
+               console.warn('Ranking load failed', error);
+            });
+      }
+
       // document
       var d = document;
 
@@ -127,6 +245,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
       var $moveCountSpan = d.querySelector('#score .move-count span');
       var $score = d.querySelector('#score .score');
       var $scoreSpan = d.querySelector('#score .score span');
+      var $competitionScore = d.querySelector('#score .competition-score');
+      var $competitionScoreSpan = $competitionScore ? $competitionScore.querySelector('span') : null;
       var $playPause = d.querySelector('#play-pause');
       var $table = d.querySelector('#table');
       var $upper = d.querySelector('#table .upper-row');
@@ -142,18 +262,31 @@ document.addEventListener("DOMContentLoaded", function(event) {
       var time = 0;
       var moves = 0;
       var score = 0;
+      var competitionScore = 0;
       var bonus = 0;
       var lastEventTime = 0;
+      var scoreSubmitted = false;
+      renderLocaleRanking();
       var unplayedTabCards = [];
+
+      var COMPETITION_BASE_WIN = 1000;
+      var COMPETITION_TIME_PENALTY_PER_SEC = 1;
+      var COMPETITION_MOVE_PENALTY = 2;
 
    // 1. CREATE DECK
       deck = create(deck, suits);
 
    // 2. SHUFFLE DECK
-      deck = shuffle(deck);
+      var debugDeal = false;
+      if (window.location && window.location.search) {
+         var params = new URLSearchParams(window.location.search);
+         debugDeal = params.get('debug') === '1';
+      }
+
+      deck = debugDeal ? buildDebugDeck(suits) : shuffle(deck);
 
    // 3. DEAL DECK
-      table = deal(deck, table);
+      table = debugDeal ? debugDealStockOnly(deck, table) : deal(deck, table);
 
       // Отслеживание начала новой игры
       if (window.solitaireAnalytics) {
@@ -204,6 +337,38 @@ document.addEventListener("DOMContentLoaded", function(event) {
                deck[rand] = temp;
             }
             return deck;
+         }
+
+      // build deterministic deck for debug mode
+         function buildDebugDeck(suits) {
+            var debugDeck = [];
+            var order = ['spades', 'hearts', 'diamonds', 'clubs'];
+            for (var i = 0; i < order.length; i++) {
+               var suit = suits[order[i]];
+               for (var card in suit) {
+                  if (suit.hasOwnProperty(card)) {
+                     debugDeck.push(suit[card]);
+                  }
+               }
+            }
+            return debugDeck;
+         }
+
+      // deal in debug mode: one move to win
+         function debugDealStockOnly(deck, table) {
+            var tabs = table['tab'];
+            for (var pile = 1; pile <= 7; pile++) {
+               tabs[pile] = [];
+            }
+
+            table['waste'] = [];
+            table['spades'] = suits['spades'].slice();
+            table['hearts'] = suits['hearts'].slice();
+            table['diamonds'] = suits['diamonds'].slice();
+            table['clubs'] = suits['clubs'].slice(0, 11);
+            table['stock'] = [ ['Q','club'], ['K','club'] ];
+
+            return table;
          }
 
       // deal deck
@@ -739,22 +904,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
                   // if stock reload icon is clicked
                   else if (action === 'reload') {
-                     // console.log('Reloading Stock Pile');
-                     // remove event listener
-                     unbindClick('#stock .reload-icon');
-                     // reload stock pile
-                     if (table['waste'].length) {
-                        table['stock'] = table['waste']; // move waste to stock
-                        table['waste'] = [] // empty waste
-                     }
-                     // render table
-                     render(table, playedCards);
-                     // turn all stock cards face down
-                     flipCards('#stock .card', 'down');
-                     // update score by -100 pts
-                     updateScore(-100);
-                     // return to play
-                     play(table);
+                     // console.log('Starting New Game');
+                     startNewGame();
                   }
 
                   // if no move is in progress
@@ -1060,6 +1211,74 @@ document.addEventListener("DOMContentLoaded", function(event) {
             // console.log('Table reset');
          }
 
+      // start a new game
+         function startNewGame() {
+            // stop timer and reset game state
+            timer('stop');
+            time = 0;
+            moves = 0;
+            score = 0;
+            competitionScore = 0;
+            bonus = 0;
+            lastEventTime = 0;
+            scoreSubmitted = false;
+
+            $timer.dataset.action = 'stop';
+            $timerSpan.textContent = '00:00';
+            delete d.body.dataset.gameplay;
+
+            $moveCount.dataset.moves = 0;
+            $moveCountSpan.textContent = '0';
+
+            $score.dataset.score = 0;
+            if ($scoreSpan) $scoreSpan.textContent = '0';
+            if ($competitionScoreSpan) updateCompetitionScore(0);
+
+            // hide auto win button and remove listener
+            if ($autoWin) {
+               $autoWin.style.display = 'none';
+               $autoWin.removeEventListener('click', autoWin);
+            }
+
+            // remove victory overlay if present
+            var effectOverlay = d.querySelector('#victory-effect');
+            if (effectOverlay && effectOverlay.parentNode) {
+               effectOverlay.parentNode.removeChild(effectOverlay);
+            }
+
+            // reset selections and unbind reload icon
+            reset(table);
+            unbindClick('#stock .reload-icon');
+
+            // rebuild deck and deal
+            deck = create([], suits);
+            if (window.location && window.location.search) {
+               var params = new URLSearchParams(window.location.search);
+               debugDeal = params.get('debug') === '1';
+            } else {
+               debugDeal = false;
+            }
+            deck = debugDeal ? buildDebugDeck(suits) : shuffle(deck);
+
+            table = [];
+            table['stock'] = [];
+            table['waste'] = [];
+            table['spades'] = [];
+            table['hearts'] = [];
+            table['diamonds'] = [];
+            table['clubs'] = [];
+            table['tab'] = [];
+            table = debugDeal ? debugDealStockOnly(deck, table) : deal(deck, table);
+
+            // Отслеживание начала новой игры
+            if (window.solitaireAnalytics) {
+               window.solitaireAnalytics.trackGameStart('klondike');
+            }
+
+            render(table, playedCards);
+            play(table);
+         }
+
       // timer funcion
          function timer(action) {
             // declare timer vars
@@ -1174,6 +1393,46 @@ document.addEventListener("DOMContentLoaded", function(event) {
             return score;
          }
 
+      function sendScoreToSheet(finalScore) {
+         if (!SHEETS_ENDPOINT_URL || scoreSubmitted) return;
+         scoreSubmitted = true;
+         var params = new URLSearchParams();
+         params.append('score', parseInt(finalScore, 10));
+         params.append('locale', pageLocale);
+         if (SHEETS_ENDPOINT_TOKEN) params.append('token', SHEETS_ENDPOINT_TOKEN);
+         fetch(SHEETS_ENDPOINT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+               'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+            },
+            body: params.toString(),
+            keepalive: true
+         }).catch(function(error) {
+            // Fail silently to avoid breaking gameplay
+            console.warn('Score sync failed', error);
+         });
+      }
+
+   // competition scoring
+      function calculateCompetitionScore(time, moves, won) {
+         if (!won) return 0;
+         var total = COMPETITION_BASE_WIN -
+            (COMPETITION_TIME_PENALTY_PER_SEC * time) -
+            (COMPETITION_MOVE_PENALTY * moves);
+         total = total < 0 ? 0 : total;
+         return parseInt(total);
+      }
+
+      function updateCompetitionScore(value) {
+         if (!$competitionScore || !$competitionScoreSpan) return 0;
+         competitionScore = parseInt(value);
+         competitionScore = isNaN(competitionScore) ? 0 : competitionScore;
+         $competitionScore.dataset.competitionScore = competitionScore;
+         $competitionScoreSpan.textContent = competitionScore;
+         return competitionScore;
+      }
+
       // calculate bonus points
          function getBonus() {
             if (time >= 30) bonus = parseInt(700000 / time);
@@ -1194,6 +1453,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                timer('stop');
                // bonus points for time
                updateScore(getBonus());
+               updateCompetitionScore(calculateCompetitionScore(time, moves, true));
+               sendScoreToSheet(score);
                // show victory effect
                showVictoryEffect();
 
@@ -1266,6 +1527,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
             timer('stop');
             // bonus points for time
             updateScore(getBonus());
+            updateCompetitionScore(calculateCompetitionScore(time, moves, true));
+            sendScoreToSheet(score);
          }
 
       // auto win animation
