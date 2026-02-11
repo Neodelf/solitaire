@@ -1,22 +1,8 @@
-# www.robotstxt.org/
+# https://www.robotstxt.org/
 
 # Allow crawling of all content
 User-agent: *
 Disallow:
-Crawl-delay: 1
-
-# Specific rules for major search engines
-User-agent: Googlebot
-Disallow:
-Crawl-delay: 1
-
-User-agent: Bingbot
-Disallow:
-Crawl-delay: 2
-
-User-agent: Slurp
-Disallow:
-Crawl-delay: 2
 
 # Block problematic bots
 User-agent: AhrefsBot
@@ -28,5 +14,5 @@ Disallow: /
 User-agent: DotBot
 Disallow: /
 
-# Sitemaps
+# Sitemap
 Sitemap: https://world-solitaire.com/sitemap.xml
