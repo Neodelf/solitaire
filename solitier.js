@@ -925,8 +925,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
                      render(table, playedCards);
                      // turn all stock cards face down
                      flipCards('#stock .card', 'down');
-                     // update score by -100 pts
-                     updateScore(-100);
                      // return to play
                      play(table);
                   }
