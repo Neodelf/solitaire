@@ -1456,10 +1456,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
             if (  parseInt($tab.dataset.unplayed) +
                   table['stock'].length +
                   table['waste'].length === 0) {
-               // show auto win button
-               $autoWin.style.display = 'block';
-               // bind click to auto win button
-               $autoWin.addEventListener('click', autoWin);
+               // trigger auto win automatically (no button)
+               autoWin();
             }
             return;
          }
@@ -1473,10 +1471,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
                window.solitaireAnalytics.trackAutoWin();
             }
             
-            // hide auto win button
-            $autoWin.style.display = 'none';
-            // unbind click to auto win button
-            $autoWin.removeEventListener('click', autoWin);
+            // hide auto win button (if present)
+            if ($autoWin) {
+               $autoWin.style.display = 'none';
+               $autoWin.removeEventListener('click', autoWin);
+            }
             // unbind click events
             unbindClick(
                '#stock .card:first-child,' +
