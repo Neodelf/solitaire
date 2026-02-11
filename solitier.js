@@ -913,7 +913,22 @@ document.addEventListener("DOMContentLoaded", function(event) {
                   // if stock reload icon is clicked
                   else if (action === 'reload') {
                      // console.log('Starting New Game');
-                     startNewGame();
+                     // console.log('Reloading Stock Pile');
+                     // remove event listener
+                     unbindClick('#stock .reload-icon');
+                     // reload stock pile
+                     if (table['waste'].length) {
+                        table['stock'] = table['waste']; // move waste to stock
+                        table['waste'] = [] // empty waste
+                     }
+                     // render table
+                     render(table, playedCards);
+                     // turn all stock cards face down
+                     flipCards('#stock .card', 'down');
+                     // update score by -100 pts
+                     updateScore(-100);
+                     // return to play
+                     play(table);
                   }
 
                   // if no move is in progress
