@@ -263,7 +263,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
       var moves = 0;
       var score = 0;
       var competitionScore = 0;
-      var bonus = 0;
       var lastEventTime = 0;
       var scoreSubmitted = false;
       renderLocaleRanking();
@@ -272,6 +271,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
       var COMPETITION_BASE_WIN = 1000;
       var COMPETITION_TIME_PENALTY_PER_SEC = 1;
       var COMPETITION_MOVE_PENALTY = 2;
+
+      // Scoring: Standard Klondike rules (minimum score is 0)
+      var SCORE = {
+         WASTE_TO_TABLEAU: 5,
+         WASTE_TO_FOUNDATION: 10,
+         TABLEAU_TO_FOUNDATION: 10,
+         TURNOVER_TABLEAU: 5,
+         FOUNDATION_TO_TABLEAU: -15,
+         TIME_PENALTY_PER_10SEC: -2
+      };
 
    // 1. CREATE DECK
       deck = create(deck, suits);
@@ -698,8 +707,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                                  // if rank and suit matches
                                  if (  e.dataset.rank === card[0] &&
                                        e.dataset.suit === card[1] )
-                                 // score 5 points
-                                 updateScore(5);
+                                 addScore(SCORE.TURNOVER_TABLEAU);
                               }
                            }
                            e.className += ' up'; // add class
@@ -1072,42 +1080,32 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
             // if pulling card from waste pile
             if ( source === 'waste') {
-               // if moving card to foundation pile
                if ( isNaN(dest) ) {
-                  // console.log('Moving To Foundation Pile');
                   move(table[source], table[dest], true);
-                  updateScore(10); // score 10 pts
+                  addScore(SCORE.WASTE_TO_FOUNDATION);
                }
-               // if moving card to tableau pile
                else {
-                  // console.log('Moving To Tableau Pile');
                   move(table[source], table['tab'][dest], true);
-                  updateScore(5); // score 5 pts
+                  addScore(SCORE.WASTE_TO_TABLEAU);
                }
             }
 
             // if pulling card from foundation pile
             else if (['spades','hearts','diamonds','clubs'].indexOf(source) >= 0) {
-               // only allow moves to tableau piles
                if ( isNaN(dest) ) {
-                  // console.log('That move is not allowed');
                   return false;
                }
-               // if moving card to tableau pile
                else {
-                  // console.log('Moving To Tableau Pile');
                   move(table[source], table['tab'][dest], true);
-                  updateScore(-15); // score -15 pts
+                  addScore(SCORE.FOUNDATION_TO_TABLEAU);
                }
             }
 
             // if pulling card from tableau pile
             else {
-               // if moving card to foundation pile
                if ( isNaN(dest) ) {
-                  // console.log('Moving To Foundation Pile');
                   move(table['tab'][source], table[dest], true);
-                  updateScore(10); // score 10 pts
+                  addScore(SCORE.TABLEAU_TO_FOUNDATION);
                }
                // if moving card to tableau pile
                else {
@@ -1219,7 +1217,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
             moves = 0;
             score = 0;
             competitionScore = 0;
-            bonus = 0;
             lastEventTime = 0;
             scoreSubmitted = false;
 
@@ -1303,8 +1300,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                      seconds = seconds < 10 ? "0" + seconds : seconds;
                      // output to display
                      $timerSpan.textContent = minutes + ':' + seconds;
-                     // if 10 seconds has passed decrement score by 2 pts
-                     if ( time % 10 === 0 ) updateScore(-2);
+                     if ( time % 10 === 0 ) addScore(SCORE.TIME_PENALTY_PER_10SEC);
                   }, 1000);
                   // add dataset to body
                   d.body.dataset.gameplay = 'active';
@@ -1363,32 +1359,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
             return;
          }
 
-      // scoring function
-         /*
-            Standard scoring is determined as follows:
-            - Waste to Tableau  5
-            - Waste to Foundation  10
-            - Tableau to Foundation   10
-            - Turn over Tableau card  5
-            - Foundation to Tableau   −15
-            - Recycle waste when playing by ones  −100
-            (minimum score is 0)
-
-            Moving cards directly from the Waste stack to a Foundation awards 10 points. However, if the card is first moved to a Tableau, and then to a Foundation, then an extra 5 points are received for a total of 15. Thus in order to receive a maximum score, no cards should be moved directly from the Waste to Foundation.
-
-            For every 10 seconds of play, 2 points are taken away. Bonus points are calculated with the formula of 700,000 / (seconds to finish) if the game takes more than 30 seconds. If the game takes less than 30 seconds, no bonus points are awarded.
-         */
-         function updateScore(points) {
-            // console.log('Updating Score', points);
-            // get score
-            score = parseInt($score.dataset.score) + points;
-            // set minimum score to 0
-            score = score < 0 ? 0 : score;
-            // parse as integer
-            score = parseInt(score);
-            // set score attribute
+      // scoring
+         function addScore(delta) {
+            score = Math.max(0, parseInt($score.dataset.score, 10) + delta);
             $score.dataset.score = score;
-            // output to display
             $score.children[1].textContent = score;
             return score;
          }
@@ -1433,13 +1407,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
          return competitionScore;
       }
 
-      // calculate bonus points
-         function getBonus() {
-            if (time >= 30) bonus = parseInt(700000 / time);
-            // console.log(bonus);
-            return bonus;
-         }
-
       // check for win
          function checkForWin(table) {
             // if all foundation piles are full
@@ -1449,10 +1416,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                   table['clubs'].length
                   === 52 ) {
                // console.log('Game Has Been Won');
-               // stop timer
                timer('stop');
-               // bonus points for time
-               updateScore(getBonus());
                updateCompetitionScore(calculateCompetitionScore(time, moves, true));
                sendScoreToSheet(score);
                // show victory effect
@@ -1525,8 +1489,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
             autoWinAnimation(table);
             // stop timer
             timer('stop');
-            // bonus points for time
-            updateScore(getBonus());
             updateCompetitionScore(calculateCompetitionScore(time, moves, true));
             sendScoreToSheet(score);
          }
