@@ -476,11 +476,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
             // console.log('Table Rendered:', table);
 
             document.querySelectorAll('.pile').forEach(pile => {
-               pile.addEventListener('dragover', event => {
+               pile.ondragover = event => {
                   event.preventDefault(); // Разрешить сброс
-               });
+               };
            
-               pile.addEventListener('drop', event => {
+               pile.ondrop = event => {
                   event.preventDefault();
 
                   // To fix Drag&Drop
@@ -495,6 +495,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                      return;
                   }
 
+               var dest;
                   if (typeof(dropTarget) == 'string') {
                      dest = dropTarget;
                   } else {
@@ -505,19 +506,20 @@ document.addEventListener("DOMContentLoaded", function(event) {
                   const draggedRank = data[0];
                   const draggedSuit = data[1];
          
-                  // Находим перетаскиваемую карту
-                  const source = document.querySelector(`.card[data-rank="${draggedRank}"][data-suit="${draggedSuit}"]`);
-         
+                  $table.dataset.dest = pile.dataset.pile;
+
                   // Логика проверки правильности хода
                   if (validateMove([draggedRank, draggedSuit], dest)) {
-                     $table.dataset.dest = pile.dataset.pile
-
                      makeMove();
                      reset(table);
                      render(table, playedCards);
                      play(table);
+                  } else {
+                     reset(table);
+                     render(table, playedCards);
+                     play(table);
                   }
-               });
+               };
            });
            
            
@@ -595,6 +597,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
             e.setAttribute('draggable', 'true'); // Разрешить перетаскивание
             e.addEventListener('dragstart', event => {
+               // Only face-up cards can start a drag move.
+               if (e.dataset.played !== 'true') {
+                  event.preventDefault();
+                  return;
+               }
+
+               clearSelectedCards();
                event.dataTransfer.setData('text/plain', e.dataset.rank + ',' + e.dataset.suit);
 
                e.dataset.selected = 'true';
@@ -808,6 +817,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
             return;
          }
 
+      // clear selected state on all cards
+         function clearSelectedCards() {
+            var selectedCards = d.querySelectorAll('.card[data-selected="true"]');
+            for (var e in selectedCards) {
+               e = selectedCards[e];
+               if (e.nodeType) e.dataset.selected = 'false';
+            }
+         }
+
       // unbind click events
          function unbindClick(selectors, double) {
             var elements = d.querySelectorAll(selectors); // query all elements
@@ -848,7 +866,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
 
             // get variables
-            var e = event.target; // get element
+            var e = event.target.closest('.card') || event.target; // get element
             var isSelected = e.dataset.selected; // get selected attribute
             var rank = e.dataset.rank; // get rank attribute
             var suit = e.dataset.suit; // get suit attribute
@@ -932,7 +950,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                      unbindClick('#stock .reload-icon');
                      // reload stock pile
                      if (table['waste'].length) {
-                        table['stock'] = table['waste']; // move waste to stock
+                        table['stock'] = table['waste'].slice().reverse(); // move waste to stock with correct order
                         table['waste'] = [] // empty waste
                      }
                      // render table
@@ -945,6 +963,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
                   // if no move is in progress
                   else {
+                     clearSelectedCards();
                      // select card
                      e.dataset.selected = 'true';
                      $table.dataset.move = 'true';
@@ -969,6 +988,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                // console.log('Double Click Detected', event);
                clearTimeout(clickTimer); // prevent single click
                clicks = 0; // reset click counter
+               clearSelectedCards();
                // select card
                e.dataset.selected = 'true';
                $table.dataset.move = 'true';
@@ -1084,7 +1104,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             // if destination is empty tableau pile
             if ( dest >= 1 && dest <= 7 ) {
                // console.log('Destination appears tp be empty tableau');
-               return true;
+               return sRank === 13;
             }
 
          }
@@ -1136,20 +1156,29 @@ document.addEventListener("DOMContentLoaded", function(event) {
                }
                // if moving card to tableau pile
                else {
-                  // console.log('Moving To Tableau Pile');
-                  // get selected card
-                  var selected = d.querySelector('.card[data-selected="true"');
-                  // get cards under selected card
-                  var selectedCards = [selected];
-                  while ( selected = selected['nextSibling'] ) {
-                     if (selected.nodeType) selectedCards.push(selected);
+                  var sourcePile = table['tab'][source];
+                  var selectedIndex = -1;
+                  if (cardInfo && cardInfo.length === 2) {
+                     for (var i = 0; i < sourcePile.length; i++) {
+                        var sourceCard = sourcePile[i];
+                        if (sourceCard[0] === cardInfo[0] && sourceCard[1] === cardInfo[1]) {
+                           selectedIndex = i;
+                           break;
+                        }
+                     }
                   }
+
+                  if (selectedIndex < 0) {
+                     return false;
+                  }
+
+                  var selectedCardsCount = sourcePile.length - selectedIndex;
                   // move card(s)
                   move(
                      table['tab'][source],
                      table['tab'][dest],
                      true,
-                     selectedCards.length
+                     selectedCardsCount
                   );
                }
             }
@@ -1168,7 +1197,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             );
             // unbind double click events
             unbindClick(
-               '#waste .card:first-child' +
+               '#waste .card:first-child,' +
                '#tab .card:last-child',
                'double'
             )
@@ -1467,8 +1496,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
       // check for auto win
          function checkForAutoWin(table) {
+            var tabUnplayed = parseInt($tab.dataset.unplayed, 10);
+            if (isNaN(tabUnplayed)) tabUnplayed = 0;
             // if all tableau cards are played and stock is empty
-            if (  parseInt($tab.dataset.unplayed) +
+            if (  tabUnplayed +
                   table['stock'].length +
                   table['waste'].length === 0) {
                // trigger auto win automatically (no button)
@@ -1505,7 +1536,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             );
             // unbind double click events
             unbindClick(
-               '#waste .card:first-child' +
+               '#waste .card:first-child,' +
                '#tab .card:last-child',
                'double'
             );
@@ -1526,25 +1557,31 @@ document.addEventListener("DOMContentLoaded", function(event) {
             var i = parseInt($tab.dataset.played);
             // create animation loop
             function animation_loop() {
-               // get lowest ranking card
-                  var bottomCards = []; // create array for the bottom cards
+               // pick the next valid bottom card for foundation
+                  var moveCard = null;
+                  var lowestRank = Infinity;
                   var els = d.querySelectorAll('#tab .card:last-child');
-                  for (var e in els) { // loop through elements
+                  for (var e in els) {
                      e = els[e];
-                     if (e.nodeType)
-                        bottomCards.push( parseRankAsInt(e.dataset.rank) );
+                     if (e.nodeType) {
+                        var candidateRank = parseRankAsInt(e.dataset.rank);
+                        var candidateCard = [e.dataset.rank, e.dataset.suit];
+                        var candidateDest = e.dataset.suit + 's';
+                        if (validateMove(candidateCard, candidateDest) && candidateRank < lowestRank) {
+                           lowestRank = candidateRank;
+                           moveCard = e;
+                        }
+                     }
                   }
-                  // get the lowest rank from array of bottom cards
-                  var lowestRank = Math.min.apply(Math, bottomCards);
-                  // parse integer as rank
-                  var rank = parseIntAsRank(lowestRank);
-                  // get element with rank
-                  var e = d.querySelector('#tab .card[data-rank="'+rank+'"]');
+
+               if (!moveCard) {
+                  showVictoryEffect();
+                  return;
+               }
 
                // setup move
-                  // get suit of card
-                  var suit = e.dataset.suit;
-                  // create card array with rank and suit
+                  var rank = moveCard.dataset.rank;
+                  var suit = moveCard.dataset.suit;
                   var card = [rank, suit];
                   // get destination pile
                   var dest = suit+'s';
@@ -1552,7 +1589,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                // make move
                   if ( validateMove(card, dest) ) {
                      // set source pile
-                     var pile = e.parentElement.parentElement;
+                     var pile = moveCard.parentElement.parentElement;
                      $table.dataset.source = pile.dataset.pile;
                      // set dest pile
                      $table.dataset.dest = dest;
