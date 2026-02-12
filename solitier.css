@@ -93,6 +93,27 @@ body {
 #score .competition-score {
    min-width: 140px;
 }
+#score .new-game-control {
+   position: absolute;
+   left: 50%;
+   top: 50%;
+   transform: translate(-50%, -50%);
+   min-width: auto;
+   vertical-align: middle;
+}
+#score .new-game-control button {
+   -webkit-appearance: none;
+   appearance: none;
+   border: 1px solid rgba(255, 255, 255, 0.45);
+   background: rgba(0, 0, 0, 0.2);
+   color: #fff;
+   border-radius: 4px;
+   padding: 0.35em 0.8em;
+   line-height: 1.2;
+}
+#score .new-game-control button:hover {
+   background: rgba(0, 0, 0, 0.35);
+}
 #score > *:last-child {
    float: right;
    text-align: right;

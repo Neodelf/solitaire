@@ -247,6 +247,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       var $scoreSpan = d.querySelector('#score .score span');
       var $competitionScore = d.querySelector('#score .competition-score');
       var $competitionScoreSpan = $competitionScore ? $competitionScore.querySelector('span') : null;
+      var $newGameButton = d.querySelector('#new-game');
       var $playPause = d.querySelector('#play-pause');
       var $table = d.querySelector('#table');
       var $upper = d.querySelector('#table .upper-row');
@@ -256,6 +257,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
       var $fnd = d.querySelector('#fnd');
       var $tab = d.querySelector('#tab');
       var $autoWin = d.querySelector('#auto-win');
+
+      if ($newGameButton) {
+         $newGameButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            startNewGame();
+         });
+      }
 
       // other global vars
       var clock = 0;
