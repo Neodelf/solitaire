@@ -622,6 +622,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
                // Draw our own fully opaque drag preview.
                var rect = e.getBoundingClientRect();
+               var computedCardStyle = window.getComputedStyle(e);
                var grabOffsetX = event.clientX - rect.left;
                var grabOffsetY = event.clientY - rect.top;
                var dragPreview = e.cloneNode(true);
@@ -634,6 +635,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
                dragPreview.style.pointerEvents = 'none';
                dragPreview.style.zIndex = '9999';
                dragPreview.style.margin = '0';
+               // Keep card edge/shadow identical to the original card.
+               dragPreview.style.borderRadius = computedCardStyle.borderRadius;
+               dragPreview.style.boxShadow = computedCardStyle.boxShadow || '0 0 5px rgba(0,0,0,.5)';
                dragPreview.style.transform = 'translate(' + (event.clientX - grabOffsetX) + 'px,' + (event.clientY - grabOffsetY) + 'px)';
                d.body.appendChild(dragPreview);
 
