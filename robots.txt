@@ -4,6 +4,11 @@
 User-agent: *
 Disallow:
 
+# Explicitly allow PerplexityBot to index important pages
+User-agent: PerplexityBot
+Disallow:
+Allow: /
+
 # Block problematic bots
 User-agent: AhrefsBot
 Disallow: /

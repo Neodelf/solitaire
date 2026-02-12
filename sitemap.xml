@@ -44,7 +44,7 @@
   </url>
   <url>
     <loc>https://world-solitaire.com/en/how-to-play-solitaire/</loc>
-    <lastmod>2026-02-11</lastmod>
+    <lastmod>2026-02-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://world-solitaire.com/en/how-to-play-solitaire/" />
@@ -53,7 +53,7 @@
   </url>
   <url>
     <loc>https://world-solitaire.com/en/klondike-rules/</loc>
-    <lastmod>2026-02-11</lastmod>
+    <lastmod>2026-02-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://world-solitaire.com/en/klondike-rules/" />
@@ -62,11 +62,20 @@
   </url>
   <url>
     <loc>https://world-solitaire.com/en/solitaire-strategy/</loc>
-    <lastmod>2026-02-11</lastmod>
+    <lastmod>2026-02-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://world-solitaire.com/en/solitaire-strategy/" />
     <xhtml:link rel="alternate" hreflang="tr" href="https://world-solitaire.com/tr/solitaire-strategy/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://world-solitaire.com/" />
+  </url>
+  <url>
+    <loc>https://world-solitaire.com/en/klondike-win-rate/</loc>
+    <lastmod>2026-02-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://world-solitaire.com/en/klondike-win-rate/" />
+    <xhtml:link rel="alternate" hreflang="tr" href="https://world-solitaire.com/tr/klondike-win-rate/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://world-solitaire.com/" />
   </url>
   <url>
@@ -239,7 +248,7 @@
   </url>
   <url>
     <loc>https://world-solitaire.com/tr/how-to-play-solitaire/</loc>
-    <lastmod>2026-02-11</lastmod>
+    <lastmod>2026-02-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://world-solitaire.com/en/how-to-play-solitaire/" />
@@ -248,7 +257,7 @@
   </url>
   <url>
     <loc>https://world-solitaire.com/tr/klondike-rules/</loc>
-    <lastmod>2026-02-11</lastmod>
+    <lastmod>2026-02-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://world-solitaire.com/en/klondike-rules/" />
@@ -257,11 +266,20 @@
   </url>
   <url>
     <loc>https://world-solitaire.com/tr/solitaire-strategy/</loc>
-    <lastmod>2026-02-11</lastmod>
+    <lastmod>2026-02-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://world-solitaire.com/en/solitaire-strategy/" />
     <xhtml:link rel="alternate" hreflang="tr" href="https://world-solitaire.com/tr/solitaire-strategy/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://world-solitaire.com/" />
+  </url>
+  <url>
+    <loc>https://world-solitaire.com/tr/klondike-win-rate/</loc>
+    <lastmod>2026-02-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://world-solitaire.com/en/klondike-win-rate/" />
+    <xhtml:link rel="alternate" hreflang="tr" href="https://world-solitaire.com/tr/klondike-win-rate/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://world-solitaire.com/" />
   </url>
 </urlset>
