@@ -253,6 +253,13 @@ body {
    border-radius: 5px;
    z-index: -1;
 }
+/* Keep dragged card fully opaque in WebKit browsers. */
+.card:-webkit-drag {
+   opacity: 1;
+}
+.card.is-drag-source {
+   opacity: 0;
+}
 .card * {
    pointer-events: none;
 }

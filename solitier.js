@@ -478,6 +478,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             document.querySelectorAll('.pile').forEach(pile => {
                pile.ondragover = event => {
                   event.preventDefault(); // Разрешить сброс
+                  if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
                };
            
                pile.ondrop = event => {
@@ -605,11 +606,69 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
                clearSelectedCards();
                event.dataTransfer.setData('text/plain', e.dataset.rank + ',' + e.dataset.suit);
+               event.dataTransfer.effectAllowed = 'move';
+
+               // Hide native ghost image (browser may force transparency on it).
+               var transparentDragImage = d.createElement('div');
+               transparentDragImage.style.width = '1px';
+               transparentDragImage.style.height = '1px';
+               transparentDragImage.style.opacity = '0';
+               transparentDragImage.style.position = 'fixed';
+               transparentDragImage.style.top = '-9999px';
+               transparentDragImage.style.left = '-9999px';
+               d.body.appendChild(transparentDragImage);
+               e._transparentDragImage = transparentDragImage;
+               event.dataTransfer.setDragImage(transparentDragImage, 0, 0);
+
+               // Draw our own fully opaque drag preview.
+               var rect = e.getBoundingClientRect();
+               var grabOffsetX = event.clientX - rect.left;
+               var grabOffsetY = event.clientY - rect.top;
+               var dragPreview = e.cloneNode(true);
+               dragPreview.style.position = 'fixed';
+               dragPreview.style.top = '0';
+               dragPreview.style.left = '0';
+               dragPreview.style.width = rect.width + 'px';
+               dragPreview.style.height = rect.height + 'px';
+               dragPreview.style.opacity = '1';
+               dragPreview.style.pointerEvents = 'none';
+               dragPreview.style.zIndex = '9999';
+               dragPreview.style.margin = '0';
+               dragPreview.style.transform = 'translate(' + (event.clientX - grabOffsetX) + 'px,' + (event.clientY - grabOffsetY) + 'px)';
+               d.body.appendChild(dragPreview);
+
+               var onDragOver = function(evt) {
+                  dragPreview.style.transform = 'translate(' + (evt.clientX - grabOffsetX) + 'px,' + (evt.clientY - grabOffsetY) + 'px)';
+               };
+               d.addEventListener('dragover', onDragOver);
+               e._dragPreview = dragPreview;
+               e._dragOverHandler = onDragOver;
+
+               // Hide source card on next frame so drag start is not interrupted.
+               requestAnimationFrame(function() {
+                  e.classList.add('is-drag-source');
+               });
 
                e.dataset.selected = 'true';
                $table.dataset.move = 'true';
                $table.dataset.selected = [r,s];
                $table.dataset.source = e.closest('.pile').dataset.pile;
+            });
+
+            e.addEventListener('dragend', function() {
+               e.classList.remove('is-drag-source');
+               if (e._dragOverHandler) {
+                  d.removeEventListener('dragover', e._dragOverHandler);
+               }
+               if (e._transparentDragImage && e._transparentDragImage.parentNode) {
+                  e._transparentDragImage.parentNode.removeChild(e._transparentDragImage);
+               }
+               if (e._dragPreview && e._dragPreview.parentNode) {
+                  e._dragPreview.parentNode.removeChild(e._dragPreview);
+               }
+               e._transparentDragImage = null;
+               e._dragOverHandler = null;
+               e._dragPreview = null;
             });
 
             e.innerHTML = html; // insert html to element            
@@ -916,11 +975,24 @@ document.addEventListener("DOMContentLoaded", function(event) {
                         render(table, playedCards);
                         play(table);
                      } else {
-                        // console.log('Move is Invalid. Try again...');
-                        reset(table);
-                        render(table, playedCards);
-                        play(table);
-                        // console.log('Card Deselected', card, e);
+                        // If move is invalid and user clicked another card,
+                        // immediately switch selection to that card.
+                        if (card && e.classList.contains('card') && pile !== 'stock') {
+                           clearSelectedCards();
+                           e.dataset.selected = 'true';
+                           $table.dataset.move = 'true';
+                           $table.dataset.selected = card;
+                           $table.dataset.source = e.closest('.pile').dataset.pile;
+                           delete $table.dataset.dest;
+                           if (rank === 'A') bindClick('#fnd #'+suit+'s.pile[data-empty="true"]');
+                           if (rank === 'K') bindClick('#tab .pile[data-empty="true"]');
+                        } else {
+                           // console.log('Move is Invalid. Try again...');
+                           reset(table);
+                           render(table, playedCards);
+                           play(table);
+                           // console.log('Card Deselected', card, e);
+                        }
                      }
                   }
 
