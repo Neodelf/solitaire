@@ -577,6 +577,140 @@ document.addEventListener("DOMContentLoaded", function(event) {
             return html;
          }
 
+      function createTransparentDragImage() {
+         var transparentDragImage = d.createElement('div');
+         transparentDragImage.style.width = '1px';
+         transparentDragImage.style.height = '1px';
+         transparentDragImage.style.opacity = '0';
+         transparentDragImage.style.position = 'fixed';
+         transparentDragImage.style.top = '-9999px';
+         transparentDragImage.style.left = '-9999px';
+         d.body.appendChild(transparentDragImage);
+         return transparentDragImage;
+      }
+
+      function getDragSourceCards(cardElement, cardRect) {
+         var sourcePileElement = cardElement.closest('.pile');
+         var dragSourceCards = [cardElement];
+         if (sourcePileElement && cardElement.dataset.pile === 'tab') {
+            var cardsInPile = Array.from(sourcePileElement.querySelectorAll('.card'));
+            dragSourceCards = cardsInPile.filter(function(pileCard) {
+               var pileCardRect = pileCard.getBoundingClientRect();
+               return pileCardRect.top >= cardRect.top - 1;
+            });
+            if (!dragSourceCards.length) dragSourceCards = [cardElement];
+         }
+         dragSourceCards.sort(function(a, b) {
+            return a.getBoundingClientRect().top - b.getBoundingClientRect().top;
+         });
+         return dragSourceCards;
+      }
+
+      function getVisibleHeadOffset(cardElement, cardRect, dragSourceCards) {
+         var sourcePileElement = cardElement.closest('.pile');
+         if (!(sourcePileElement && cardElement.dataset.pile === 'tab')) return 0;
+
+         var probeX = Math.round(cardRect.left + cardRect.width / 2);
+         var probeStartY = Math.round(cardRect.top + 1);
+         var probeEndY = Math.round(cardRect.bottom - 1);
+         var visibleTopY = cardRect.top;
+
+         for (var probeY = probeStartY; probeY <= probeEndY; probeY++) {
+            var topEl = d.elementFromPoint(probeX, probeY);
+            if (topEl && (topEl === cardElement || cardElement.contains(topEl))) {
+               visibleTopY = probeY;
+               break;
+            }
+         }
+         return Math.max(0, visibleTopY - cardRect.top);
+      }
+
+      function buildDragPreview(dragSourceCards, visibleHeadOffset) {
+         var dragPreview = d.createElement('div');
+         dragPreview.style.position = 'fixed';
+         dragPreview.style.top = '0';
+         dragPreview.style.left = '0';
+         dragPreview.style.pointerEvents = 'none';
+         dragPreview.style.zIndex = '9999';
+         dragPreview.style.margin = '0';
+         dragPreview.style.opacity = '1';
+         dragPreview.style.overflow = 'hidden';
+
+         var minTop = Infinity;
+         var maxBottom = -Infinity;
+         var minLeft = Infinity;
+         var maxRight = -Infinity;
+
+         for (var i = 0; i < dragSourceCards.length; i++) {
+            var sourceCardRect = dragSourceCards[i].getBoundingClientRect();
+            minTop = Math.min(minTop, sourceCardRect.top);
+            maxBottom = Math.max(maxBottom, sourceCardRect.bottom);
+            minLeft = Math.min(minLeft, sourceCardRect.left);
+            maxRight = Math.max(maxRight, sourceCardRect.right);
+         }
+
+         if (visibleHeadOffset > 0) minTop += visibleHeadOffset;
+
+         dragPreview.style.width = (maxRight - minLeft) + 'px';
+         dragPreview.style.height = (maxBottom - minTop) + 'px';
+
+         for (var j = 0; j < dragSourceCards.length; j++) {
+            var sourceCard = dragSourceCards[j];
+            var sourceCardRect = sourceCard.getBoundingClientRect();
+            var computedCardStyle = window.getComputedStyle(sourceCard);
+            var cardClone = sourceCard.cloneNode(true);
+            cardClone.style.position = 'absolute';
+            cardClone.style.top = (sourceCardRect.top - minTop) + 'px';
+            cardClone.style.left = (sourceCardRect.left - minLeft) + 'px';
+            cardClone.style.width = sourceCardRect.width + 'px';
+            cardClone.style.height = sourceCardRect.height + 'px';
+            cardClone.style.margin = '0';
+            cardClone.style.opacity = '1';
+            cardClone.style.zIndex = String(j + 1);
+            cardClone.style.borderRadius = computedCardStyle.borderRadius;
+            cardClone.style.boxShadow = computedCardStyle.boxShadow || '0 0 5px rgba(0,0,0,.5)';
+            dragPreview.appendChild(cardClone);
+         }
+
+         d.body.appendChild(dragPreview);
+         return dragPreview;
+      }
+
+      function setDragPreviewPosition(dragPreview, clientX, clientY, grabOffsetX, previewGrabOffsetY) {
+         dragPreview.style.transform = 'translate(' + (clientX - grabOffsetX) + 'px,' + (clientY - previewGrabOffsetY) + 'px)';
+      }
+
+      function hideDragSourceCards(dragSourceCards) {
+         requestAnimationFrame(function() {
+            for (var i = 0; i < dragSourceCards.length; i++) {
+               dragSourceCards[i].classList.add('is-drag-source');
+            }
+         });
+      }
+
+      function cleanupDragState(cardElement) {
+         if (cardElement._dragSourceCards && cardElement._dragSourceCards.length) {
+            for (var i = 0; i < cardElement._dragSourceCards.length; i++) {
+               cardElement._dragSourceCards[i].classList.remove('is-drag-source');
+            }
+         } else {
+            cardElement.classList.remove('is-drag-source');
+         }
+
+         if (cardElement._dragOverHandler) d.removeEventListener('dragover', cardElement._dragOverHandler);
+         if (cardElement._transparentDragImage && cardElement._transparentDragImage.parentNode) {
+            cardElement._transparentDragImage.parentNode.removeChild(cardElement._transparentDragImage);
+         }
+         if (cardElement._dragPreview && cardElement._dragPreview.parentNode) {
+            cardElement._dragPreview.parentNode.removeChild(cardElement._dragPreview);
+         }
+
+         cardElement._dragSourceCards = null;
+         cardElement._transparentDragImage = null;
+         cardElement._dragOverHandler = null;
+         cardElement._dragPreview = null;
+      }
+
       // create card in pile
          function createCard(card, selector, html, append) {
             var r = card[0]; // get rank
@@ -608,50 +742,30 @@ document.addEventListener("DOMContentLoaded", function(event) {
                event.dataTransfer.setData('text/plain', e.dataset.rank + ',' + e.dataset.suit);
                event.dataTransfer.effectAllowed = 'move';
 
-               // Hide native ghost image (browser may force transparency on it).
-               var transparentDragImage = d.createElement('div');
-               transparentDragImage.style.width = '1px';
-               transparentDragImage.style.height = '1px';
-               transparentDragImage.style.opacity = '0';
-               transparentDragImage.style.position = 'fixed';
-               transparentDragImage.style.top = '-9999px';
-               transparentDragImage.style.left = '-9999px';
-               d.body.appendChild(transparentDragImage);
+               var transparentDragImage = createTransparentDragImage();
                e._transparentDragImage = transparentDragImage;
                event.dataTransfer.setDragImage(transparentDragImage, 0, 0);
 
-               // Draw our own fully opaque drag preview.
                var rect = e.getBoundingClientRect();
-               var computedCardStyle = window.getComputedStyle(e);
                var grabOffsetX = event.clientX - rect.left;
                var grabOffsetY = event.clientY - rect.top;
-               var dragPreview = e.cloneNode(true);
-               dragPreview.style.position = 'fixed';
-               dragPreview.style.top = '0';
-               dragPreview.style.left = '0';
-               dragPreview.style.width = rect.width + 'px';
-               dragPreview.style.height = rect.height + 'px';
-               dragPreview.style.opacity = '1';
-               dragPreview.style.pointerEvents = 'none';
-               dragPreview.style.zIndex = '9999';
-               dragPreview.style.margin = '0';
-               // Keep card edge/shadow identical to the original card.
-               dragPreview.style.borderRadius = computedCardStyle.borderRadius;
-               dragPreview.style.boxShadow = computedCardStyle.boxShadow || '0 0 5px rgba(0,0,0,.5)';
-               dragPreview.style.transform = 'translate(' + (event.clientX - grabOffsetX) + 'px,' + (event.clientY - grabOffsetY) + 'px)';
-               d.body.appendChild(dragPreview);
+               var dragSourceCards = getDragSourceCards(e, rect);
+               var visibleHeadOffset = getVisibleHeadOffset(e, rect, dragSourceCards);
+               var dragPreview = buildDragPreview(dragSourceCards, visibleHeadOffset);
+
+               var previewGrabOffsetY = grabOffsetY - visibleHeadOffset;
+               if (previewGrabOffsetY < 0) previewGrabOffsetY = 0;
+               setDragPreviewPosition(dragPreview, event.clientX, event.clientY, grabOffsetX, previewGrabOffsetY);
 
                var onDragOver = function(evt) {
-                  dragPreview.style.transform = 'translate(' + (evt.clientX - grabOffsetX) + 'px,' + (evt.clientY - grabOffsetY) + 'px)';
+                  setDragPreviewPosition(dragPreview, evt.clientX, evt.clientY, grabOffsetX, previewGrabOffsetY);
                };
                d.addEventListener('dragover', onDragOver);
+               e._dragSourceCards = dragSourceCards;
                e._dragPreview = dragPreview;
                e._dragOverHandler = onDragOver;
 
-               // Hide source card on next frame so drag start is not interrupted.
-               requestAnimationFrame(function() {
-                  e.classList.add('is-drag-source');
-               });
+               hideDragSourceCards(dragSourceCards);
 
                e.dataset.selected = 'true';
                $table.dataset.move = 'true';
@@ -660,19 +774,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             });
 
             e.addEventListener('dragend', function() {
-               e.classList.remove('is-drag-source');
-               if (e._dragOverHandler) {
-                  d.removeEventListener('dragover', e._dragOverHandler);
-               }
-               if (e._transparentDragImage && e._transparentDragImage.parentNode) {
-                  e._transparentDragImage.parentNode.removeChild(e._transparentDragImage);
-               }
-               if (e._dragPreview && e._dragPreview.parentNode) {
-                  e._dragPreview.parentNode.removeChild(e._dragPreview);
-               }
-               e._transparentDragImage = null;
-               e._dragOverHandler = null;
-               e._dragPreview = null;
+               cleanupDragState(e);
             });
 
             e.innerHTML = html; // insert html to element            
