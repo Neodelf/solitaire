@@ -233,10 +233,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
       table['tab'] = t;
 
       // initial face up cards
-      var playedCards =
+      var initialPlayedCards =
       '#waste .card,' +
       '#fnd .card,' +
       '#tab .card:last-child';
+      var playedCards = initialPlayedCards;
 
       // cache selectors
       var $timer = d.querySelector('#score .timer');
@@ -429,11 +430,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
          }
 
       // render table
-         function render(table, playedCards) {
+         function render(table, playedCards, preservePlayedState) {
             // console.log('Rendering Table...');
+            if (!playedCards) {
+               playedCards = initialPlayedCards;
+            }
 
-            // check for played cards
-            playedCards = checkForPlayedCards(playedCards);
+            // preserve already-open cards only when re-rendering current game state
+            if (preservePlayedState !== false) {
+               playedCards = checkForPlayedCards(playedCards);
+            }
 
             // check for empty piles
             emptyPiles = checkForEmptyPiles(table);
@@ -1293,7 +1299,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                window.solitaireAnalytics.trackGameStart('klondike');
             }
 
-            render(table, playedCards);
+            playedCards = initialPlayedCards;
+            render(table, playedCards, false);
             play(table);
          }
 
