@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       // Google Sheets score endpoint (Apps Script Web App)
       var SHEETS_ENDPOINT_URL = 'https://script.google.com/macros/s/AKfycbx849n5uNDKicCgh93oa_tOdTlv0IAfXoEE4mTPDtLrEmGx-prvXOsmplRB2HzD_ZDpkA/exec';
       var SHEETS_ENDPOINT_TOKEN = '';
+      var LOCALE_RANKING_LIMIT = 5;
       var SUPPORTED_LOCALES = [
          'bg','cs','da','de','el','en','es','et','fi','fr','he','hr','hu','it',
          'ja','ko','lt','lv','nb','nl','pl','pt','ro','ru','sk','sl','sr','sv','tr'
@@ -76,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                loadingContainer.className = 'is-loading';
                var loadingGrid = d.createElement('div');
                loadingGrid.className = 'locale-ranking-grid';
-               for (var i = 0; i < 30; i++) {
+               for (var i = 0; i < LOCALE_RANKING_LIMIT; i++) {
                   var loadingItem = d.createElement('div');
                   loadingItem.className = 'locale-ranking-item is-placeholder';
                   var loader = d.createElement('span');
@@ -103,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                entries.sort(function(a, b) {
                   return b.score - a.score;
                });
-               entries = entries.slice(0, 30);
+               entries = entries.slice(0, LOCALE_RANKING_LIMIT);
 
                var container = d.createElement('div');
                container.id = 'locale-ranking';
@@ -274,6 +275,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       var competitionScore = 0;
       var lastEventTime = 0;
       var scoreSubmitted = false;
+      var suppressClickUntil = 0;
       renderLocaleRanking();
       var unplayedTabCards = [];
 
@@ -316,11 +318,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
    // 5. START GAMEPLAY
       play(table);
+      setupPointerDnD();
 
    // ### EVENT HANDLERS ###
       window.onresize = function(event) {
          sizeCards();
+         layoutTableauToViewport();
       };
+      if (window.visualViewport && window.visualViewport.addEventListener) {
+         window.visualViewport.addEventListener('resize', function() {
+            sizeCards();
+            layoutTableauToViewport();
+         });
+      }
 
    // ### FUNCTIONS ###
 
@@ -469,58 +479,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
             // size cards
             sizeCards();
+            layoutTableauToViewport();
 
             // show table
             $table.style.opacity = '100';
 
             // console.log('Table Rendered:', table);
-
-            document.querySelectorAll('.pile').forEach(pile => {
-               pile.addEventListener('dragover', event => {
-                  event.preventDefault(); // Разрешить сброс
-               });
-           
-               pile.addEventListener('drop', event => {
-                  event.preventDefault();
-
-                  // To fix Drag&Drop
-                  if (!$table.dataset.source) {
-                     return;
-                  }
-
-                  // Определяем целевую карту или стопку
-                  const dropTarget = event.target.closest('.card') || pile.querySelector('.card:last-child') || pile.getAttribute('data-pile');
-         
-                  if (!dropTarget) {
-                     return;
-                  }
-
-                  if (typeof(dropTarget) == 'string') {
-                     dest = dropTarget;
-                  } else {
-                     dest = [dropTarget.dataset.rank, dropTarget.dataset.suit]
-                  }
-         
-                  const data = event.dataTransfer.getData('text/plain').split(',');
-                  const draggedRank = data[0];
-                  const draggedSuit = data[1];
-         
-                  // Находим перетаскиваемую карту
-                  const source = document.querySelector(`.card[data-rank="${draggedRank}"][data-suit="${draggedSuit}"]`);
-         
-                  // Логика проверки правильности хода
-                  if (validateMove([draggedRank, draggedSuit], dest)) {
-                     $table.dataset.dest = pile.dataset.pile
-
-                     makeMove();
-                     reset(table);
-                     render(table, playedCards);
-                     play(table);
-                  }
-               });
-           });
-           
-           
 
             return;
          }
@@ -592,16 +556,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
             e.dataset.suit = s; // set suit attribute
             e.dataset.pile = p; // set pile attribute;
             e.dataset.selected = 'false'; // set selected attribute
-
-            e.setAttribute('draggable', 'true'); // Разрешить перетаскивание
-            e.addEventListener('dragstart', event => {
-               event.dataTransfer.setData('text/plain', e.dataset.rank + ',' + e.dataset.suit);
-
-               e.dataset.selected = 'true';
-               $table.dataset.move = 'true';
-               $table.dataset.selected = [r,s];
-               $table.dataset.source = e.closest('.pile').dataset.pile;
-            });
 
             e.innerHTML = html; // insert html to element            
             // query for pile
@@ -770,6 +724,76 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
          }
 
+      // ensure tableau piles always fit viewport by compressing vertical offsets
+         function layoutTableauToViewport() {
+            if (!$lower) return;
+
+            var piles = d.querySelectorAll('#tab > li.pile');
+            if (!piles || piles.length === 0) return;
+
+            // find max cards in any tableau pile
+            var maxCards = 0;
+            for (var i = 0; i < piles.length; i++) {
+               var ul = piles[i].querySelector('ul');
+               var count = ul ? ul.children.length : 0;
+               if (count > maxCards) maxCards = count;
+            }
+            if (maxCards <= 1) {
+               // reset inline top offsets if present
+               for (var pi = 0; pi < piles.length; pi++) {
+                  var resetUl = piles[pi].querySelector('ul');
+                  var resetCards = resetUl ? resetUl.querySelectorAll('li.card') : [];
+                  for (var ci = 0; ci < resetCards.length; ci++) {
+                     resetCards[ci].style.top = '';
+                     resetCards[ci].style.left = '';
+                  }
+               }
+               return;
+            }
+
+            var sampleCard = d.querySelector('#tab .card');
+            if (!sampleCard) return;
+
+            var cardRect = sampleCard.getBoundingClientRect();
+            var cardHeight = cardRect.height || sampleCard.offsetHeight;
+            if (!cardHeight) return;
+
+            // available vertical space for tableau cards
+            var lowerRect = $lower.getBoundingClientRect();
+            var safeTop = 8;   // keep a little breathing room
+            var safeBottom = 12;
+            var viewportHeight = (window.visualViewport && window.visualViewport.height) ? window.visualViewport.height : window.innerHeight;
+            var available = viewportHeight - lowerRect.top - safeBottom;
+            if (!available || available <= 0) return;
+
+            // defaults roughly match previous CSS feel
+            var defaultUpStep = Math.round(cardHeight * 0.32);
+
+            // compute step needed so the tallest pile fits
+            var fitUpStep = Math.floor((available - cardHeight - safeTop) / (maxCards - 1));
+            var upStep = Math.min(defaultUpStep, fitUpStep);
+            if (!isFinite(upStep) || upStep < 2) upStep = 2;
+
+            // face-down cards should be tighter than face-up, but not zero
+            var downStep = Math.round(upStep * 0.55);
+            if (!isFinite(downStep) || downStep < 1) downStep = 1;
+            if (downStep > upStep) downStep = upStep;
+
+            // apply per pile: accumulate offsets based on played/unplayed
+            for (var p = 0; p < piles.length; p++) {
+               var cardsUl = piles[p].querySelector('ul');
+               var cards = cardsUl ? cardsUl.querySelectorAll('li.card') : [];
+               var offset = 0;
+               for (var c = 0; c < cards.length; c++) {
+                  var card = cards[c];
+                  card.style.left = '0px';
+                  card.style.top = offset + 'px';
+                  var isPlayed = card.dataset && card.dataset.played === 'true';
+                  offset += isPlayed ? upStep : downStep;
+               }
+            }
+         }
+
       // gameplay
          function play(table) {
             // check for winning table
@@ -828,6 +852,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
          var clickDelay = 200; // set delay for double click
          var clickTimer = null; // set timer for timeout function
          function select(event) {
+
+            if ((event.type === 'click' || event.type === 'dblclick') && Date.now() < suppressClickUntil) {
+               event.preventDefault();
+               return;
+            }
 
             // prevent default
             event.preventDefault();
@@ -997,6 +1026,383 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
          }
 
+      function setupPointerDnD() {
+         if (!$table || $table.dataset.pointerDndInitialized === 'true') return;
+         $table.dataset.pointerDndInitialized = 'true';
+
+         var DRAG_THRESHOLD_PX = 7;
+         var documentListenersAttached = false;
+         var mouseListenersAttached = false;
+         var touchListenersAttached = false;
+         var drag = {
+            active: false,
+            started: false,
+            pointerId: null,
+            card: null,
+            stackEls: null,
+            ghost: null,
+            startX: 0,
+            startY: 0,
+            offsetX: 0,
+            offsetY: 0,
+            lastClientX: 0,
+            lastClientY: 0,
+            currentDropPile: null
+         };
+
+         function isTableauPileId(pileId) {
+            var n = parseInt(pileId, 10);
+            return !isNaN(n) && n >= 1 && n <= 7;
+         }
+
+         function isFoundationPileId(pileId) {
+            return ['spades', 'hearts', 'diamonds', 'clubs'].indexOf(pileId) >= 0;
+         }
+
+         function isDraggableCard(cardEl) {
+            if (!cardEl || !cardEl.dataset) return false;
+            var pileEl = cardEl.closest('.pile');
+            if (!pileEl || !pileEl.dataset) return false;
+
+            var pileId = pileEl.dataset.pile;
+            if (pileId === 'stock') return false;
+            if (cardEl.dataset.played !== 'true') return false;
+
+            // waste + foundations: only the top card
+            if (pileId === 'waste' || isFoundationPileId(pileId)) {
+               return pileEl.querySelector('.card:first-child') === cardEl;
+            }
+
+            // tableau: any face-up card (can drag stacks)
+            if (isTableauPileId(pileId)) return true;
+
+            return false;
+         }
+
+         function clearDomSelectedFlags() {
+            var selectedEls = d.querySelectorAll('.card[data-selected="true"]');
+            for (var i = 0; i < selectedEls.length; i++) {
+               delete selectedEls[i].dataset.selected;
+            }
+            delete $table.dataset.move;
+            delete $table.dataset.selected;
+            delete $table.dataset.source;
+            delete $table.dataset.dest;
+         }
+
+         function createGhostFromCard(cardEl) {
+            var stack = [cardEl];
+            var pileEl = cardEl.closest('.pile');
+            var pileId = pileEl && pileEl.dataset ? pileEl.dataset.pile : null;
+            if (pileId && isTableauPileId(pileId)) {
+               var cur = cardEl;
+               while (cur = cur.nextSibling) {
+                  if (cur && cur.nodeType === 1 && cur.classList && cur.classList.contains('card')) {
+                     stack.push(cur);
+                  }
+               }
+            }
+
+            drag.stackEls = stack;
+
+            var baseRect = cardEl.getBoundingClientRect();
+            var container = d.createElement('div');
+            container.className = 'drag-ghost-stack';
+            container.style.transform = 'translate3d(' + (drag.lastClientX - drag.offsetX) + 'px,' + (drag.lastClientY - drag.offsetY) + 'px,0)';
+
+            for (var i = 0; i < stack.length; i++) {
+               var el = stack[i];
+               var rect = el.getBoundingClientRect();
+               var clone = el.cloneNode(true);
+               clone.classList.add('drag-ghost');
+               clone.removeAttribute('data-selected');
+               clone.style.position = 'absolute';
+               clone.style.left = (rect.left - baseRect.left) + 'px';
+               clone.style.top = (rect.top - baseRect.top) + 'px';
+               clone.style.width = rect.width + 'px';
+               clone.style.height = rect.height + 'px';
+               // нижние карты должны быть поверх верхних
+               clone.style.zIndex = String(i + 1);
+               clone.style.transform = 'none';
+               container.appendChild(clone);
+            }
+
+            document.body.appendChild(container);
+            return container;
+         }
+
+         function setDropPile(nextPile) {
+            if (drag.currentDropPile === nextPile) return;
+            if (drag.currentDropPile) drag.currentDropPile.classList.remove('is-drop-target');
+            drag.currentDropPile = nextPile;
+            if (drag.currentDropPile) drag.currentDropPile.classList.add('is-drop-target');
+         }
+
+         function updateDropTarget(clientX, clientY) {
+            var el = document.elementFromPoint(clientX, clientY);
+            if (!el) return setDropPile(null);
+            var pile = el.closest('.pile');
+            if (!pile) return setDropPile(null);
+            return setDropPile(pile);
+         }
+
+         function beginDrag(pointerEvent) {
+            drag.started = true;
+            d.body.classList.add('is-dragging');
+
+            clearDomSelectedFlags();
+
+            var cardEl = drag.card;
+            cardEl.dataset.selected = 'true';
+            $table.dataset.move = 'true';
+            $table.dataset.selected = [cardEl.dataset.rank, cardEl.dataset.suit];
+            $table.dataset.source = cardEl.closest('.pile').dataset.pile;
+
+            drag.lastClientX = pointerEvent.clientX;
+            drag.lastClientY = pointerEvent.clientY;
+            drag.ghost = createGhostFromCard(cardEl);
+            if (drag.stackEls && drag.stackEls.length) {
+               for (var i = 0; i < drag.stackEls.length; i++) {
+                  drag.stackEls[i].classList.add('is-drag-origin');
+               }
+            } else {
+               cardEl.classList.add('is-drag-origin');
+            }
+
+            updateDropTarget(pointerEvent.clientX, pointerEvent.clientY);
+         }
+
+         function positionGhost(clientX, clientY) {
+            if (!drag.ghost) return;
+            drag.ghost.style.transform = 'translate3d(' + (clientX - drag.offsetX) + 'px,' + (clientY - drag.offsetY) + 'px,0)';
+         }
+
+         function computeDestFromPile(pileEl) {
+            if (!pileEl || !pileEl.dataset) return null;
+            var pileId = pileEl.dataset.pile;
+
+            // empty pile
+            if (!pileEl.querySelector('.card')) return pileId;
+
+            // non-empty: select the "top" card by pile type
+            var targetCard = null;
+            if (isTableauPileId(pileId)) targetCard = pileEl.querySelector('.card:last-child');
+            else targetCard = pileEl.querySelector('.card:first-child');
+
+            if (!targetCard) return pileId;
+            return [targetCard.dataset.rank, targetCard.dataset.suit];
+         }
+
+         function cleanupDrag() {
+            if (drag.stackEls && drag.stackEls.length) {
+               for (var i = 0; i < drag.stackEls.length; i++) {
+                  drag.stackEls[i].classList.remove('is-drag-origin');
+               }
+            } else if (drag.card) {
+               drag.card.classList.remove('is-drag-origin');
+            }
+            if (drag.ghost && drag.ghost.parentNode) drag.ghost.parentNode.removeChild(drag.ghost);
+            drag.ghost = null;
+            d.body.classList.remove('is-dragging');
+            setDropPile(null);
+
+            drag.active = false;
+            drag.started = false;
+            drag.pointerId = null;
+            drag.card = null;
+            drag.stackEls = null;
+
+            if (documentListenersAttached) {
+               document.removeEventListener('pointermove', onPointerMove);
+               document.removeEventListener('pointerup', onPointerUpOrCancel);
+               document.removeEventListener('pointercancel', onPointerUpOrCancel);
+               documentListenersAttached = false;
+            }
+
+            if (mouseListenersAttached) {
+               document.removeEventListener('mousemove', onPointerMove);
+               document.removeEventListener('mouseup', onPointerUpOrCancel);
+               mouseListenersAttached = false;
+            }
+
+            if (touchListenersAttached) {
+               document.removeEventListener('touchmove', onTouchMove);
+               document.removeEventListener('touchend', onTouchEndOrCancel);
+               document.removeEventListener('touchcancel', onTouchEndOrCancel);
+               touchListenersAttached = false;
+            }
+         }
+
+         function onPointerDown(e) {
+            if (drag.active) return;
+            if (e.button != null && e.button !== 0) return;
+
+            var cardEl = e.target.closest('.card');
+            if (!cardEl) return;
+            if (!isDraggableCard(cardEl)) return;
+
+            drag.active = true;
+            drag.started = false;
+            drag.pointerId = e.pointerId;
+            drag.card = cardEl;
+            drag.startX = e.clientX;
+            drag.startY = e.clientY;
+            drag.lastClientX = e.clientX;
+            drag.lastClientY = e.clientY;
+
+            var rect = cardEl.getBoundingClientRect();
+            drag.offsetX = e.clientX - rect.left;
+            drag.offsetY = e.clientY - rect.top;
+
+            try {
+               cardEl.setPointerCapture(e.pointerId);
+            } catch (err) {
+               // ignore
+            }
+
+            if (e.type === 'pointerdown' && !documentListenersAttached) {
+               document.addEventListener('pointermove', onPointerMove, { passive: false });
+               document.addEventListener('pointerup', onPointerUpOrCancel, { passive: false });
+               document.addEventListener('pointercancel', onPointerUpOrCancel, { passive: false });
+               documentListenersAttached = true;
+            }
+         }
+
+         function onPointerMove(e) {
+            if (!drag.active) return;
+            if (e.pointerId !== drag.pointerId) return;
+
+            drag.lastClientX = e.clientX;
+            drag.lastClientY = e.clientY;
+
+            if (!drag.started) {
+               var dx = e.clientX - drag.startX;
+               var dy = e.clientY - drag.startY;
+               if (Math.sqrt(dx * dx + dy * dy) >= DRAG_THRESHOLD_PX) {
+                  beginDrag(e);
+               } else {
+                  return;
+               }
+            }
+
+            e.preventDefault();
+            positionGhost(e.clientX, e.clientY);
+            updateDropTarget(e.clientX, e.clientY);
+         }
+
+         function onPointerUpOrCancel(e) {
+            if (!drag.active) return;
+            if (e.pointerId !== drag.pointerId) return;
+
+            if (!drag.started) {
+               cleanupDrag();
+               return;
+            }
+
+            e.preventDefault();
+
+            var dropPile = drag.currentDropPile;
+            if (!dropPile || !dropPile.dataset) {
+               suppressClickUntil = Date.now() + 450;
+               cleanupDrag();
+               return;
+            }
+
+            var destPileId = dropPile.dataset.pile;
+            $table.dataset.dest = destPileId;
+
+            var selected = [drag.card.dataset.rank, drag.card.dataset.suit];
+            var dest = computeDestFromPile(dropPile);
+
+            // don't allow dropping onto the stock pile (not meaningful)
+            if (destPileId === 'stock') {
+               suppressClickUntil = Date.now() + 450;
+               cleanupDrag();
+               return;
+            }
+
+            suppressClickUntil = Date.now() + 450;
+            cleanupDrag();
+
+            if (dest && validateMove(selected, dest)) {
+               makeMove();
+               reset(table);
+               render(table, playedCards);
+               play(table);
+            } else {
+               reset(table);
+               render(table, playedCards);
+               play(table);
+            }
+         }
+
+         function onMouseDown(e) {
+            // only left button
+            if (e.button !== 0) return;
+            onPointerDown(e);
+            if (drag.active && !mouseListenersAttached) {
+               document.addEventListener('mousemove', onPointerMove, { passive: false });
+               document.addEventListener('mouseup', onPointerUpOrCancel, { passive: false });
+               mouseListenersAttached = true;
+            }
+         }
+
+         function findTouchById(touchList, id) {
+            if (!touchList) return null;
+            for (var i = 0; i < touchList.length; i++) {
+               if (touchList[i].identifier === id) return touchList[i];
+            }
+            return null;
+         }
+
+         function normalizeTouchEvent(originalEvent, touch) {
+            return {
+               type: originalEvent.type,
+               target: originalEvent.target,
+               button: 0,
+               pointerId: touch.identifier,
+               clientX: touch.clientX,
+               clientY: touch.clientY,
+               preventDefault: function() {
+                  originalEvent.preventDefault();
+               }
+            };
+         }
+
+         function onTouchStart(e) {
+            if (!e.changedTouches || e.changedTouches.length === 0) return;
+            var touch = e.changedTouches[0];
+            onPointerDown(normalizeTouchEvent(e, touch));
+            if (drag.active && !touchListenersAttached) {
+               document.addEventListener('touchmove', onTouchMove, { passive: false });
+               document.addEventListener('touchend', onTouchEndOrCancel, { passive: false });
+               document.addEventListener('touchcancel', onTouchEndOrCancel, { passive: false });
+               touchListenersAttached = true;
+            }
+         }
+
+         function onTouchMove(e) {
+            if (!drag.active) return;
+            var touch = findTouchById(e.touches, drag.pointerId);
+            if (!touch) return;
+            onPointerMove(normalizeTouchEvent(e, touch));
+         }
+
+         function onTouchEndOrCancel(e) {
+            if (!drag.active) return;
+            var touch = findTouchById(e.changedTouches, drag.pointerId);
+            if (!touch) return;
+            onPointerUpOrCancel(normalizeTouchEvent(e, touch));
+         }
+
+         if ('PointerEvent' in window) {
+            $table.addEventListener('pointerdown', onPointerDown, { passive: true });
+         } else {
+            $table.addEventListener('mousedown', onMouseDown, { passive: false });
+            $table.addEventListener('touchstart', onTouchStart, { passive: true });
+         }
+      }
+
       // validate move
          function validateMove(selected, dest) {
             // console.log ('Validating Move...', selected, dest);
@@ -1138,7 +1544,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                else {
                   // console.log('Moving To Tableau Pile');
                   // get selected card
-                  var selected = d.querySelector('.card[data-selected="true"');
+                  var selected = d.querySelector('.card[data-selected="true"]');
                   // get cards under selected card
                   var selectedCards = [selected];
                   while ( selected = selected['nextSibling'] ) {
