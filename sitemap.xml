@@ -70,6 +70,14 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://world-solitaire.com/" />
   </url>
   <url>
+    <loc>https://world-solitaire.com/en/solitaire-winning-checklist/</loc>
+    <lastmod>2026-04-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://world-solitaire.com/en/solitaire-winning-checklist/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://world-solitaire.com/" />
+  </url>
+  <url>
     <loc>https://world-solitaire.com/bg/</loc>
     <lastmod>2026-02-17</lastmod>
     <changefreq>daily</changefreq>

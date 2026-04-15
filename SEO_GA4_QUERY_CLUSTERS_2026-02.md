@@ -73,3 +73,30 @@ Observation:
   - TR and EN home pages
   - `/en/solitaire-strategy/`, `/en/klondike-rules/`, `/en/how-to-play-solitaire/`
   - `/tr/solitaire-strategy/`, `/tr/klondike-rules/`, `/tr/how-to-play-solitaire/`
+
+---
+
+## Annex: query snapshot 2026-02-21 — 2026-03-20 (GA4 export, impressions / avg position)
+
+Source: normalized copy [data/ga4_organic_queries_20260221_20260320.csv](data/ga4_organic_queries_20260221_20260320.csv). **Clicks in that export are 0 for all rows** — treat as visibility-only until GSC confirms CTR; see [SEO_ATTRIBUTION_VALIDATION.md](SEO_ATTRIBUTION_VALIDATION.md).
+
+Top terms by impressions (sample):
+
+| Query | Impressions | Avg position |
+|------|-------------:|-------------:|
+| world of solitaire | 353 | ~53.7 |
+| world solitaire | 265 | ~19.7 |
+| world solitaire oyna | 157 | ~5.8 |
+| world of solitaire oyna | 92 | ~7.3 |
+| solitaire world | 69 | ~49.1 |
+| solitaire online | 46 | ~91.2 |
+| solitär kostenlos online spielen | 45 | ~87.6 |
+| solitaire world of solitaire | 44 | ~44.7 |
+| world of solitaire klondike | 38 | ~49.2 |
+| solitaire kostenlos online spielen | 30 | ~87.1 |
+| world of solitaire free | 30 | ~57.3 |
+| solitaire online spielen | 33 | ~89.2 |
+| solitär online spielen | 29 | ~93.2 |
+| solitaire pasianssi | 29 | ~83.3 |
+
+Observation: brand + TR «oyna» clusters keep strong demand; DE generic head terms show high impressions but very deep average positions (~87–94) — needs on-page depth and snippets on `/de/`, not only the English default.

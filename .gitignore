@@ -1,4 +1,9 @@
 # Local analytics/benchmarks snapshots (do not commit)
 benchmarks/
+/benchmarks/
+
+*.md
+/scripts/
+/data/
 
 

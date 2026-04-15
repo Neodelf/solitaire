@@ -12,6 +12,9 @@ class SolitaireAnalytics {
         this.autoWinUsed = false;
         this.gameSessionId = this.generateSessionId();
         this.isGameActive = false;
+        this.performanceMetricState = {};
+        this.performanceMetricMinIntervalMs = 30000;
+        this.appVersion = window.WORLD_SOLITAIRE_VERSION || 'web-2026.04';
         
         // Инициализация
         this.init();
@@ -69,6 +72,18 @@ class SolitaireAnalytics {
                 ...eventData
             });
         }
+    }
+
+    /**
+     * Получение локали страницы из URL
+     */
+    getPageLocale() {
+        const path = (window.location && window.location.pathname) ? window.location.pathname : '';
+        const parts = path.split('/').filter(Boolean);
+        if (parts.length > 0 && parts[0].length === 2) {
+            return parts[0].toLowerCase();
+        }
+        return 'en';
     }
 
     /**
@@ -212,10 +227,22 @@ class SolitaireAnalytics {
      * Отслеживание ошибок
      */
     trackError(errorType, errorMessage, errorContext = {}) {
+        const safeMessage = String(errorMessage || 'unknown_error').slice(0, 240);
+        const safeContext = {
+            error_code: errorContext.error_code || errorContext.code || errorType,
+            filename: errorContext.filename || null,
+            lineno: errorContext.lineno || null,
+            colno: errorContext.colno || null,
+            url: errorContext.url || window.location.href
+        };
+
         this.trackEvent('game_error', {
             error_type: errorType,
-            error_message: errorMessage,
-            error_context: JSON.stringify(errorContext),
+            error_code: safeContext.error_code,
+            error_message: safeMessage,
+            error_context: JSON.stringify(safeContext),
+            app_version: this.appVersion,
+            page_locale: this.getPageLocale(),
             game_time: this.getGameTime(),
             move_count: this.moveCount
         });
@@ -264,9 +291,26 @@ class SolitaireAnalytics {
      * Отслеживание производительности
      */
     trackPerformance(metric, value) {
+        const metricName = String(metric || 'unknown_metric');
+        const now = Date.now();
+        const serializedValue = typeof value === 'object' ? JSON.stringify(value) : String(value);
+        const previous = this.performanceMetricState[metricName];
+
+        if (previous && (now - previous.lastSentAt) < this.performanceMetricMinIntervalMs) {
+            // Keep one sample per metric per interval to reduce GA4 noise.
+            return;
+        }
+
+        this.performanceMetricState[metricName] = {
+            lastSentAt: now,
+            lastValue: serializedValue
+        };
+
         this.trackEvent('performance_metric', {
-            metric_name: metric,
+            metric_name: metricName,
             metric_value: value,
+            app_version: this.appVersion,
+            page_locale: this.getPageLocale(),
             game_time: this.getGameTime()
         });
     }

@@ -1924,6 +1924,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
             timer('stop');
             updateCompetitionScore(calculateCompetitionScore(time, moves, true));
             sendScoreToSheet(score);
+
+            // Отслеживание победы в сценарии авто-победы.
+            if (window.solitaireAnalytics) {
+               window.solitaireAnalytics.trackGameWin('auto');
+            }
          }
 
       // auto win animation
