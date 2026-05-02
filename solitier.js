@@ -1639,6 +1639,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
             delete $fnd.dataset.unplayed;
             delete $tab.dataset.played;
             delete $tab.dataset.unplayed;
+            // всегда снимаем выделение с карт в DOM
+            var selectedEls = d.querySelectorAll('.card[data-selected="true"]');
+            for (var i = 0; i < selectedEls.length; i++) {
+               delete selectedEls[i].dataset.selected;
+            }
             // console.log('Table reset');
          }
 
