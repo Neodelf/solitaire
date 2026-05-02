@@ -974,20 +974,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
                   // if no move is in progress
                   else {
-                     // select card
-                     e.dataset.selected = 'true';
-                     $table.dataset.move = 'true';
-                     $table.dataset.selected = card;
-                     $table.dataset.source = e.closest('.pile').dataset.pile;
-                     // if ace is selected
-                     if (rank === 'A') {
-                        // console.log('Ace Is Selected');
-                        bindClick('#fnd #'+suit+'s.pile[data-empty="true"]');
-                     }
-                     if (rank === 'K') {
-                        // console.log('King Is Selected');
-                        bindClick('#tab .pile[data-empty="true"]');
-                     }
+                     // по одиночному клику не оставляем выделение карты:
+                     // перемещения делаются drag&drop или двойным кликом
+                     clearDomSelectedFlags();
                   }
 
                }, clickDelay);
