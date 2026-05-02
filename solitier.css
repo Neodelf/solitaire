@@ -343,8 +343,8 @@ body.is-dragging {
 }
 
 .pile.is-drop-target::after {
-   border-color: rgba(252, 219, 26, 0.85);
-   box-shadow: 0 0 0 2px rgba(252, 219, 26, 0.25);
+   border-color: inherit;
+   box-shadow: none;
 }
 @media screen and (min-width: 768px) {
    .card {
@@ -384,7 +384,7 @@ body.is-dragging {
    border-radius: 5px;
 }
 .card[data-selected="true"]::before {
-   box-shadow: 0 0 6px 3px #FCDB1A;
+   box-shadow: none;
 }
 @media screen and (min-width: 768px) {
    .card::before {
