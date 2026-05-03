@@ -55,7 +55,6 @@
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
    <link rel="preload" as="image" href="../img/card_back_bg_new.jpg" imagesrcset="../img/card_back_bg_resized.png 1x, ../img/card_back_bg_new.jpg 2x" />
-   <link rel="preload" as="image" href="../img/card_face_bg_new.jpg" />
    <link rel="preload" as="image" href="../img/green_felt.jpg" />
 
    <link rel="canonical" href="https://world-solitaire.com/ru/" />
@@ -417,7 +416,7 @@
 
       <canvas id="confetti"></canvas>
 
-      <ul class="template">
+      <template id="card-templates"><ul class="template">
          <li data-rank="2">
             <div class="two {{suit}}">
                <div class="corner top">
@@ -632,6 +631,6 @@
                </div>
             </div>
          </li>
-      </ul>
+      </ul></template>
    </body>
 </html>

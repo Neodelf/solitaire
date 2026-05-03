@@ -134,8 +134,22 @@ document.addEventListener("DOMContentLoaded", function(event) {
             });
       }
 
+      function scheduleLocaleRankingRender() {
+         var run = function() {
+            renderLocaleRanking();
+         };
+         if (window.requestIdleCallback) {
+            window.requestIdleCallback(run, { timeout: 1500 });
+         } else {
+            setTimeout(run, 0);
+         }
+      }
+
       // document
       var d = document;
+      var cardTemplateCache = Object.create(null);
+      var cardTemplateRoot = d.querySelector('#card-templates');
+      var layoutRafId = null;
 
       // build deck
       var deck = [];
@@ -276,7 +290,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
       var lastEventTime = 0;
       var scoreSubmitted = false;
       var suppressClickUntil = 0;
-      renderLocaleRanking();
       var unplayedTabCards = [];
 
       var COMPETITION_BASE_WIN = 1000;
@@ -315,20 +328,35 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
    // 4. RENDER TABLE
       render(table, playedCards);
+      scheduleLocaleRankingRender();
 
    // 5. START GAMEPLAY
       play(table);
       setupPointerDnD();
 
    // ### EVENT HANDLERS ###
+      function scheduleLayoutReflow() {
+         if (layoutRafId !== null && window.cancelAnimationFrame) {
+            window.cancelAnimationFrame(layoutRafId);
+         }
+         if (window.requestAnimationFrame) {
+            layoutRafId = window.requestAnimationFrame(function() {
+               layoutRafId = null;
+               sizeCards();
+               layoutTableauToViewport();
+            });
+         } else {
+            sizeCards();
+            layoutTableauToViewport();
+         }
+      }
+
       window.onresize = function(event) {
-         sizeCards();
-         layoutTableauToViewport();
+         scheduleLayoutReflow();
       };
       if (window.visualViewport && window.visualViewport.addEventListener) {
          window.visualViewport.addEventListener('resize', function() {
-            sizeCards();
-            layoutTableauToViewport();
+            scheduleLayoutReflow();
          });
       }
 
@@ -477,12 +505,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
             // get unplayed tab cards
             unplayedTabCards = getUnplayedTabCards();
 
-            // size cards
-            sizeCards();
-            layoutTableauToViewport();
-
-            // show table
-            $table.style.opacity = '100';
+            var finalizeRender = function() {
+               sizeCards();
+               layoutTableauToViewport();
+               $table.style.opacity = '100';
+            };
+            if (window.requestAnimationFrame) {
+               window.requestAnimationFrame(finalizeRender);
+            } else {
+               finalizeRender();
+            }
 
             // console.log('Table Rendered:', table);
 
@@ -494,6 +526,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             var e = d.querySelector(selector);
             var children = e.children; // get children
             var grandParent = e.parentElement.parentElement; // get grand parent
+            var pileKey = getPileKeyFromSelector(selector);
             // reset pile
             e.innerHTML = '';
             // loop through cards in pile
@@ -502,7 +535,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                // get html template for card
                var html = getTemplate(card);
                // create card in pile
-               createCard(card, selector, html, append);
+               createCard(card, e, pileKey, html, append);
             }
             // turn cards face up
             flipCards(playedCards, 'up');
@@ -527,43 +560,49 @@ document.addEventListener("DOMContentLoaded", function(event) {
             return pile;
          }
 
+         function getPileKeyFromSelector(selector) {
+            if (selector.indexOf('#stock') >= 0) return 'stock';
+            if (selector.indexOf('#waste') >= 0) return 'waste';
+            if (selector.indexOf('#spades') >= 0) return 'spades';
+            if (selector.indexOf('#hearts') >= 0) return 'hearts';
+            if (selector.indexOf('#diamonds') >= 0) return 'diamonds';
+            if (selector.indexOf('#clubs') >= 0) return 'clubs';
+            if (selector.indexOf('#tab') >= 0) return 'tab';
+            return '';
+         }
+
       // get html template for card
          function getTemplate(card) {
             var r = card[0]; // get rank
             var s = card[1]; // get suit
-            // get html template
-            var html = d.querySelector('.template li[data-rank="'+r+'"]').innerHTML;
+            var html = cardTemplateCache[r];
+            if (!html) {
+               var queryRoot = (cardTemplateRoot && cardTemplateRoot.content) ? cardTemplateRoot.content : d;
+               var templateNode = queryRoot.querySelector('.template li[data-rank="'+r+'"]');
+               html = templateNode ? templateNode.innerHTML : '';
+               cardTemplateCache[r] = html;
+            }
             // search and replace suit variable
             html = html.replace('{{suit}}', s);
             return html;
          }
 
       // create card in pile
-         function createCard(card, selector, html, append) {
+         function createCard(card, pileEl, pileName, html, append) {
             var r = card[0]; // get rank
             var s = card[1]; // get suit
-            // get pile based on selector
-            if ( selector.includes('#stock') ) var p = 'stock';
-            if ( selector.includes('#waste') ) var p = 'waste';
-            if ( selector.includes('#spades') ) var p = 'spades';
-            if ( selector.includes('#hearts') ) var p = 'hearts';
-            if ( selector.includes('#diamonds') ) var p = 'diamonds';
-            if ( selector.includes('#clubs') ) var p = 'clubs';
-            if ( selector.includes('#tab') ) var p = 'tab';
             var e = d.createElement('li'); // create li element
             e.className = 'card'; // add .card class to element
             e.dataset.rank = r; // set rank atribute
             e.dataset.suit = s; // set suit attribute
-            e.dataset.pile = p; // set pile attribute;
+            e.dataset.pile = pileName; // set pile attribute;
             e.dataset.selected = 'false'; // set selected attribute
 
-            e.innerHTML = html; // insert html to element            
-            // query for pile
-            var pile = d.querySelector(selector);
+            e.innerHTML = html; // insert html to element
             // append to pile
-            if (append) pile.appendChild(e);
+            if (append) pileEl.appendChild(e);
             // or prepend to pile
-            else pile.insertBefore(e, pile.firstChild);
+            else pileEl.insertBefore(e, pileEl.firstChild);
             return;
          }
 
