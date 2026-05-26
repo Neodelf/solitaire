@@ -11,6 +11,10 @@ Optional Features:
 
 */
 document.addEventListener("DOMContentLoaded", function(event) {
+   if (!document.querySelector('#table')) {
+      return;
+   }
+
    // 0. DECLARE VARS
 
       window.dataLayer = window.dataLayer || [];

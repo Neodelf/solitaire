@@ -14,6 +14,8 @@ class SolitaireAnalytics {
         this.isGameActive = false;
         this.performanceMetricState = {};
         this.performanceMetricMinIntervalMs = 30000;
+        this.errorDedupeState = {};
+        this.errorMinIntervalMs = 60000;
         this.appVersion = window.WORLD_SOLITAIRE_VERSION || 'web-2026.04';
         
         // Инициализация
@@ -60,13 +62,10 @@ class SolitaireAnalytics {
             ...parameters
         };
 
-        // Если доступен gtag — отправляем напрямую в GA4
+        // Один канал: gtag ИЛИ dataLayer, чтобы GTM+gtag не удваивали события в GA4
         if (typeof gtag !== 'undefined') {
             gtag('event', eventName, eventData);
-        }
-
-        // Всегда отправляем в dataLayer для GTM
-        if (window.dataLayer) {
+        } else if (window.dataLayer) {
             window.dataLayer.push({
                 event: eventName,
                 ...eventData
@@ -103,6 +102,13 @@ class SolitaireAnalytics {
             session_id: this.gameSessionId,
             game_start_time: this.gameStartTime
         });
+
+        if (window.customDimensions) {
+            window.customDimensions.setGameDimensions({
+                gameType: gameType,
+                sessionId: this.gameSessionId
+            });
+        }
     }
 
     /**
@@ -172,6 +178,15 @@ class SolitaireAnalytics {
             auto_win_used: this.autoWinUsed,
             game_efficiency: this.calculateEfficiency()
         });
+
+        if (window.customDimensions) {
+            window.customDimensions.setBehaviorDimensions({
+                movesPerGame: this.moveCount,
+                hintsUsed: this.hintCount,
+                undosUsed: this.undoCount,
+                sessionDuration: Math.round(gameTime / 1000)
+            });
+        }
     }
 
     /**
@@ -228,6 +243,14 @@ class SolitaireAnalytics {
      */
     trackError(errorType, errorMessage, errorContext = {}) {
         const safeMessage = String(errorMessage || 'unknown_error').slice(0, 240);
+        const dedupeKey = `${errorType}|${safeMessage}`;
+        const now = Date.now();
+        const previous = this.errorDedupeState[dedupeKey];
+        if (previous && (now - previous) < this.errorMinIntervalMs) {
+            return;
+        }
+        this.errorDedupeState[dedupeKey] = now;
+
         const safeContext = {
             error_code: errorContext.error_code || errorContext.code || errorType,
             filename: errorContext.filename || null,
@@ -308,7 +331,7 @@ class SolitaireAnalytics {
 
         this.trackEvent('performance_metric', {
             metric_name: metricName,
-            metric_value: value,
+            metric_value: serializedValue,
             app_version: this.appVersion,
             page_locale: this.getPageLocale(),
             game_time: this.getGameTime()

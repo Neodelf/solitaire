@@ -66,14 +66,14 @@ class CustomDimensions {
      */
     detectDeviceType() {
         const userAgent = navigator.userAgent.toLowerCase();
-        
-        if (/mobile|android|iphone|ipad|phone/i.test(userAgent)) {
-            return 'mobile';
-        } else if (/tablet|ipad/i.test(userAgent)) {
+
+        if (/ipad|tablet/i.test(userAgent)) {
             return 'tablet';
-        } else {
-            return 'desktop';
         }
+        if (/mobile|android|iphone|phone/i.test(userAgent)) {
+            return 'mobile';
+        }
+        return 'desktop';
     }
 
     /**

@@ -1,0 +1,20 @@
+# world-solitaire.com — canonical HTTPS, single-hop redirects
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+
+# HTTPS (one redirect)
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+# www → apex
+RewriteCond %{HTTP_HOST} ^www\.world-solitaire\.com$ [NC]
+RewriteRule ^ https://world-solitaire.com%{REQUEST_URI} [R=301,L]
+
+# Trailing slash for locale and section directories (not files)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !/$
+RewriteRule ^((?:bg|cs|da|de|el|en|es|et|fi|fr|he|hr|hu|it|ja|ko|lt|lv|nb|nl|pl|pt|ro|ru|sk|sl|sr|sv|tr)(?:/[^./]+)?)$ /$1/ [R=301,L]
+
+</IfModule>
