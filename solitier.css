@@ -173,6 +173,7 @@ body {
    display: none;
    position: absolute;
    -webkit-appearance: none;
+   appearance: none;
    background: transparent;
    outline: none;
    border: 0;
@@ -225,6 +226,7 @@ body {
 #auto-win {
    display: none;
    -webkit-appearance: none;
+   appearance: none;
    outline: none;
    border: 0;
    position: absolute;
