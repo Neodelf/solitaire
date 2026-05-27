@@ -1838,9 +1838,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
                   // get selected card
                   var selected = d.querySelector('.card[data-selected="true"]');
                   // get cards under selected card
-                  var selectedCards = [selected];
-                  while ( selected = selected['nextSibling'] ) {
-                     if (selected.nodeType) selectedCards.push(selected);
+                  var selectedCards = [];
+                  if (selected && selected.nodeType === 1 && selected.classList && selected.classList.contains('card')) {
+                     selectedCards.push(selected);
+                  }
+                  while (selected && (selected = selected.nextSibling)) {
+                     if (selected.nodeType === 1 && selected.classList && selected.classList.contains('card')) {
+                        selectedCards.push(selected);
+                     }
                   }
                   // move card(s)
                   move(
