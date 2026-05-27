@@ -336,6 +336,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
    // 5. START GAMEPLAY
       play(table);
+      setupClickDelegation();
       setupPointerDnD();
 
    // ### EVENT HANDLERS ###
@@ -506,6 +507,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
                update(tabs[i], '#tab li:nth-child('+i+') ul', playedCards, true);
             }
 
+            // turn cards face up (do once per render, not per pile)
+            flipCards(playedCards, 'up');
+
             // get unplayed tab cards
             unplayedTabCards = getUnplayedTabCards();
 
@@ -525,6 +529,168 @@ document.addEventListener("DOMContentLoaded", function(event) {
             return;
          }
 
+      // partial render: update only specific piles after a move
+         function renderPartial(table, playedCards, dirtyPiles, preservePlayedState) {
+            if (!dirtyPiles || dirtyPiles.length === 0) {
+               return render(table, playedCards, preservePlayedState);
+            }
+
+            if (!playedCards) playedCards = initialPlayedCards;
+            if (preservePlayedState !== false) {
+               playedCards = checkForPlayedCards(playedCards);
+            }
+
+            // update empty markers (needed for UI state)
+            emptyPiles = checkForEmptyPiles(table);
+
+            var touchesTableau = false;
+
+            for (var i = 0; i < dirtyPiles.length; i++) {
+               var key = dirtyPiles[i];
+
+               if (key === 'stock') syncPileDomFromTable('stock', table['stock']);
+               else if (key === 'waste') syncPileDomFromTable('waste', table['waste']);
+               else if (key === 'spades') syncPileDomFromTable('spades', table['spades']);
+               else if (key === 'hearts') syncPileDomFromTable('hearts', table['hearts']);
+               else if (key === 'diamonds') syncPileDomFromTable('diamonds', table['diamonds']);
+               else if (key === 'clubs') syncPileDomFromTable('clubs', table['clubs']);
+               else if (key && key.indexOf('tab:') === 0) {
+                  var n = parseInt(key.split(':')[1], 10);
+                  if (!isNaN(n) && n >= 1 && n <= 7) {
+                     syncTableauPileDomFromTable(n, table['tab'][n]);
+                     touchesTableau = true;
+                  }
+               }
+            }
+
+            // ensure face-up state matches playedCards after partial DOM updates
+            flipCards(playedCards, 'up');
+
+            // keep aggregate counts consistent (auto-win relies on these)
+            recomputeSectionCounts();
+
+            // refresh cache of unplayed tableau cards for next turnover scoring
+            unplayedTabCards = getUnplayedTabCards();
+
+            if (touchesTableau) layoutTableauToViewport();
+            return;
+         }
+
+         var cardElCache = Object.create(null);
+
+         function cardKey(card) {
+            return String(card[0]) + ':' + String(card[1]);
+         }
+
+         function getCardElForCard(card) {
+            var key = cardKey(card);
+            var cached = cardElCache[key];
+            if (cached && cached.nodeType === 1) return cached;
+            // unique in a standard deck
+            var el = d.querySelector('.card[data-rank="' + card[0] + '"][data-suit="' + card[1] + '"]');
+            if (el) cardElCache[key] = el;
+            return el;
+         }
+
+         function clearChildrenPreserveNodes(parentEl) {
+            // remove all children but keep nodes alive (for fast reordering)
+            while (parentEl.firstChild) {
+               parentEl.removeChild(parentEl.firstChild);
+            }
+         }
+
+         function syncPileDomFromTable(pileId, pileArray) {
+            var pileRoot = d.querySelector('#' + pileId);
+            if (!pileRoot) return;
+            var ul = pileRoot.querySelector('ul');
+            if (!ul) return;
+
+            // stock + tableau used append; waste + foundations used prepend
+            var appendMode = (pileId === 'stock');
+            var pileNameForCards = (pileId === 'stock' || pileId === 'waste') ? pileId : pileId; // keep same
+
+            // detach current children (preserving nodes)
+            clearChildrenPreserveNodes(ul);
+
+            if (!pileArray || pileArray.length === 0) return;
+
+            if (appendMode) {
+               for (var i = 0; i < pileArray.length; i++) {
+                  var cardEl = getCardElForCard(pileArray[i]);
+                  if (!cardEl) continue;
+                  cardEl.dataset.pile = pileNameForCards;
+                  ul.appendChild(cardEl);
+               }
+            } else {
+               // prepend mode: DOM order is reverse of array (matches createCard(... append=false))
+               for (var j = 0; j < pileArray.length; j++) {
+                  var cardEl2 = getCardElForCard(pileArray[j]);
+                  if (!cardEl2) continue;
+                  cardEl2.dataset.pile = pileNameForCards;
+                  ul.insertBefore(cardEl2, ul.firstChild);
+               }
+            }
+         }
+
+         function syncTableauPileDomFromTable(pileNumber, pileArray) {
+            var pileEl = d.querySelector('#tab li:nth-child(' + pileNumber + ')');
+            if (!pileEl) return;
+            var ul = pileEl.querySelector('ul');
+            if (!ul) return;
+
+            clearChildrenPreserveNodes(ul);
+
+            if (!pileArray || pileArray.length === 0) return;
+            for (var i = 0; i < pileArray.length; i++) {
+               var cardEl = getCardElForCard(pileArray[i]);
+               if (!cardEl) continue;
+               // important for turnover scoring
+               cardEl.dataset.pile = 'tab';
+               ul.appendChild(cardEl);
+            }
+         }
+
+         function recomputeSectionCounts() {
+            if ($tab) {
+               var tabCards = $tab.querySelectorAll('.card');
+               $tab.dataset.played = String(countPlayedCards(tabCards));
+               $tab.dataset.unplayed = String(countUnplayedCards(tabCards));
+            }
+            if ($fnd) {
+               var fndCards = $fnd.querySelectorAll('.card');
+               $fnd.dataset.played = String(countPlayedCards(fndCards));
+               $fnd.dataset.unplayed = String(countUnplayedCards(fndCards));
+            }
+         }
+
+         function dirtyPilesForMove(source, dest) {
+            var dirty = {};
+            function add(key) { if (key) dirty[key] = true; }
+            function addTab(n) { if (n >= 1 && n <= 7) dirty['tab:' + n] = true; }
+
+            // source pile
+            if (source === 'stock') add('stock');
+            else if (source === 'waste') add('waste');
+            else if (source === 'spades' || source === 'hearts' || source === 'diamonds' || source === 'clubs') add(source);
+            else {
+               var sN = parseInt(source, 10);
+               if (!isNaN(sN)) addTab(sN);
+            }
+
+            // destination pile
+            if (dest === 'stock') add('stock');
+            else if (dest === 'waste') add('waste');
+            else if (dest === 'spades' || dest === 'hearts' || dest === 'diamonds' || dest === 'clubs') add(dest);
+            else {
+               var dN = parseInt(dest, 10);
+               if (!isNaN(dN)) addTab(dN);
+            }
+
+            var out = [];
+            for (var k in dirty) if (dirty.hasOwnProperty(k)) out.push(k);
+            return out;
+         }
+
       // update piles
          function update(pile, selector, playedCards, append) {
             var e = d.querySelector(selector);
@@ -541,8 +707,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
                // create card in pile
                createCard(card, e, pileKey, html, append);
             }
-            // turn cards face up
-            flipCards(playedCards, 'up');
             // count played cards
             var played = countPlayedCards(children);
             e.parentElement.dataset.played = played;
@@ -865,21 +1029,83 @@ document.addEventListener("DOMContentLoaded", function(event) {
             if ( checkForWin(table) ) return;
             // check for autowin
             checkForAutoWin(table);
-            // bind click events
-            bindClick(
-               '#stock .card:first-child,' +
-               '#waste .card:first-child,' +
-               '#fnd .card:first-child,' +
-               '#tab .card[data-played="true"]'
-            );
-            // bind dbl click events
-            bindClick(
-               '#waste .card:first-child,' +
-               '#tab .card:last-child',
-               'double'
-            );
             // console.log('Make Your Move...');
             // console.log('......');
+         }
+
+         function setupClickDelegation() {
+            if (!$table || $table.dataset.clickDelegationInitialized === 'true') return;
+            $table.dataset.clickDelegationInitialized = 'true';
+
+            function isFirstCardInPile(pileId, cardEl) {
+               var pileEl = cardEl && cardEl.closest ? cardEl.closest('.pile') : null;
+               if (!pileEl || !pileEl.dataset || pileEl.dataset.pile !== pileId) return false;
+               var first = pileEl.querySelector('ul .card:first-child');
+               return first === cardEl;
+            }
+
+            function isLastCardInTableau(cardEl) {
+               var pileEl = cardEl && cardEl.closest ? cardEl.closest('.pile') : null;
+               if (!pileEl || !pileEl.dataset) return false;
+               var pileId = pileEl.dataset.pile;
+               var n = parseInt(pileId, 10);
+               if (isNaN(n) || n < 1 || n > 7) return false;
+               var last = pileEl.querySelector('ul .card:last-child');
+               return last === cardEl;
+            }
+
+            function shouldForwardToSelect(eventType, targetEl) {
+               if (!targetEl) return false;
+
+               // stock reload icon
+               if (targetEl.classList && targetEl.classList.contains('reload-icon')) {
+                  var stock = targetEl.closest ? targetEl.closest('#stock') : null;
+                  return !!stock && eventType === 'click';
+               }
+
+               // cards
+               if (!(targetEl.classList && targetEl.classList.contains('card'))) return false;
+               var pileEl = targetEl.closest('.pile');
+               var pileId = pileEl && pileEl.dataset ? pileEl.dataset.pile : null;
+
+               if (eventType === 'click') {
+                  if (pileId === 'stock') return isFirstCardInPile('stock', targetEl);
+                  if (pileId === 'waste') return isFirstCardInPile('waste', targetEl);
+                  if (pileId === 'spades' || pileId === 'hearts' || pileId === 'diamonds' || pileId === 'clubs') {
+                     return isFirstCardInPile(pileId, targetEl);
+                  }
+                  // tableau: any face-up card is clickable
+                  var n = parseInt(pileId, 10);
+                  if (!isNaN(n) && n >= 1 && n <= 7) return targetEl.dataset && targetEl.dataset.played === 'true';
+               }
+
+               if (eventType === 'dblclick') {
+                  // waste: top card only; tableau: last card only
+                  if (pileId === 'waste') return isFirstCardInPile('waste', targetEl);
+                  var n2 = parseInt(pileId, 10);
+                  if (!isNaN(n2) && n2 >= 1 && n2 <= 7) return isLastCardInTableau(targetEl);
+               }
+
+               return false;
+            }
+
+            function delegatedHandler(event) {
+               var target = event.target;
+               var forwardEl = null;
+               if (target && target.closest) {
+                  forwardEl = target.closest('.card, #stock .reload-icon');
+               }
+               if (!forwardEl) return;
+               if (!shouldForwardToSelect(event.type, forwardEl)) return;
+
+               // allow select() to use a stable element even if click lands on nested nodes
+               event.delegatedTarget = forwardEl;
+               return select(event);
+            }
+
+            // one handler per event type for entire table
+            $table.addEventListener('click', delegatedHandler);
+            $table.addEventListener('dblclick', delegatedHandler);
          }
 
       // bind click events
@@ -942,7 +1168,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
 
             // get variables
-            var e = event.target; // get element
+            var e = event.delegatedTarget || event.target; // get element
             var isSelected = e.dataset.selected; // get selected attribute
             var rank = e.dataset.rank; // get rank attribute
             var suit = e.dataset.suit; // get suit attribute
@@ -986,15 +1212,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
                      else var dest = $table.dataset.dest;
                      // validate move
                      if ( validateMove(selected, dest) ) {
+                        var dirty = dirtyPilesForMove($table.dataset.source, $table.dataset.dest);
                         // make move
                         makeMove();
                         reset(table);
-                        render(table, playedCards);
+                        renderPartial(table, playedCards, dirty);
                         play(table);
                      } else {
                         // console.log('Move is Invalid. Try again...');
                         reset(table);
-                        render(table, playedCards);
                         play(table);
                         // console.log('Card Deselected', card, e);
                      }
@@ -1008,9 +1234,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                         // move card from stock to waste
                         move(table['stock'], table['waste']);
                         reset(table);
-                        render(table, playedCards);
-                        // if empty, then bind click to stock pile element
-                        if (table['stock'].length === 0) bindClick('#stock .reload-icon');
+                        renderPartial(table, playedCards, ['stock', 'waste']);
                         // count move
                         countMove(moves++);
                         // return to play
@@ -1022,15 +1246,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
                   else if (action === 'reload') {
                      // console.log('Starting New Game');
                      // console.log('Reloading Stock Pile');
-                     // remove event listener
-                     unbindClick('#stock .reload-icon');
                      // reload stock pile
                      if (table['waste'].length) {
                         table['stock'] = table['waste']; // move waste to stock
                         table['waste'] = [] // empty waste
                      }
                      // render table
-                     render(table, playedCards);
+                     renderPartial(table, playedCards, ['stock', 'waste']);
                      // turn all stock cards face down
                      flipCards('#stock .card', 'down');
                      // return to play
@@ -1063,15 +1285,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
                $table.dataset.dest = dest;
                // validate move
                if ( validateMove(card, dest) ) {
+                  var dirty = dirtyPilesForMove($table.dataset.source, $table.dataset.dest);
                   // make move
                   makeMove();
                   reset(table);
-                  render(table, playedCards);
+                  renderPartial(table, playedCards, dirty);
                   play(table);
                } else {
                   // console.log('Move is Invalid. Try again...');
                   reset(table);
-                  render(table, playedCards);
                   play(table);
                   // console.log('Card Deselected', card, e);
                }
@@ -1379,13 +1601,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
             cleanupDrag();
 
             if (dest && validateMove(selected, dest)) {
+               var dirty = dirtyPilesForMove($table.dataset.source, $table.dataset.dest);
                makeMove();
                reset(table);
-               render(table, playedCards);
+               renderPartial(table, playedCards, dirty);
                play(table);
             } else {
                reset(table);
-               render(table, playedCards);
                play(table);
             }
          }
@@ -1613,25 +1835,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
                   );
                }
             }
-
-            // unbind click events
-            unbindClick(
-               '#stock .card:first-child,' +
-               '#waste .card:first-child,' +
-               '#fnd .card:first-child,' +
-               '#fnd #spades.pile[data-empty="true"],' +
-               '#fnd #hearts.pile[data-empty="true"],' +
-               '#fnd #diamonds.pile[data-empty="true"],' +
-               '#fnd #clubs.pile[data-empty="true"],' +
-               '#tab .card[data-played="true"],' +
-               '#tab .pile[data-empty="true"]'
-            );
-            // unbind double click events
-            unbindClick(
-               '#waste .card:first-child' +
-               '#tab .card:last-child',
-               'double'
-            )
 
             // count move
             countMove(moves++);
