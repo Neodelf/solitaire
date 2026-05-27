@@ -315,7 +315,9 @@ body {
 }
 
 .card.is-drag-origin {
-   visibility: hidden;
+  /* Keep stack visible while dragging (avoid "disappearing piles") */
+  opacity: 0.18;
+  filter: saturate(0.85);
 }
 
 .drag-ghost {
