@@ -636,6 +636,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
                   var cardEl = getCardElForCard(pileArray[i]);
                   if (!cardEl) continue;
                   cardEl.dataset.pile = pileNameForCards;
+                  // card may come from tableau with inline offsets
+                  cardEl.style.top = '';
+                  cardEl.style.left = '';
+                  cardEl.classList.remove('is-drag-origin');
                   ul.appendChild(cardEl);
                }
             } else {
@@ -644,6 +648,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
                   var cardEl2 = getCardElForCard(pileArray[j]);
                   if (!cardEl2) continue;
                   cardEl2.dataset.pile = pileNameForCards;
+                  // card may come from tableau with inline offsets
+                  cardEl2.style.top = '';
+                  cardEl2.style.left = '';
+                  cardEl2.classList.remove('is-drag-origin');
                   ul.insertBefore(cardEl2, ul.firstChild);
                }
             }
