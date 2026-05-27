@@ -577,12 +577,28 @@ document.addEventListener("DOMContentLoaded", function(event) {
          }
 
          var cardElCache = Object.create(null);
+         var cardCacheInitialized = false;
+
+         function ensureCardCacheInitialized() {
+            if (cardCacheInitialized) return;
+            var els = d.querySelectorAll('.card');
+            for (var i = 0; i < els.length; i++) {
+               var el = els[i];
+               if (!el || !el.dataset) continue;
+               var r = el.dataset.rank;
+               var s = el.dataset.suit;
+               if (!r || !s) continue;
+               cardElCache[String(r) + ':' + String(s)] = el;
+            }
+            cardCacheInitialized = true;
+         }
 
          function cardKey(card) {
             return String(card[0]) + ':' + String(card[1]);
          }
 
          function getCardElForCard(card) {
+            ensureCardCacheInitialized();
             var key = cardKey(card);
             var cached = cardElCache[key];
             if (cached && cached.nodeType === 1) return cached;
@@ -600,6 +616,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
          }
 
          function syncPileDomFromTable(pileId, pileArray) {
+            ensureCardCacheInitialized();
             var pileRoot = d.querySelector('#' + pileId);
             if (!pileRoot) return;
             var ul = pileRoot.querySelector('ul');
@@ -633,6 +650,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
          }
 
          function syncTableauPileDomFromTable(pileNumber, pileArray) {
+            ensureCardCacheInitialized();
             var pileEl = d.querySelector('#tab li:nth-child(' + pileNumber + ')');
             if (!pileEl) return;
             var ul = pileEl.querySelector('ul');
