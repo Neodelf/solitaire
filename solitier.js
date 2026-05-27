@@ -774,26 +774,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
             var piles = d.querySelectorAll('#tab > li.pile');
             if (!piles || piles.length === 0) return;
 
-            // find max cards in any tableau pile
-            var maxCards = 0;
-            for (var i = 0; i < piles.length; i++) {
-               var ul = piles[i].querySelector('ul');
-               var count = ul ? ul.children.length : 0;
-               if (count > maxCards) maxCards = count;
-            }
-            if (maxCards <= 1) {
-               // reset inline top offsets if present
-               for (var pi = 0; pi < piles.length; pi++) {
-                  var resetUl = piles[pi].querySelector('ul');
-                  var resetCards = resetUl ? resetUl.querySelectorAll('li.card') : [];
-                  for (var ci = 0; ci < resetCards.length; ci++) {
-                     resetCards[ci].style.top = '';
-                     resetCards[ci].style.left = '';
-                  }
-               }
-               return;
-            }
-
             var sampleCard = d.querySelector('#tab .card');
             if (!sampleCard) return;
 
@@ -811,21 +791,36 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
             // defaults roughly match previous CSS feel
             var defaultUpStep = Math.round(cardHeight * 0.32);
+            if (!isFinite(defaultUpStep) || defaultUpStep < 2) defaultUpStep = 2;
 
-            // compute step needed so the tallest pile fits
-            var fitUpStep = Math.floor((available - cardHeight - safeTop) / (maxCards - 1));
-            var upStep = Math.min(defaultUpStep, fitUpStep);
-            if (!isFinite(upStep) || upStep < 2) upStep = 2;
+            function computePileHeight(cards, upStep) {
+               var downStep = Math.round(upStep * 0.55);
+               if (!isFinite(downStep) || downStep < 1) downStep = 1;
+               if (downStep > upStep) downStep = upStep;
 
-            // face-down cards should be tighter than face-up, but not zero
-            var downStep = Math.round(upStep * 0.55);
-            if (!isFinite(downStep) || downStep < 1) downStep = 1;
-            if (downStep > upStep) downStep = upStep;
+               var offset = 0;
+               for (var c = 0; c < cards.length; c++) {
+                  var card = cards[c];
+                  var isPlayed = card.dataset && card.dataset.played === 'true';
+                  offset += isPlayed ? upStep : downStep;
+               }
+               return cardHeight + offset;
+            }
 
-            // apply per pile: accumulate offsets based on played/unplayed
-            for (var p = 0; p < piles.length; p++) {
-               var cardsUl = piles[p].querySelector('ul');
-               var cards = cardsUl ? cardsUl.querySelectorAll('li.card') : [];
+            function resetInlinePileOffsets(pileEl) {
+               var resetUl = pileEl.querySelector('ul');
+               var resetCards = resetUl ? resetUl.querySelectorAll('li.card') : [];
+               for (var ci = 0; ci < resetCards.length; ci++) {
+                  resetCards[ci].style.top = '';
+                  resetCards[ci].style.left = '';
+               }
+            }
+
+            function applyCompressedOffsets(cards, upStep) {
+               var downStep = Math.round(upStep * 0.55);
+               if (!isFinite(downStep) || downStep < 1) downStep = 1;
+               if (downStep > upStep) downStep = upStep;
+
                var offset = 0;
                for (var c = 0; c < cards.length; c++) {
                   var card = cards[c];
@@ -834,6 +829,33 @@ document.addEventListener("DOMContentLoaded", function(event) {
                   var isPlayed = card.dataset && card.dataset.played === 'true';
                   offset += isPlayed ? upStep : downStep;
                }
+            }
+
+            // apply per pile: compress ONLY piles that actually overflow
+            for (var p = 0; p < piles.length; p++) {
+               var cardsUl = piles[p].querySelector('ul');
+               var cards = cardsUl ? cardsUl.querySelectorAll('li.card') : [];
+
+               if (!cards || cards.length <= 1) {
+                  resetInlinePileOffsets(piles[p]);
+                  continue;
+               }
+
+               var neededAtDefault = computePileHeight(cards, defaultUpStep);
+               if (neededAtDefault <= (available - safeTop)) {
+                  // keep the original CSS-driven offsets for this pile
+                  resetInlinePileOffsets(piles[p]);
+                  continue;
+               }
+
+               // shrink step for THIS pile only until it fits
+               var upStep = defaultUpStep;
+               while (upStep > 2 && computePileHeight(cards, upStep) > (available - safeTop)) {
+                  upStep--;
+               }
+               if (!isFinite(upStep) || upStep < 2) upStep = 2;
+
+               applyCompressedOffsets(cards, upStep);
             }
          }
 
@@ -1058,6 +1080,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
          }
 
+         function clearDomSelectedFlags() {
+            var selectedEls = d.querySelectorAll('.card[data-selected="true"]');
+            for (var i = 0; i < selectedEls.length; i++) {
+               delete selectedEls[i].dataset.selected;
+            }
+            delete $table.dataset.move;
+            delete $table.dataset.selected;
+            delete $table.dataset.source;
+            delete $table.dataset.dest;
+         }
+
       function setupPointerDnD() {
          if (!$table || $table.dataset.pointerDndInitialized === 'true') return;
          $table.dataset.pointerDndInitialized = 'true';
@@ -1109,17 +1142,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
             if (isTableauPileId(pileId)) return true;
 
             return false;
-         }
-
-         function clearDomSelectedFlags() {
-            var selectedEls = d.querySelectorAll('.card[data-selected="true"]');
-            for (var i = 0; i < selectedEls.length; i++) {
-               delete selectedEls[i].dataset.selected;
-            }
-            delete $table.dataset.move;
-            delete $table.dataset.selected;
-            delete $table.dataset.source;
-            delete $table.dataset.dest;
          }
 
          function createGhostFromCard(cardEl) {
