@@ -989,15 +989,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
                return cardHeight + offset;
             }
 
-            function resetInlinePileOffsets(pileEl) {
-               var resetUl = pileEl.querySelector('ul');
-               var resetCards = resetUl ? resetUl.querySelectorAll('li.card') : [];
-               for (var ci = 0; ci < resetCards.length; ci++) {
-                  resetCards[ci].style.top = '';
-                  resetCards[ci].style.left = '';
-               }
-            }
-
             function applyCompressedOffsets(cards, upStep) {
                var downStep = Math.round(upStep * 0.55);
                if (!isFinite(downStep) || downStep < 1) downStep = 1;
@@ -1013,20 +1004,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
                }
             }
 
-            // apply per pile: compress ONLY piles that actually overflow
+            // apply per pile:
+            // - all piles get same base spacing (visually "even")
+            // - only overflowing pile(s) get compressed step
             for (var p = 0; p < piles.length; p++) {
                var cardsUl = piles[p].querySelector('ul');
                var cards = cardsUl ? cardsUl.querySelectorAll('li.card') : [];
 
-               if (!cards || cards.length <= 1) {
-                  resetInlinePileOffsets(piles[p]);
-                  continue;
-               }
+               if (!cards || cards.length === 0) continue;
 
                var neededAtDefault = computePileHeight(cards, defaultUpStep);
                if (neededAtDefault <= (available - safeTop)) {
-                  // keep the original CSS-driven offsets for this pile
-                  resetInlinePileOffsets(piles[p]);
+                  // keep a unified baseline spacing for non-overflow piles
+                  applyCompressedOffsets(cards, defaultUpStep);
                   continue;
                }
 
