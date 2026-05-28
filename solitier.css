@@ -456,7 +456,7 @@ body.is-dragging {
    margin-left: -0.35em;
 }
 .card .face::before {
-   display: none;
+   display: block;
    content: '';
    position: absolute;
    top: 15.25%;
