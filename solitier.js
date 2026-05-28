@@ -564,16 +564,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
             for (var i = 0; i < dirtyPiles.length; i++) {
                var key = dirtyPiles[i];
 
-               if (key === 'stock') syncPileDomFromTable('stock', table['stock']);
-               else if (key === 'waste') syncPileDomFromTable('waste', table['waste']);
-               else if (key === 'spades') syncPileDomFromTable('spades', table['spades']);
-               else if (key === 'hearts') syncPileDomFromTable('hearts', table['hearts']);
-               else if (key === 'diamonds') syncPileDomFromTable('diamonds', table['diamonds']);
-               else if (key === 'clubs') syncPileDomFromTable('clubs', table['clubs']);
+               if (key === 'stock') update(table['stock'], '#stock ul', playedCards, true);
+               else if (key === 'waste') update(table['waste'], '#waste ul', playedCards);
+               else if (key === 'spades') update(table['spades'], '#spades ul', playedCards);
+               else if (key === 'hearts') update(table['hearts'], '#hearts ul', playedCards);
+               else if (key === 'diamonds') update(table['diamonds'], '#diamonds ul', playedCards);
+               else if (key === 'clubs') update(table['clubs'], '#clubs ul', playedCards);
                else if (key && key.indexOf('tab:') === 0) {
                   var n = parseInt(key.split(':')[1], 10);
                   if (!isNaN(n) && n >= 1 && n <= 7) {
-                     syncTableauPileDomFromTable(n, table['tab'][n]);
+                     update(table['tab'][n], '#tab li:nth-child(' + n + ') ul', playedCards, true);
                      touchesTableau = true;
                   }
                }
