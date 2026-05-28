@@ -456,20 +456,36 @@ document.addEventListener("DOMContentLoaded", function(event) {
          function move(source, dest, pop, selectedCards = 1) {
             if (pop !== true) {
                var card = source.shift(); // take card from bottom
-               dest.push(card); // push card to destination pile
+               if (isValidCardTuple(card)) {
+                  dest.push(card); // push card to destination pile
+               }
             } else {
-               while (selectedCards) {
-                  // take card from the top of selection
-                  var card = source[source.length - selectedCards];
-                  // remove it from the selected pile
-                  source.splice(source.length - selectedCards, 1);
-                  // put it in the destination pile
-                  dest.push(card);
-                  // decrement
-                  selectedCards--; 
+               var count = parseInt(selectedCards, 10);
+               if (!isFinite(count) || count < 1) count = 1;
+               if (count > source.length) count = source.length;
+               if (count < 1) return false;
+
+               // keep order of moved stack
+               var start = source.length - count;
+               var moved = source.splice(start, count);
+               for (var i = 0; i < moved.length; i++) {
+                  var movedCard = moved[i];
+                  if (isValidCardTuple(movedCard)) {
+                     dest.push(movedCard);
+                  }
                }
             }
             return;
+         }
+
+         function isValidCardTuple(card) {
+            return !!(
+               card &&
+               card.constructor === Array &&
+               card.length >= 2 &&
+               typeof card[0] !== 'undefined' &&
+               typeof card[1] !== 'undefined'
+            );
          }
 
       // render table
@@ -598,6 +614,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
          }
 
          function getCardElForCard(card) {
+            if (!isValidCardTuple(card)) return null;
             ensureCardCacheInitialized();
             var key = cardKey(card);
             var cached = cardElCache[key];
@@ -612,6 +629,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
             // remove all children but keep nodes alive (for fast reordering)
             while (parentEl.firstChild) {
                parentEl.removeChild(parentEl.firstChild);
+            }
+         }
+
+         function sanitizePileCards(pile) {
+            if (!pile || !pile.length) return;
+            for (var i = pile.length - 1; i >= 0; i--) {
+               if (!isValidCardTuple(pile[i])) {
+                  pile.splice(i, 1);
+               }
             }
          }
 
@@ -672,6 +698,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
                if (!cardEl) continue;
                // important for turnover scoring
                cardEl.dataset.pile = 'tab';
+               // card may carry stale offsets/drag class from previous pile
+               cardEl.style.top = '';
+               cardEl.style.left = '';
+               cardEl.classList.remove('is-drag-origin');
                ul.appendChild(cardEl);
             }
          }
@@ -1855,6 +1885,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
                      selectedCards.length
                   );
                }
+            }
+
+            // Defensive cleanup: ensure no invalid card tuples remain after move
+            if (source === 'waste' || source === 'stock' || ['spades','hearts','diamonds','clubs'].indexOf(source) >= 0) {
+               sanitizePileCards(table[source]);
+            } else if (!isNaN(parseInt(source, 10))) {
+               sanitizePileCards(table['tab'][source]);
+            }
+            if (dest === 'waste' || dest === 'stock' || ['spades','hearts','diamonds','clubs'].indexOf(dest) >= 0) {
+               sanitizePileCards(table[dest]);
+            } else if (!isNaN(parseInt(dest, 10))) {
+               sanitizePileCards(table['tab'][dest]);
             }
 
             // count move
