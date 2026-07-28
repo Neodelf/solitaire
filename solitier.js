@@ -154,6 +154,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
       var cardTemplateCache = Object.create(null);
       var cardTemplateRoot = d.querySelector('#card-templates');
       var layoutRafId = null;
+      var cardElCache = Object.create(null);
+      var cardCacheInitialized = false;
+      var FACE_RANK_NAMES = { J: 'jack', Q: 'queen', K: 'king' };
+      var ALL_FACE_SUITS = ['spade', 'heart', 'diamond', 'club'];
+      var ALL_FACE_NAMES = ['jack', 'queen', 'king'];
+      var dealRenderGen = 0;
 
       // build deck
       var deck = [];
@@ -330,14 +336,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
          window.solitaireAnalytics.trackGameStart('klondike');
       }
 
-   // 4. RENDER TABLE
-      render(table, playedCards);
+   // 4–5. RENDER TABLE (7 tops first) THEN START GAMEPLAY
       scheduleLocaleRankingRender();
-
-   // 5. START GAMEPLAY
-      play(table);
-      setupClickDelegation();
-      setupPointerDnD();
+      startDeferredDealRender(table, playedCards, false, function() {
+         play(table);
+         setupClickDelegation();
+         setupPointerDnD();
+      });
 
    // ### EVENT HANDLERS ###
       function scheduleLayoutReflow() {
@@ -488,12 +493,168 @@ document.addEventListener("DOMContentLoaded", function(event) {
             );
          }
 
+      // asset paths relative to solitier.css (root or ../ from locales)
+         function imgBase() {
+            var link = d.querySelector('link[href*="solitier.css"]');
+            if (link) {
+               var href = link.getAttribute('href') || '';
+               return href.replace(/solitier\.css.*$/, 'img/');
+            }
+            return 'img/';
+         }
+
+         function faceUrl(rank, suit) {
+            var name = FACE_RANK_NAMES[rank];
+            if (!name || !suit) return null;
+            return imgBase() + 'face-' + name + '-' + suit + '.png';
+         }
+
+         function allFaceUrls() {
+            var base = imgBase();
+            var urls = [];
+            for (var r = 0; r < ALL_FACE_NAMES.length; r++) {
+               for (var s = 0; s < ALL_FACE_SUITS.length; s++) {
+                  urls.push(base + 'face-' + ALL_FACE_NAMES[r] + '-' + ALL_FACE_SUITS[s] + '.png');
+               }
+            }
+            return urls;
+         }
+
+         function preloadImages(urls, done) {
+            var unique = [];
+            var seen = Object.create(null);
+            for (var i = 0; i < urls.length; i++) {
+               var u = urls[i];
+               if (!u || seen[u]) continue;
+               seen[u] = true;
+               unique.push(u);
+            }
+            var left = unique.length;
+            if (!left) {
+               if (done) done();
+               return;
+            }
+            for (var j = 0; j < unique.length; j++) {
+               var img = new Image();
+               img.onload = img.onerror = function() {
+                  left--;
+                  if (left === 0 && done) done();
+               };
+               img.src = unique[j];
+            }
+         }
+
+         function getTableauTops(tableState) {
+            var tops = [];
+            var tabs = tableState['tab'];
+            for (var i = 1; i <= 7; i++) {
+               var pile = tabs[i];
+               if (pile && pile.length) tops.push(pile[pile.length - 1]);
+            }
+            return tops;
+         }
+
+         function faceUrlsForCards(cards) {
+            var urls = [imgBase() + 'card_face_bg_new.jpg'];
+            for (var i = 0; i < cards.length; i++) {
+               var u = faceUrl(cards[i][0], cards[i][1]);
+               if (u) urls.push(u);
+            }
+            return urls;
+         }
+
+         function clearBoardPiles(played) {
+            if (!played) played = initialPlayedCards;
+            update([], '#stock ul', played, true);
+            update([], '#waste ul', played);
+            update([], '#spades ul', played);
+            update([], '#hearts ul', played);
+            update([], '#diamonds ul', played);
+            update([], '#clubs ul', played);
+            for (var i = 1; i <= 7; i++) {
+               update([], '#tab li:nth-child(' + i + ') ul', played, true);
+            }
+         }
+
+         // phase 1: only the 7 face-up tableau tops
+         function renderTableauTopsOnly(tableState, played) {
+            if (!played) played = initialPlayedCards;
+
+            clearBoardPiles(played);
+
+            var tabs = tableState['tab'];
+            for (var i = 1; i <= 7; i++) {
+               var pile = tabs[i];
+               var tops = (pile && pile.length) ? [pile[pile.length - 1]] : [];
+               update(tops, '#tab li:nth-child(' + i + ') ul', played, true);
+            }
+
+            flipCards(played, 'up');
+            unplayedTabCards = getUnplayedTabCards();
+
+            sizeCards();
+            layoutTableauToViewport();
+            $table.style.opacity = '100';
+
+            // ponytail: self-check phase1 — open tops only
+            var expected = getTableauTops(tableState).length;
+            var upCount = d.querySelectorAll('#tab .card.up').length;
+            console.assert(upCount === expected, 'phase1 expected ' + expected + ' up cards, got ' + upCount);
+         }
+
+         // preload faces for tops → show tops → warm all faces → full render → onReady
+         function startDeferredDealRender(tableState, played, preservePlayedState, onReady) {
+            var gen = ++dealRenderGen;
+            var tops = getTableauTops(tableState);
+
+            // drop stale board immediately so New Game never shows previous deal
+            clearBoardPiles(played);
+            $table.style.opacity = '0';
+            $table.style.pointerEvents = 'none';
+
+            preloadImages(faceUrlsForCards(tops), function() {
+               if (gen !== dealRenderGen) return;
+
+               renderTableauTopsOnly(tableState, played);
+
+               // ponytail: warm cache; safe without gen check
+               var warm = function() { preloadImages(allFaceUrls()); };
+               if (window.requestIdleCallback) {
+                  window.requestIdleCallback(warm, { timeout: 2000 });
+               } else {
+                  setTimeout(warm, 0);
+               }
+
+               var finish = function() {
+                  if (gen !== dealRenderGen) return;
+                  render(tableState, played, preservePlayedState);
+                  // ponytail: self-check phase2 — full deck in DOM
+                  var total = d.querySelectorAll('#table .card').length;
+                  console.assert(total === 52, 'phase2 expected 52 cards, got ' + total);
+                  $table.style.pointerEvents = '';
+                  if (onReady) onReady();
+               };
+
+               if (window.requestAnimationFrame) {
+                  window.requestAnimationFrame(function() {
+                     window.requestAnimationFrame(finish);
+                  });
+               } else {
+                  setTimeout(finish, 0);
+               }
+            });
+         }
+
       // render table
          function render(table, playedCards, preservePlayedState) {
             // console.log('Rendering Table...');
             if (!playedCards) {
                playedCards = initialPlayedCards;
             }
+
+            // DOM nodes are recreated — drop stale element cache
+            cardElCache = Object.create(null);
+            cardCacheInitialized = false;
 
             // preserve already-open cards only when re-rendering current game state
             if (preservePlayedState !== false) {
@@ -591,9 +752,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
             if (touchesTableau) layoutTableauToViewport();
             return;
          }
-
-         var cardElCache = Object.create(null);
-         var cardCacheInitialized = false;
 
          function ensureCardCacheInitialized() {
             if (cardCacheInitialized) return;
@@ -2031,8 +2189,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
 
             playedCards = initialPlayedCards;
-            render(table, playedCards, false);
-            play(table);
+            startDeferredDealRender(table, playedCards, false, function() {
+               play(table);
+            });
          }
 
       // timer funcion
