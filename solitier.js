@@ -574,13 +574,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
             for (var i = 1; i <= 7; i++) {
                update([], '#tab li:nth-child(' + i + ') ul', played, true);
             }
+            // nodes destroyed — drop cache
+            cardElCache = Object.create(null);
+            cardCacheInitialized = false;
          }
 
-         // phase 1: only the 7 face-up tableau tops
+         // phase 1: only the 7 face-up tableau tops (board already cleared by caller)
          function renderTableauTopsOnly(tableState, played) {
             if (!played) played = initialPlayedCards;
-
-            clearBoardPiles(played);
 
             var tabs = tableState['tab'];
             for (var i = 1; i <= 7; i++) {
@@ -589,7 +590,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                update(tops, '#tab li:nth-child(' + i + ') ul', played, true);
             }
 
-            flipCards(played, 'up');
+            flipCards(initialPlayedCards, 'up');
             unplayedTabCards = getUnplayedTabCards();
 
             sizeCards();
@@ -600,6 +601,62 @@ document.addEventListener("DOMContentLoaded", function(event) {
             var expected = getTableauTops(tableState).length;
             var upCount = d.querySelectorAll('#tab .card.up').length;
             console.assert(upCount === expected, 'phase1 expected ' + expected + ' up cards, got ' + upCount);
+         }
+
+         // phase 2: create missing cards, sync piles without wiping phase-1 tops
+         function ensureRemainingCardsThenSync(tableState) {
+            ensureCardCacheInitialized();
+
+            function ensurePileCards(pileArray, pileName, pileEl, append) {
+               if (!pileArray || !pileArray.length) return;
+               for (var i = 0; i < pileArray.length; i++) {
+                  var card = pileArray[i];
+                  if (!isValidCardTuple(card)) continue;
+                  var key = cardKey(card);
+                  var el = cardElCache[key];
+                  if (el && el.nodeType === 1) continue;
+                  createCard(card, pileEl, pileName, getTemplate(card), append);
+               }
+            }
+
+            var stockUl = d.querySelector('#stock ul');
+            var wasteUl = d.querySelector('#waste ul');
+            var spadesUl = d.querySelector('#spades ul');
+            var heartsUl = d.querySelector('#hearts ul');
+            var diamondsUl = d.querySelector('#diamonds ul');
+            var clubsUl = d.querySelector('#clubs ul');
+
+            ensurePileCards(tableState['stock'], 'stock', stockUl, true);
+            ensurePileCards(tableState['waste'], 'waste', wasteUl, false);
+            ensurePileCards(tableState['spades'], 'spades', spadesUl, false);
+            ensurePileCards(tableState['hearts'], 'hearts', heartsUl, false);
+            ensurePileCards(tableState['diamonds'], 'diamonds', diamondsUl, false);
+            ensurePileCards(tableState['clubs'], 'clubs', clubsUl, false);
+
+            var tabs = tableState['tab'];
+            for (var t = 1; t <= 7; t++) {
+               var tabUl = d.querySelector('#tab li:nth-child(' + t + ') ul');
+               ensurePileCards(tabs[t], 'tab', tabUl, true);
+            }
+
+            syncPileDomFromTable('stock', tableState['stock']);
+            syncPileDomFromTable('waste', tableState['waste']);
+            syncPileDomFromTable('spades', tableState['spades']);
+            syncPileDomFromTable('hearts', tableState['hearts']);
+            syncPileDomFromTable('diamonds', tableState['diamonds']);
+            syncPileDomFromTable('clubs', tableState['clubs']);
+            for (var n = 1; n <= 7; n++) {
+               syncTableauPileDomFromTable(n, tabs[n]);
+            }
+
+            emptyPiles = checkForEmptyPiles(tableState);
+            flipCards(initialPlayedCards, 'up');
+            unplayedTabCards = getUnplayedTabCards();
+            recomputeSectionCounts();
+
+            sizeCards();
+            layoutTableauToViewport();
+            $table.style.opacity = '100';
          }
 
          // preload faces for tops → show tops → warm all faces → full render → onReady
@@ -627,7 +684,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
                var finish = function() {
                   if (gen !== dealRenderGen) return;
-                  render(tableState, played, preservePlayedState);
+                  ensureRemainingCardsThenSync(tableState);
                   // ponytail: self-check phase2 — full deck in DOM
                   var total = d.querySelectorAll('#table .card').length;
                   console.assert(total === 52, 'phase2 expected 52 cards, got ' + total);
@@ -706,16 +763,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
             return;
          }
 
-      // partial render: update only specific piles after a move
+      // partial render: reorder existing card nodes for dirty piles only
          function renderPartial(table, playedCards, dirtyPiles, preservePlayedState) {
             if (!dirtyPiles || dirtyPiles.length === 0) {
                return render(table, playedCards, preservePlayedState);
             }
 
             if (!playedCards) playedCards = initialPlayedCards;
-            if (preservePlayedState !== false) {
-               playedCards = checkForPlayedCards(playedCards);
-            }
 
             // update empty markers (needed for UI state)
             emptyPiles = checkForEmptyPiles(table);
@@ -725,29 +779,35 @@ document.addEventListener("DOMContentLoaded", function(event) {
             for (var i = 0; i < dirtyPiles.length; i++) {
                var key = dirtyPiles[i];
 
-               if (key === 'stock') update(table['stock'], '#stock ul', playedCards, true);
-               else if (key === 'waste') update(table['waste'], '#waste ul', playedCards);
-               else if (key === 'spades') update(table['spades'], '#spades ul', playedCards);
-               else if (key === 'hearts') update(table['hearts'], '#hearts ul', playedCards);
-               else if (key === 'diamonds') update(table['diamonds'], '#diamonds ul', playedCards);
-               else if (key === 'clubs') update(table['clubs'], '#clubs ul', playedCards);
+               if (key === 'stock') syncPileDomFromTable('stock', table['stock']);
+               else if (key === 'waste') syncPileDomFromTable('waste', table['waste']);
+               else if (key === 'spades') syncPileDomFromTable('spades', table['spades']);
+               else if (key === 'hearts') syncPileDomFromTable('hearts', table['hearts']);
+               else if (key === 'diamonds') syncPileDomFromTable('diamonds', table['diamonds']);
+               else if (key === 'clubs') syncPileDomFromTable('clubs', table['clubs']);
                else if (key && key.indexOf('tab:') === 0) {
                   var n = parseInt(key.split(':')[1], 10);
                   if (!isNaN(n) && n >= 1 && n <= 7) {
-                     update(table['tab'][n], '#tab li:nth-child(' + n + ') ul', playedCards, true);
+                     syncTableauPileDomFromTable(n, table['tab'][n]);
                      touchesTableau = true;
                   }
                }
             }
 
-            // ensure face-up state matches playedCards after partial DOM updates
-            flipCards(playedCards, 'up');
+            // sync keeps .up; only open new tops / waste / fnd
+            flipCards(initialPlayedCards, 'up');
 
             // keep aggregate counts consistent (auto-win relies on these)
             recomputeSectionCounts();
 
             // refresh cache of unplayed tableau cards for next turnover scoring
             unplayedTabCards = getUnplayedTabCards();
+
+            // ponytail: self-check — sync must not drop nodes
+            console.assert(
+               d.querySelectorAll('#table .card').length === 52,
+               'renderPartial expected 52 cards'
+            );
 
             if (touchesTableau) layoutTableauToViewport();
             return;
@@ -981,11 +1041,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
             e.dataset.selected = 'false'; // set selected attribute
 
             e.innerHTML = html; // insert html to element
+            cardElCache[String(r) + ':' + String(s)] = e;
             // append to pile
             if (append) pileEl.appendChild(e);
             // or prepend to pile
             else pileEl.insertBefore(e, pileEl.firstChild);
-            return;
+            return e;
          }
 
       // check for played cards
@@ -2451,14 +2512,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
                      $table.dataset.source = pile.dataset.pile;
                      // set dest pile
                      $table.dataset.dest = dest;
+                     var dirty = dirtyPilesForMove($table.dataset.source, $table.dataset.dest);
                      // make move
                      makeMove();
                      reset(table);
-                     render(table, playedCards);
+                     renderPartial(table, playedCards, dirty);
                   } else {
                      // console.log('Move is Invalid. Try again...');
                      reset(table);
-                     render(table, playedCards);
                   }
                // let's do it again in 100ms
                setTimeout(function() {
