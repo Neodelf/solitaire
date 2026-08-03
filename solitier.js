@@ -572,7 +572,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             update([], '#diamonds ul', played);
             update([], '#clubs ul', played);
             for (var i = 1; i <= 7; i++) {
-               update([], '#tab li:nth-child(' + i + ') ul', played, true);
+               update([], tableauPileUlSelector(i), played, true);
             }
             // nodes destroyed — drop cache
             cardElCache = Object.create(null);
@@ -587,7 +587,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             for (var i = 1; i <= 7; i++) {
                var pile = tabs[i];
                var tops = (pile && pile.length) ? [pile[pile.length - 1]] : [];
-               update(tops, '#tab li:nth-child(' + i + ') ul', played, true);
+               update(tops, tableauPileUlSelector(i), played, true);
             }
 
             flipCards(initialPlayedCards, 'up');
@@ -635,7 +635,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
             var tabs = tableState['tab'];
             for (var t = 1; t <= 7; t++) {
-               var tabUl = d.querySelector('#tab li:nth-child(' + t + ') ul');
+               var tabPile = tableauPileEl(t);
+               var tabUl = tabPile ? tabPile.querySelector('ul') : null;
                ensurePileCards(tabs[t], 'tab', tabUl, true);
             }
 
@@ -738,7 +739,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             // loop through tableau piles
             for (var i = 1; i <= 7; i++) {
                // update tableau pile
-               update(tabs[i], '#tab li:nth-child('+i+') ul', playedCards, true);
+               update(tabs[i], tableauPileUlSelector(i), playedCards, true);
             }
 
             // turn cards face up (do once per render, not per pile)
@@ -831,6 +832,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
             return String(card[0]) + ':' + String(card[1]);
          }
 
+         // ponytail: data-pile on direct #tab child — bare nth-child also matches card lis
+         function tableauPileEl(n) {
+            return d.querySelector('#tab > li[data-pile="' + n + '"]');
+         }
+
+         function tableauPileUlSelector(n) {
+            return '#tab > li[data-pile="' + n + '"] ul';
+         }
+
          function getCardElForCard(card) {
             if (!isValidCardTuple(card)) return null;
             ensureCardCacheInitialized();
@@ -841,6 +851,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
             var el = d.querySelector('.card[data-rank="' + card[0] + '"][data-suit="' + card[1] + '"]');
             if (el) cardElCache[key] = el;
             return el;
+         }
+
+         // cache miss after detach: recreate instead of dropping the card from the board
+         function resolveCardEl(card, pileUl, pileName, append) {
+            var el = getCardElForCard(card);
+            if (el) return el;
+            if (!pileUl || !isValidCardTuple(card)) return null;
+            return createCard(card, pileUl, pileName, getTemplate(card), append);
          }
 
          function clearChildrenPreserveNodes(parentEl) {
@@ -877,7 +895,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
             if (appendMode) {
                for (var i = 0; i < pileArray.length; i++) {
-                  var cardEl = getCardElForCard(pileArray[i]);
+                  var cardEl = resolveCardEl(pileArray[i], ul, pileNameForCards, true);
                   if (!cardEl) continue;
                   cardEl.dataset.pile = pileNameForCards;
                   // card may come from tableau with inline offsets
@@ -889,7 +907,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             } else {
                // prepend mode: DOM order is reverse of array (matches createCard(... append=false))
                for (var j = 0; j < pileArray.length; j++) {
-                  var cardEl2 = getCardElForCard(pileArray[j]);
+                  var cardEl2 = resolveCardEl(pileArray[j], ul, pileNameForCards, false);
                   if (!cardEl2) continue;
                   cardEl2.dataset.pile = pileNameForCards;
                   // card may come from tableau with inline offsets
@@ -903,7 +921,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
          function syncTableauPileDomFromTable(pileNumber, pileArray) {
             ensureCardCacheInitialized();
-            var pileEl = d.querySelector('#tab li:nth-child(' + pileNumber + ')');
+            var pileEl = tableauPileEl(pileNumber);
             if (!pileEl) return;
             var ul = pileEl.querySelector('ul');
             if (!ul) return;
@@ -912,7 +930,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
             if (!pileArray || pileArray.length === 0) return;
             for (var i = 0; i < pileArray.length; i++) {
-               var cardEl = getCardElForCard(pileArray[i]);
+               var cardEl = resolveCardEl(pileArray[i], ul, 'tab', true);
                if (!cardEl) continue;
                // important for turnover scoring
                cardEl.dataset.pile = 'tab';
@@ -1098,7 +1116,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                for (var i = 1; i <= 7; i++) {
                   // check tabeau pile
                   if ( tabs[i].length === 0 ) {
-                     emptyPiles += ', #tab li:nth-child('+i+').pile';
+                     emptyPiles += ', #tab > li[data-pile="' + i + '"]';
                   }
                }
             // mark piles as empty
