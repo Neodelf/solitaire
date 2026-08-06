@@ -1,0 +1,1744 @@
+# World Solitaire — full content for LLMs
+
+> Free Klondike Solitaire online — no ads, no sign-up. Structured dump of key landing SEO text (including FAQ/HowTo) and guides.
+
+Index: [llms.txt](https://world-solitaire.com/llms.txt) · [sitemap.xml](https://world-solitaire.com/sitemap.xml).
+
+---
+
+# Home (EN root)
+
+URL: https://world-solitaire.com/
+
+# World of Solitaire - Play Free Klondike Online, No Ads
+
+## Start a new solitaire game instantly on mobile or desktop
+
+Play Klondike Solitaire free online at World Solitaire — the classic card game with modern features.
+Experience the timeless solitaire with country leaderboard competition, winnable deals, and intuitive gameplay.
+No registration required, no advertisements interrupting your game.
+
+### Why Choose World Solitaire?
+
+- **Completely Free:** Play unlimited games without any cost or hidden fees
+
+- **No Ads:** Enjoy uninterrupted gameplay with our ad-free experience
+
+- **Full Screen Mode:** Immerse yourself in the game with our full-screen interface
+
+- **Mobile Optimized:** Perfect gameplay on smartphones, tablets, and desktop computers
+
+- **Country Competition:** Compete on country leaderboards and climb your nation's rank
+
+- **Winnable Deals:** Every game is designed to be solvable with the right strategy
+
+### Game Features
+
+Our solitaire game features the classic Klondike rules with modern enhancements.
+Drag and drop cards with smooth animations, use the auto-win feature when available,
+and track your progress with detailed statistics. The game automatically saves your
+progress and provides helpful hints when you need them.
+
+### Accessibility and Compatibility
+
+World Solitaire works seamlessly across all modern web browsers and devices.
+Whether you're using Chrome, Firefox, Safari, Edge, or any other browser,
+you'll enjoy smooth gameplay. Our responsive design ensures optimal performance
+on devices ranging from smartphones to large desktop monitors.
+
+## FAQ
+
+### How do you win at Klondike Solitaire?
+
+Move all cards to the foundation piles by suit from Ace to King. Build tableau columns in alternating colors and reveal face-down cards.
+
+### Is World Solitaire free and without ads?
+
+Yes. World Solitaire is completely free and ad-free. No registration required.
+
+### Can I play in full screen on mobile?
+
+Yes. The game supports fullscreen mode and is optimized for mobile and desktop.
+
+## How to play Klondike Solitaire
+
+- **Deal the cards:** Seven tableau piles are dealt with increasing cards; remaining cards go to stock.
+
+- **Build tableau:** Build down in alternating colors. Move sequences between piles to reveal new cards.
+
+- **Move to foundations:** Start from Aces and build up by suit to Kings in four foundation piles.
+
+- **Use stock wisely:** Draw from stock when stuck and look for opportunities to free hidden cards.
+
+Read more: [How to play Klondike Solitaire](https://world-solitaire.com/en/how-to-play-solitaire/) · [Klondike Solitaire rules](https://world-solitaire.com/en/klondike-rules/) · [Solitaire strategy tips](https://world-solitaire.com/en/solitaire-strategy/) · [Solitaire winning checklist](https://world-solitaire.com/en/solitaire-winning-checklist/)
+
+Popular language versions: [Turkce](https://world-solitaire.com/tr/) · [Deutsch](https://world-solitaire.com/de/) · [English](https://world-solitaire.com/en/)
+
+---
+
+# Bulgarian game page
+
+URL: https://world-solitaire.com/bg/
+
+## Играйте безплатен Solitaire онлайн
+
+Добре дошли в World Solitaire — най-доброто място за игра на класически Solitaire онлайн безплатно.
+Без реклами, без регистрация. Играйте на цял екран на мобилен или десктоп, навсякъде в България.
+Ключови думи: world-solitaire world-solitaire.com solitaire world free soli игра worldsolitaire солитери солитер
+
+## ЧЗВ
+
+### Как се печели в Klondike пасианс?
+
+Преместете всички карти на основите по боя от аса до цар. Стройте таблото с редуващи се цветове и откривайте скрити карти.
+
+### World Solitaire безплатен ли е и без реклами?
+
+Да. World Solitaire е напълно безплатен и без реклами. Не се изисква регистрация.
+
+### Мога ли да играя на цял екран на телефон?
+
+Да. Играта поддържа цял екран и е оптимизирана за мобилен и десктоп.
+
+## Как се играе Klondike пасианс
+
+- **Раздайте картите:** Седем колони на таблото с нарастващ брой карти; останалите отиват в запаса.
+
+- **Стройте таблото:** Надолу с редуващи се цветове. Местете последователности, за да откриете карти.
+
+- **Към основите:** От асо нагоре по боя до цар върху четири основи.
+
+- **Използвайте запаса умно:** Теглете от запаса, когато сте блокирани, и търсете скрити карти.
+
+---
+
+# Czech game page
+
+URL: https://world-solitaire.com/cs/
+
+## Hrajte Solitaire zdarma online
+
+Vítejte ve World Solitaire – nejlepším místě pro hraní klasického Solitaire online zdarma.
+Bez reklam, bez registrace. Hrajte na celé obrazovce na mobilu nebo desktopu, kdekoliv v České republice.
+
+## FAQ
+
+### Jak vyhrát v Klondike Solitaire?
+
+Přesuňte všechny karty na základy podle barvy od esa po krále. Stavějte tableau střídavými barvami a odkrývejte rubové karty.
+
+### Je World Solitaire zdarma a bez reklam?
+
+Ano. World Solitaire je zcela zdarma a bez reklam. Registrace není potřeba.
+
+### Mohu hrát na mobilu na celou obrazovku?
+
+Ano. Hra podporuje režim celé obrazovky a je optimalizovaná pro mobil i desktop.
+
+## Jak hrát Klondike Solitaire
+
+- **Rozdat karty:** Sedm sloupců tableau se vzrůstajícím počtem karet; zbytek tvoří zásobu.
+
+- **Stavět tableau:** Skládat sestupně střídavými barvami. Přesouvejte sekvence a odkrývejte karty.
+
+- **Na základy:** Od es stoupat podle barvy ke králi na čtyřech základech.
+
+- **Chytře použít zásobu:** Tahat ze zásoby, když uvíznete, a hledat příležitosti odkrýt skryté karty.
+
+---
+
+# Danish game page
+
+URL: https://world-solitaire.com/da/
+
+## Spil Solitaire gratis online
+
+Velkommen til World Solitaire – det bedste sted at spille klassisk Solitaire online gratis.
+Ingen annoncer, ingen tilmelding. Spil i fuld skærm på mobil eller desktop, hvor som helst i Danmark.
+
+## FAQ
+
+### Hvordan vinder man Klondike Solitaire?
+
+Flyt alle kort til fundamenterne efter farve fra es til konge. Byg tableau i skiftende farver og vend skjulte kort.
+
+### Er World Solitaire gratis og uden reklamer?
+
+Ja. World Solitaire er helt gratis og reklamefrit. Ingen registrering kræves.
+
+### Kan jeg spille i fuldskærm på mobilen?
+
+Ja. Spillet understøtter fuldskærm og er optimeret til mobil og desktop.
+
+## Sådan spiller du Klondike Solitaire
+
+- **Del kortene:** Syv tableau-bunker med stigende kort; resten går til lageret.
+
+- **Byg tableau:** Byg faldende i skiftende farver. Flyt sekvenser for at afdække kort.
+
+- **Til fundamenterne:** Fra esser opad efter farve til konge på fire fundamenter.
+
+- **Brug lageret klogt:** Træk fra lageret, når du sidder fast, og find skjulte kort.
+
+---
+
+# German game page
+
+URL: https://world-solitaire.com/de/
+
+# Solitär kostenlos online spielen - Klondike ohne Werbung
+
+## Klondike ohne Anmeldung, ohne Werbung, im Vollbild
+
+Willkommen bei World Solitaire. Spielen Sie klassisches Klondike direkt im Browser auf Handy
+oder Desktop. Keine Registrierung, keine Werbeunterbrechungen, sofortiger Spielstart.
+
+Diese Seite fokussiert Suchanfragen wie "solitär kostenlos online spielen" und "klondike ohne werbung".
+Für Regeln und Strategien nutzen Sie die Guide-Seiten aus dem Cluster.
+
+Guide-Cluster:
+[Klondike spielen lernen (EN)](https://world-solitaire.com/en/how-to-play-solitaire/) ·
+[Klondike Regeln (EN)](https://world-solitaire.com/en/klondike-rules/) ·
+[Solitaire Strategien (EN)](https://world-solitaire.com/en/solitaire-strategy/)
+
+Weitere Sprachversionen:
+[English](https://world-solitaire.com/en/) ·
+[Turkce](https://world-solitaire.com/tr/)
+
+## FAQ
+
+### Wie gewinnt man bei Klondike Solitaire?
+
+Legen Sie alle Karten nach Farbe von Ass bis König auf die Fundamentstapel. Bauen Sie die Tableau-Spalten in wechselnden Farben ab und decken Sie verdeckte Karten auf.
+
+### Ist World Solitaire kostenlos und ohne Werbung?
+
+Ja. World Solitaire ist völlig kostenlos und werbefrei. Keine Registrierung erforderlich.
+
+### Kann ich auf dem Handy im Vollbild spielen?
+
+Ja. Das Spiel unterstützt den Vollbildmodus und ist für Mobilgeräte und Desktop optimiert.
+
+## So spielt man Klondike Solitaire
+
+- **Karten austeilen:** Sieben Tableau-Stapel mit steigender Kartenzahl; die restlichen Karten bilden den Talon.
+
+- **Tableau bauen:** Absteigend in wechselnden Farben bauen. Sequenzen verschieben, um neue Karten aufzudecken.
+
+- **Auf Fundamente legen:** Von Assen aufsteigend nach Farbe bis zum König auf vier Fundamentstapeln.
+
+- **Talon klug nutzen:** Ziehen Sie vom Talon, wenn Sie steckenbleiben, und suchen Sie Chancen, verdeckte Karten freizulegen.
+
+---
+
+# Greek game page
+
+URL: https://world-solitaire.com/el/
+
+## Παίξτε Solitaire δωρεάν online
+
+Καλώς ήρθατε στο World Solitaire – το καλύτερο μέρος για να παίξετε κλασικό Solitaire δωρεάν online.
+Χωρίς διαφημίσεις, χωρίς εγγραφή. Παίξτε σε πλήρη οθόνη σε κινητές συσκευές ή υπολογιστή.
+
+## Συχνές ερωτήσεις
+
+### Πώς κερδίζετε στο Klondike Solitaire;
+
+Μετακινήστε όλες τις κάρτες στα θεμέλια ανά φυλή από Άσσο έως Ρήγα. Χτίστε το tableau με εναλλασσόμενα χρώματα και αποκαλύψτε κρυφές κάρτες.
+
+### Είναι το World Solitaire δωρεάν και χωρίς διαφημίσεις;
+
+Ναι. Το World Solitaire είναι εντελώς δωρεάν και χωρίς διαφημίσεις. Δεν απαιτείται εγγραφή.
+
+### Μπορώ να παίξω σε πλήρη οθόνη στο κινητό;
+
+Ναι. Το παιχνίδι υποστηρίζει πλήρη οθόνη και είναι βελτιστοποιημένο για κινητό και υπολογιστή.
+
+## Πώς να παίξετε Klondike Solitaire
+
+- **Μοίρασμα καρτών:** Επτά στήλες tableau με αυξανόμενες κάρτες· οι υπόλοιπες πηγαίνουν στο απόθεμα.
+
+- **Χτίσιμο tableau:** Φθίνουσα σειρά με εναλλασσόμενα χρώματα. Μετακινήστε ακολουθίες για νέες κάρτες.
+
+- **Στα θεμέλια:** Από Άσσους ανοδικά ανά φυλή έως Ρήγα σε τέσσερα θεμέλια.
+
+- **Έξυπνη χρήση αποθέματος:** Τραβήξτε από το απόθεμα όταν κολλήσετε και αναζητήστε κρυφές κάρτες.
+
+---
+
+# English game page
+
+URL: https://world-solitaire.com/en/
+
+# World Solitaire Free Online — Play Klondike, No Ads
+
+## Start instantly on mobile and desktop
+
+Welcome to World Solitaire. Play classic Klondike in your browser with no ads, no sign-up,
+and full-screen support. The game is optimized for touch and desktop controls with quick
+restarts, undo, and daily challenge gameplay.
+
+If you search for terms like "world solitaire", "world of solitaire", or "klondike solitaire free online",
+this page is your main starting point, while the guides below cover rules and winning tactics.
+
+Read the guide cluster:
+[How to play Klondike Solitaire](https://world-solitaire.com/en/how-to-play-solitaire/) ·
+[Klondike Solitaire rules](https://world-solitaire.com/en/klondike-rules/) ·
+[Solitaire strategy tips](https://world-solitaire.com/en/solitaire-strategy/) ·
+[Solitaire winning checklist](https://world-solitaire.com/en/solitaire-winning-checklist/)
+
+Other popular locales:
+[Deutsch](https://world-solitaire.com/de/) ·
+[Turkce](https://world-solitaire.com/tr/)
+
+## FAQ
+
+### How do you win at Klondike Solitaire?
+
+Move all cards to the foundation piles by suit from Ace to King. Build tableau columns in alternating colors and reveal face-down cards.
+
+### Is World Solitaire free and without ads?
+
+Yes. World Solitaire is completely free and ad-free. No registration required.
+
+### Can I play in full screen on mobile?
+
+Yes. The game supports fullscreen mode and is optimized for mobile and desktop.
+
+## How to play Klondike Solitaire
+
+- **Deal the cards:** Seven tableau piles are dealt with increasing cards; remaining cards go to stock.
+
+- **Build tableau:** Build down in alternating colors. Move sequences between piles to reveal new cards.
+
+- **Move to foundations:** Start from Aces and build up by suit to Kings in four foundation piles.
+
+- **Use stock wisely:** Draw from stock when stuck and look for opportunities to free hidden cards.
+
+---
+
+# Spanish game page
+
+URL: https://world-solitaire.com/es/
+
+# World Solitaire - Juega Solitario Clásico Online Gratis
+
+## Juega Solitario Gratis Online - La Mejor Experiencia de Juego de Cartas
+
+Bienvenido a World Solitaire — el mejor lugar para jugar solitario clásico online gratis.
+Disfruta del juego de cartas atemporal con mejoras modernas, incluyendo desafíos diarios, repartos ganables
+y mecánicas de juego intuitivas. No se requiere registro, no hay anuncios interrumpiendo tu juego.
+
+### ¿Por qué elegir World Solitaire?
+
+- **Completamente Gratis:** Juega partidas ilimitadas sin ningún costo o tarifa oculta
+
+- **Sin Anuncios:** Disfruta de una experiencia de juego ininterrumpida sin anuncios
+
+- **Modo Pantalla Completa:** Sumérgete en el juego con nuestra interfaz de pantalla completa
+
+- **Optimizado para Móviles:** Experiencia de juego perfecta en smartphones, tablets y computadoras de escritorio
+
+- **Desafíos Diarios:** Pon a prueba tus habilidades con nuevos desafíos cada día
+
+- **Repartos Ganables:** Cada juego está diseñado para ser solucionable con la estrategia correcta
+
+### Características del Juego
+
+Nuestro juego de solitario incluye las reglas clásicas de Klondike con mejoras modernas.
+Arrastra y suelta cartas con animaciones fluidas, usa la función de victoria automática cuando esté disponible,
+y rastrea tu progreso con estadísticas detalladas. El juego guarda automáticamente tu
+progreso y proporciona pistas útiles cuando las necesites.
+
+### Accesibilidad y Compatibilidad
+
+World Solitaire funciona perfectamente en todos los navegadores web modernos y dispositivos.
+Ya uses Chrome, Firefox, Safari, Edge o cualquier otro navegador,
+disfrutarás de una experiencia de juego fluida. Nuestro diseño responsivo asegura un rendimiento óptimo
+en dispositivos desde smartphones hasta monitores de escritorio grandes.
+
+## Preguntas frecuentes
+
+### ¿Cómo se gana en el Solitario Klondike?
+
+Mueve todas las cartas a los montones de fundación por palo del As al Rey. Construye el tableau en colores alternos y revela cartas boca abajo.
+
+### ¿World Solitaire es gratis y sin anuncios?
+
+Sí. World Solitaire es completamente gratis y sin anuncios. No requiere registro.
+
+### ¿Puedo jugar a pantalla completa en el móvil?
+
+Sí. El juego admite pantalla completa y está optimizado para móvil y escritorio.
+
+## Cómo jugar al Solitario Klondike
+
+- **Repartir las cartas:** Se reparte el tableau en siete montones crecientes; el resto va al mazo.
+
+- **Construir el tableau:** Baja en colores alternos. Mueve secuencias para revelar nuevas cartas.
+
+- **Mover a las fundaciones:** Desde Ases, sube por palo hasta el Rey en cuatro montones.
+
+- **Usar el mazo con cuidado:** Roba del mazo cuando te atasques y busca oportunidades de liberar cartas ocultas.
+
+---
+
+# Estonian game page
+
+URL: https://world-solitaire.com/et/
+
+## Mängi pasjanssi tasuta veebis
+
+Tere tulemast lehele World Solitaire – parim koht klassikalise pasjanssi mängimiseks tasuta veebis.
+Reklaamideta, ilma registreerimiseta. Mängi täisekraanil oma mobiilis või arvutis.
+
+## KKK
+
+### Kuidas võita Klondike Solitaire'is?
+
+Vii kõik kaardid alustele masti järgi ässast kuningani. Ehita tableaud vahelduvate värvidega ja ava peidetud kaardid.
+
+### Kas World Solitaire on tasuta ja ilma reklaamideta?
+
+Jah. World Solitaire on täiesti tasuta ja reklaamivaba. Registreerimist pole vaja.
+
+### Kas saan mobiilis täisekraanil mängida?
+
+Jah. Mäng toetab täisekraani ja on optimeeritud mobiilile ning lauaarvutile.
+
+## Kuidas mängida Klondike Solitaire'i
+
+- **Kaartide jagamine:** Seitse tableau hunnikut kasvava kaartide arvuga; ülejäänud moodustavad varu.
+
+- **Tableau ehitamine:** Ehita kahanevalt vahelduvate värvidega. Liiguta jadasid uute kaartide avamiseks.
+
+- **Alustele liikumine:** Ässadest üles masti järgi kuningani neljal alusel.
+
+- **Varu tark kasutamine:** Tõmba varust, kui oled kinni, ja otsi peidetud kaartide avamise võimalusi.
+
+---
+
+# Finnish game page
+
+URL: https://world-solitaire.com/fi/
+
+# Ilmainen pasianssi verkossa — World Solitaire Klondike
+
+## Pelaa ilman mainoksia, ilman rekisterointia
+
+Tervetuloa World Solitaireen – paras paikka pelata klassista pasianssia ilmaiseksi verkossa.
+Ei mainoksia, ei rekisteröitymistä. Pelaa koko näytöllä puhelimella tai tietokoneella.
+
+Lue lisää: [Kuinka pelata Klondikea](https://world-solitaire.com/en/how-to-play-solitaire/) · [Klondike-säännöt](https://world-solitaire.com/en/klondike-rules/) · [Pasianssin strategiat](https://world-solitaire.com/en/solitaire-strategy/)
+
+## UKK
+
+### Miten voittaa Klondike Solitaressa?
+
+Siirrä kaikki kortit perustuksiin maasta ässästä kuninkaaseen. Rakenna tableauta vuorottelevilla väreillä ja paljasta peitetyt kortit.
+
+### Onko World Solitaire ilmainen ja mainokseton?
+
+Kyllä. World Solitaire on täysin ilmainen ja mainokseton. Rekisteröitymistä ei tarvita.
+
+### Voinko pelata koko näytöllä puhelimella?
+
+Kyllä. Peli tukee koko näyttöä ja on optimoitu mobiilille ja työpöydälle.
+
+## Näin pelaat Klondike Solitairea
+
+- **Jaa kortit:** Seitsemän tableau-pinoa kasvavilla korteilla; loput muodostavat varaston.
+
+- **Rakenna tableau:** Laskevasti vuorottelevilla väreillä. Siirrä jonoja paljastaaksesi kortteja.
+
+- **Perustuksiin:** Ässistä ylös maata myöten kuninkaaseen neljällä perustuksella.
+
+- **Käytä varastoa viisaasti:** Nosta varastosta jumittuessasi ja etsi piilotettuja kortteja.
+
+---
+
+# French game page
+
+URL: https://world-solitaire.com/fr/
+
+# World Solitaire - Jouez au Solitaire classique en ligne gratuitement
+
+## Sans pub, sans inscription, en plein ecran
+
+Bienvenue sur World Solitaire — la meilleure destination pour jouer au solitaire classique en ligne gratuitement.
+Profitez du jeu de cartes intemporel avec des améliorations modernes, incluant des défis quotidiens, des distributions gagnantes
+et des mécaniques de jeu intuitives. Aucune inscription requise, aucune publicité n'interrompt votre jeu.
+
+### Pourquoi choisir World Solitaire ?
+
+- **Complètement Gratuit :** Jouez à des parties illimitées sans aucun coût ni frais caché
+
+- **Sans Publicité :** Profitez d'une expérience de jeu ininterrompue sans publicité
+
+- **Mode Plein Écran :** Plongez dans le jeu avec notre interface plein écran
+
+- **Optimisé Mobile :** Expérience de jeu parfaite sur smartphones, tablettes et ordinateurs de bureau
+
+- **Défis Quotidiens :** Testez vos compétences avec de nouveaux défis chaque jour
+
+- **Distributions Gagnantes :** Chaque jeu est conçu pour être résolvable avec la bonne stratégie
+
+### Fonctionnalités du Jeu
+
+Notre jeu de solitaire inclut les règles classiques du Klondike avec des améliorations modernes.
+Glissez-déposez les cartes avec des animations fluides, utilisez la fonction de victoire automatique quand disponible,
+et suivez vos progrès avec des statistiques détaillées. Le jeu sauvegarde automatiquement votre
+progression et fournit des conseils utiles quand vous en avez besoin.
+
+### Accessibilité et Compatibilité
+
+World Solitaire fonctionne parfaitement sur tous les navigateurs web modernes et appareils.
+Que vous utilisiez Chrome, Firefox, Safari, Edge ou tout autre navigateur,
+vous profiterez d'une expérience de jeu fluide. Notre design responsive garantit des performances optimales
+sur des appareils allant des smartphones aux grands moniteurs de bureau.
+
+## FAQ
+
+### Comment gagner au Solitaire Klondike ?
+
+Déplacez toutes les cartes vers les fondations par couleur de l'As au Roi. Construisez le tableau en couleurs alternées et révélez les cartes face cachée.
+
+### World Solitaire est-il gratuit et sans publicité ?
+
+Oui. World Solitaire est entièrement gratuit et sans publicité. Aucune inscription requise.
+
+### Puis-je jouer en plein écran sur mobile ?
+
+Oui. Le jeu prend en charge le mode plein écran et est optimisé pour mobile et ordinateur.
+
+## Comment jouer au Solitaire Klondike
+
+- **Distribuer les cartes:** Sept colonnes de tableau avec un nombre croissant de cartes ; le reste forme la pioche.
+
+- **Construire le tableau:** Descendez en couleurs alternées. Déplacez des séquences pour révéler de nouvelles cartes.
+
+- **Aller aux fondations:** Des As, montez par couleur jusqu'au Roi sur quatre fondations.
+
+- **Utiliser la pioche avec soin:** Piochez quand vous êtes bloqué et cherchez à libérer des cartes cachées.
+
+Guides utiles : [Comment jouer au Klondike (guide)](https://world-solitaire.com/en/how-to-play-solitaire/) · [Règles du Klondike](https://world-solitaire.com/en/klondike-rules/) · [Stratégies Solitaire](https://world-solitaire.com/en/solitaire-strategy/)
+
+---
+
+# Hebrew game page
+
+URL: https://world-solitaire.com/he/
+
+## שחקו סוליטייר חינם אונליין
+
+ברוכים הבאים ל-World Solitaire – המקום הטוב ביותר לשחק סוליטייר קלאסי אונליין ובחינם.
+ללא פרסומות, ללא הרשמה. שחקו במסך מלא במחשב או בסלולרי.
+
+## שאלות נפוצות
+
+### איך מנצחים ב-Solitaire Klondike?
+
+העבירו את כל הקלפים ליסודות לפי סוגה מאס עד מלך. בנו את ה-tableau בצבעים מתחלפים וגלו קלפים הפוכים.
+
+### האם World Solitaire בחינם וללא פרסומות?
+
+כן. World Solitaire לגמרי בחינם וללא פרסומות. אין צורך בהרשמה.
+
+### אפשר לשחק במסך מלא בטלפון?
+
+כן. המשחק תומך במסך מלא ומותאם לנייד ולמחשב.
+
+## איך לשחק Solitaire Klondike
+
+- **חלוקת קלפים:** שבעה ערימות tableau עם מספר קלפים עולה; השאר למלאי.
+
+- **בניית tableau:** בנו יורד בצבעים מתחלפים. הזיזו רצפים כדי לגלות קלפים.
+
+- **ליסודות:** מאסים עולים לפי סוגה עד מלך בארבעה יסודות.
+
+- **שימוש חכם במלאי:** משכו מהמלאי כשנתקעתם וחפשו קלפים מוסתרים.
+
+---
+
+# Croatian game page
+
+URL: https://world-solitaire.com/hr/
+
+## Besplatno igrajte Solitaire online
+
+Dobrodošli u World Solitaire — najbolje mjesto za besplatno online igranje klasičnog Solitairea.
+Bez reklama, bez prijave. Igrajte na cijelom ekranu na mobitelu ili desktopu, bilo gdje u Hrvatskoj.
+Ključne riječi: world-solitaire world-solitaire.com solitaire world free soli igra worldsolitaire samotna solitare
+
+## FAQ
+
+### Kako pobijediti u Klondike Solitaireu?
+
+Premjestite sve karte na temelje po boji od asa do kralja. Gradite tableau naizmjeničnim bojama i otkrivajte okrenute karte.
+
+### Je li World Solitaire besplatan i bez reklama?
+
+Da. World Solitaire je potpuno besplatan i bez reklama. Registracija nije potrebna.
+
+### Mogu li igrati na cijelom zaslonu na mobitelu?
+
+Da. Igra podržava cijeli zaslon i optimizirana je za mobitel i desktop.
+
+## Kako igrati Klondike Solitaire
+
+- **Podijeliti karte:** Sedam tableau hrpa s rastućim kartama; ostatak ide u zalihu.
+
+- **Graditi tableau:** Spustajte se naizmjeničnim bojama. Premještajte nizove da otkrijete karte.
+
+- **Na temelje:** Od asova rastuće po boji do kralja na četiri temelja.
+
+- **Pametno koristiti zalihu:** Vucite iz zalihe kad zapnete i tražite prilike za otkrivanje skrivenih karata.
+
+---
+
+# Hungarian game page
+
+URL: https://world-solitaire.com/hu/
+
+## Játssz pasziánszt ingyen online
+
+Üdvözlünk a World Solitaire oldalon – a legjobb hely, ahol klasszikus pasziánszt játszhatsz online, teljesen ingyen.
+Reklámok nélkül, regisztráció nélkül. Teljes képernyős módban, asztali gépen és mobilon is működik.
+
+## GYIK
+
+### Hogyan nyerünk Klondike pasziánszban?
+
+Vigyél minden lapot az alapokra szín szerint ászról királyig. Építsd a tableaut váltakozó színekkel, és fordítsd fel a lefelé néző lapokat.
+
+### A World Solitaire ingyenes és reklámmentes?
+
+Igen. A World Solitaire teljesen ingyenes és reklámmentes. Nincs szükség regisztrációra.
+
+### Játszhatok teljes képernyőn mobilon?
+
+Igen. A játék támogatja a teljes képernyőt, és mobilra s asztalira is optimalizált.
+
+## Hogyan játssz Klondike pasziánsszal
+
+- **Lapok kiosztása:** Hét tableau-oszlop növekvő lappal; a többi a húzó pakli.
+
+- **Tableau építése:** Csökkenő sorrendben, váltakozó színekkel. Mozgasd a sorozatokat az új lapokért.
+
+- **Alapokra helyezés:** Ászról szín szerint fel a királyig négy alapon.
+
+- **Okos húzás:** Húzz a pakliból, ha elakadtál, és keresd a rejtett lapok felszabadítását.
+
+---
+
+# Italian game page
+
+URL: https://world-solitaire.com/it/
+
+## Gioca al solitario gratis online
+
+Benvenuto su World Solitaire – il miglior sito per giocare al solitario classico online, completamente gratis.
+Senza pubblicità, senza registrazione. Funziona a schermo intero, sia su desktop che su mobile.
+
+## FAQ
+
+### Come si vince a Solitario Klondike?
+
+Sposta tutte le carte sulle fondazioni per seme dall'Asso al Re. Costruisci il tableau a colori alternati e scopri le carte coperte.
+
+### World Solitaire è gratis e senza pubblicità?
+
+Sì. World Solitaire è completamente gratis e senza pubblicità. Non serve registrarsi.
+
+### Posso giocare a schermo intero sul cellulare?
+
+Sì. Il gioco supporta lo schermo intero ed è ottimizzato per mobile e desktop.
+
+## Come giocare a Solitario Klondike
+
+- **Distribuire le carte:** Sette pile del tableau con carte crescenti; le restanti formano lo stock.
+
+- **Costruire il tableau:** Scendi a colori alternati. Sposta le sequenze per rivelare nuove carte.
+
+- **Muovere alle fondazioni:** Dagli Assi, sali per seme fino al Re su quattro fondazioni.
+
+- **Usare lo stock con giudizio:** Pesca dallo stock quando sei bloccato e cerca di liberare carte nascoste.
+
+---
+
+# Japanese game page
+
+URL: https://world-solitaire.com/ja/
+
+## 無料でソリティアをプレイしよう
+
+World Solitaireへようこそ。広告なしで、どこでも無料でクラシックソリティアを楽しめます。登録不要で、デスクトップとモバイルの両方でプレイ可能です。
+
+## よくある質問
+
+### クロンダイクソリティアで勝つには？
+
+すべてのカードをスート別にエースからキングまで土台に移します。テーブルを交互の色で組み、伏せカードをめくります。
+
+### World Solitaireは無料で広告なしですか？
+
+はい。World Solitaireは完全無料・広告なしです。登録は不要です。
+
+### スマホでフルスクリーンプレイできますか？
+
+はい。フルスクリーンに対応し、モバイルとデスクトップ向けに最適化されています。
+
+## クロンダイクソリティアの遊び方
+
+- **カードを配る:** テーブルに7列、枚数を増やして配り、残りはストックに。
+
+- **テーブルを組む:** 交互の色で降順に組む。連続を動かして新しいカードをめくる。
+
+- **土台へ移す:** エースからスート別にキングまで4つの土台へ。
+
+- **ストックを賢く使う:** 行き詰まったらストックから引き、伏せカードを開ける機会を探す。
+
+---
+
+# Korean game page
+
+URL: https://world-solitaire.com/ko/
+
+## 무료로 솔리테어 즐기기
+
+World Solitaire에 오신 것을 환영합니다. 광고 없이 어디서나 무료로 클래식 솔리테어를 즐길 수 있습니다. 가입 없이 데스크탑과 모바일에서 플레이 가능합니다.
+
+## 자주 묻는 질문
+
+### 클론다이크 솔리테어에서 이기는 방법은?
+
+모든 카드를 문양별로 에이스부터 킹까지 파운데이션으로 옮기세요. 테이블을 교차 색으로 쌓고 뒤집힌 카드를 공개하세요.
+
+### World Solitaire는 무료이고 광고가 없나요?
+
+네. World Solitaire는 완전 무료이며 광고가 없습니다. 가입이 필요 없습니다.
+
+### 모바일에서 전체 화면으로 플레이할 수 있나요?
+
+네. 전체 화면을 지원하며 모바일과 데스크톱에 최적화되어 있습니다.
+
+## 클론다이크 솔리테어 플레이 방법
+
+- **카드 나누기:** 테이블에 일곱 더미를 카드 수를 늘려 나누고 나머지는 스톡으로.
+
+- **테이블 쌓기:** 교차 색으로 내림차순으로 쌓기. 시퀀스를 옮겨 새 카드를 공개.
+
+- **파운데이션으로:** 에이스부터 문양별로 킹까지 네 파운데이션에.
+
+- **스톡 현명하게 쓰기:** 막히면 스톡에서 뽑고 숨은 카드를 열 기회를 찾으세요.
+
+---
+
+# Lithuanian game page
+
+URL: https://world-solitaire.com/lt/
+
+## Žaisk solitaire nemokamai internete
+
+Sveiki atvykę į World Solitaire – geriausią svetainę žaisti klasikiniam solitaire žaidimui internete, visiškai nemokamai.
+Jokios reklamos, nereikia registruotis. Viso ekrano režimas, veikia kompiuteriuose ir mobiliuosiuose.
+
+## DUK
+
+### Kaip laimėti Klondike Solitaire?
+
+Perkelkite visas kortas į pamatus pagal rūšį nuo tūzo iki karaliaus. Statykite tableau besikeičiančiomis spalvomis ir atidenkite paslėptas kortas.
+
+### Ar World Solitaire nemokamas ir be reklamų?
+
+Taip. World Solitaire yra visiškai nemokamas ir be reklamų. Registracija nereikalinga.
+
+### Ar galiu žaisti visame ekrane telefone?
+
+Taip. Žaidimas palaiko visą ekraną ir yra optimizuotas mobiliam bei stacionariam.
+
+## Kaip žaisti Klondike Solitaire
+
+- **Išdalinti kortas:** Septyni tableau stulpeliai su didėjančiu kortų skaičiumi; likusios – atsarga.
+
+- **Statyti tableau:** Mažėjančia tvarka besikeičiančiomis spalvomis. Perkelkite sekas naujoms kortoms atidengti.
+
+- **Į pamatus:** Nuo tūzų aukštyn pagal rūšį iki karaliaus keturiuose pamatuose.
+
+- **Išmintingai naudoti atsargą:** Traukite iš atsargos užstrigę ir ieškokite paslėptų kortų.
+
+---
+
+# Latvian game page
+
+URL: https://world-solitaire.com/lv/
+
+## Spēlē solitaire bez maksas tiešsaistē
+
+Laipni lūdzam World Solitaire – labākā vieta, kur spēlēt klasisko solitaire spēli tiešsaistē bez maksas.
+Bez reklāmām, nav nepieciešama reģistrācija. Pilnekrāna režīms, darbojas uz datoriem un mobilajām ierīcēm.
+
+## BUJ
+
+### Kā uzvarēt Klondike Solitaire?
+
+Pārvieto visas kārtis uz pamatiem pēc mastīm no dūža līdz karalim. Būvē tableau mainīgās krāsās un atklāj slēptās kārtis.
+
+### Vai World Solitaire ir bezmaksas un bez reklāmām?
+
+Jā. World Solitaire ir pilnībā bezmaksas un bez reklāmām. Reģistrācija nav nepieciešama.
+
+### Vai varu spēlēt pilnekrāna režīmā telefonā?
+
+Jā. Spēle atbalsta pilnekrānu un ir optimizēta mobilajām ierīcēm un datoram.
+
+## Kā spēlēt Klondike Solitaire
+
+- **Kāršu izdalīšana:** Septiņas tableau kaudzes ar pieaugošu kāršu skaitu; pārējās veido rezervi.
+
+- **Tableau būvēšana:** Būvē lejup mainīgās krāsās. Pārvieto secības, lai atklātu kārtis.
+
+- **Uz pamatiem:** No dūžiem augšup pēc masts līdz karalim uz četriem pamatiem.
+
+- **Gudra rezerves izmantošana:** Velc no rezerves, kad iestrēgsti, un meklē slēptās kārtis.
+
+---
+
+# Norwegian game page
+
+URL: https://world-solitaire.com/nb/
+
+## Spill kabale gratis på nett
+
+Velkommen til World Solitaire – det beste stedet å spille klassisk kabale på nett helt gratis.
+Ingen annonser, ingen registrering. Fullskjermmodus, fungerer både på datamaskin og mobil.
+
+## FAQ
+
+### Hvordan vinner man Klondike Solitaire?
+
+Flytt alle kort til fundamentene etter farge fra ess til konge. Bygg tableau i vekslende farger og snu skjulte kort.
+
+### Er World Solitaire gratis og uten reklame?
+
+Ja. World Solitaire er helt gratis og reklamefritt. Ingen registrering kreves.
+
+### Kan jeg spille i fullskjerm på mobil?
+
+Ja. Spillet støtter fullskjerm og er optimalisert for mobil og desktop.
+
+## Slik spiller du Klondike Solitaire
+
+- **Del ut kortene:** Syv tableau-bunker med økende kort; resten går til stokken.
+
+- **Bygg tableau:** Bygg synkende i vekslende farger. Flytt sekvenser for å avdekke kort.
+
+- **Til fundamentene:** Fra ess oppover etter farge til konge på fire fundament.
+
+- **Bruk stokken klokt:** Trekk fra stokken når du sitter fast og se etter skjulte kort.
+
+---
+
+# Dutch game page
+
+URL: https://world-solitaire.com/nl/
+
+# Solitaire – Gratis spelen online
+
+## Klondike zonder advertenties of registratie
+
+Welkom bij World Solitaire – de beste plek om klassieke solitaire online gratis te spelen.
+Geen advertenties, geen registratie. Full-screen modus, werkt zowel op desktop als mobiel.
+
+## FAQ
+
+### Hoe win je Klondike Solitaire?
+
+Verplaats alle kaarten naar de foundations per kleur van Aas tot Heer. Bouw het tableau in afwisselende kleuren en draai verborgen kaarten om.
+
+### Is World Solitaire gratis en zonder advertenties?
+
+Ja. World Solitaire is volledig gratis en advertentievrij. Geen registratie nodig.
+
+### Kan ik fullscreen spelen op mobiel?
+
+Ja. Het spel ondersteunt fullscreen en is geoptimaliseerd voor mobiel en desktop.
+
+## Hoe speel je Klondike Solitaire
+
+- **Kaarten delen:** Zeven tableau-stapels met toenemende kaarten; de rest gaat naar de stock.
+
+- **Tableau bouwen:** Bouw aflopend in afwisselende kleuren. Verplaats reeksen om nieuwe kaarten te onthullen.
+
+- **Naar foundations:** Van Azen opbouwen per kleur tot Heer op vier foundations.
+
+- **Stock slim gebruiken:** Trek van de stock als je vastzit en zoek kansen om verborgen kaarten vrij te maken.
+
+---
+
+# Polish game page
+
+URL: https://world-solitaire.com/pl/
+
+## Graj w Solitaire za darmo online
+
+Witaj w World Solitaire – najlepszym miejscu do grania w klasyczne solitaire online za darmo.
+Brak reklam, brak rejestracji. Tryb pełnoekranowy, działa na komputerze i urządzeniach mobilnych.
+
+## FAQ
+
+### Jak wygrać w pasjansa Klondike?
+
+Przenieś wszystkie karty na fundamenty według koloru od asa do króla. Buduj tableau naprzemiennymi kolorami i odkrywaj zakryte karty.
+
+### Czy World Solitaire jest darmowy i bez reklam?
+
+Tak. World Solitaire jest całkowicie darmowy i bez reklam. Rejestracja nie jest wymagana.
+
+### Czy mogę grać na pełnym ekranie na telefonie?
+
+Tak. Gra obsługuje tryb pełnoekranowy i jest zoptymalizowana pod mobile i desktop.
+
+## Jak grać w pasjansa Klondike
+
+- **Rozdanie kart:** Siedem stosów tableau z rosnącą liczbą kart; pozostałe tworzą talię.
+
+- **Budowanie tableau:** Układać malejąco naprzemiennymi kolorami. Przenosić sekwencje, by odkrywać karty.
+
+- **Na fundamenty:** Od asów rosnąco według koloru do króla na czterech fundamentach.
+
+- **Mądre użycie talii:** Dobieraj z talii, gdy utkniesz, i szukaj okazji do odkrycia ukrytych kart.
+
+---
+
+# Portuguese game page
+
+URL: https://world-solitaire.com/pt/
+
+# World Solitaire - Jogue Solitaire Clássico Online Grátis
+
+## Jogue Solitaire Grátis Online - A Melhor Experiência de Jogo de Cartas
+
+Bem-vindo ao World Solitaire — o melhor lugar para jogar solitaire clássico online grátis.
+Desfrute do jogo de cartas atemporal com melhorias modernas, incluindo desafios diários, distribuições vencedoras
+e mecânicas de jogo intuitivas. Não é necessário registro, sem anúncios interrompendo seu jogo.
+
+### Por que escolher World Solitaire?
+
+- **Completamente Grátis:** Jogue partidas ilimitadas sem qualquer custo ou taxa oculta
+
+- **Sem Anúncios:** Desfrute de uma experiência de jogo ininterrupta sem anúncios
+
+- **Modo Tela Cheia:** Mergulhe no jogo com nossa interface de tela cheia
+
+- **Otimizado para Móveis:** Experiência de jogo perfeita em smartphones, tablets e computadores desktop
+
+- **Desafios Diários:** Teste suas habilidades com novos desafios todos os dias
+
+- **Distribuições Vencedoras:** Cada jogo é projetado para ser solucionável com a estratégia correta
+
+### Recursos do Jogo
+
+Nosso jogo de solitaire inclui as regras clássicas do Klondike com melhorias modernas.
+Arraste e solte cartas com animações fluidas, use a função de vitória automática quando disponível,
+e acompanhe seu progresso com estatísticas detalhadas. O jogo salva automaticamente seu
+progresso e fornece dicas úteis quando você precisar.
+
+### Acessibilidade e Compatibilidade
+
+World Solitaire funciona perfeitamente em todos os navegadores web modernos e dispositivos.
+Seja usando Chrome, Firefox, Safari, Edge ou qualquer outro navegador,
+você desfrutará de uma experiência de jogo fluida. Nosso design responsivo garante desempenho ótimo
+em dispositivos desde smartphones até monitores desktop grandes.
+
+## Perguntas frequentes
+
+### Como se ganha no Solitaire Klondike?
+
+Mova todas as cartas para as fundações por naipe do Ás ao Rei. Construa o tableau em cores alternadas e revele cartas viradas para baixo.
+
+### O World Solitaire é grátis e sem anúncios?
+
+Sim. O World Solitaire é totalmente grátis e sem anúncios. Não é necessário registo.
+
+### Posso jogar em ecrã inteiro no telemóvel?
+
+Sim. O jogo suporta ecrã inteiro e está otimizado para telemóvel e computador.
+
+## Como jogar Solitaire Klondike
+
+- **Distribuir as cartas:** Sete pilhas de tableau com cartas crescentes; as restantes vão para o stock.
+
+- **Construir o tableau:** Desça em cores alternadas. Mova sequências para revelar novas cartas.
+
+- **Mover para as fundações:** A partir dos Áses, suba por naipe até ao Rei em quatro fundações.
+
+- **Usar o stock com cuidado:** Compre do stock quando estiver bloqueado e procure libertar cartas ocultas.
+
+---
+
+# Romanian game page
+
+URL: https://world-solitaire.com/ro/
+
+## Joacă Solitaire Gratuit Online
+
+Bine ai venit la World Solitaire – cel mai bun loc pentru a juca Solitaire clasic online gratuit.
+Fără reclame, fără înregistrare. Mod complet pe ecran, funcționează pe PC și dispozitive mobile.
+
+## Întrebări frecvente
+
+### Cum câștigi la Solitaire Klondike?
+
+Mută toate cărțile pe fundații pe suită de la As la Rege. Construiește tableau-ul în culori alternate și descoperă cărțile cu fața în jos.
+
+### World Solitaire este gratuit și fără reclame?
+
+Da. World Solitaire este complet gratuit și fără reclame. Nu este nevoie de înregistrare.
+
+### Pot juca pe ecran complet pe mobil?
+
+Da. Jocul suportă ecran complet și este optimizat pentru mobil și desktop.
+
+## Cum să joci Solitaire Klondike
+
+- **Împarte cărțile:** Șapte coloane tableau cu cărți crescătoare; restul formează stocul.
+
+- **Construiește tableau-ul:** Coboară pe culori alternate. Mută secvențe pentru a descoperi cărți noi.
+
+- **Mută pe fundații:** De la Ași, urcă pe suită până la Rege pe patru fundații.
+
+- **Folosește stocul cu grijă:** Trage din stoc când ești blocat și caută șanse să eliberezi cărți ascunse.
+
+---
+
+# Russian game page
+
+URL: https://world-solitaire.com/ru/
+
+# World Solitaire - Играйте в классический солитер онлайн бесплатно
+
+## Играйте в солитер бесплатно онлайн - Лучший опыт карточной игры
+
+Добро пожаловать в World Solitaire — лучшее место для игры в классический солитер онлайн бесплатно.
+Наслаждайтесь вечной карточной игрой с современными улучшениями, включая ежедневные задания, выигрышные раздачи
+и интуитивную механику игры. Никакой регистрации не требуется, никакой рекламы, прерывающей вашу игру.
+
+### Почему выбирают World Solitaire?
+
+- **Полностью бесплатно:** Играйте неограниченное количество игр без каких-либо затрат или скрытых платежей
+
+- **Без рекламы:** Наслаждайтесь непрерывным игровым процессом с нашим опытом без рекламы
+
+- **Полноэкранный режим:** Погрузитесь в игру с нашим полноэкранным интерфейсом
+
+- **Оптимизация для мобильных:** Идеальный игровой процесс на смартфонах, планшетах и настольных компьютерах
+
+- **Ежедневные задания:** Проверьте свои навыки с новыми заданиями каждый день
+
+- **Выигрышные раздачи:** Каждая игра разработана так, чтобы быть решаемой при правильной стратегии
+
+### Игровые функции
+
+Наша игра солитер включает классические правила Клондайк с современными улучшениями.
+Перетаскивайте карты с плавными анимациями, используйте функцию автоматической победы, когда она доступна,
+и отслеживайте свой прогресс с подробной статистикой. Игра автоматически сохраняет ваш
+прогресс и предоставляет полезные подсказки, когда они вам нужны.
+
+### Доступность и совместимость
+
+World Solitaire работает безупречно во всех современных веб-браузерах и устройствах.
+Независимо от того, используете ли вы Chrome, Firefox, Safari, Edge или любой другой браузер,
+вы получите плавный игровой процесс. Наш адаптивный дизайн обеспечивает оптимальную производительность
+на устройствах от смартфонов до больших настольных мониторов.
+
+## Частые вопросы
+
+### Как выиграть в солитер Клондайк?
+
+Переместите все карты в четыре фундаментальные стопки по мастям от Туза до Короля. Стройте столбцы в таблице в чередующихся цветах и открывайте перевернутые карты.
+
+### World Solitaire действительно бесплатен и без рекламы?
+
+Да. World Solitaire полностью бесплатен и без рекламы. Регистрация не требуется.
+
+### Можно ли играть в полноэкранном режиме на мобильном?
+
+Да. Игра поддерживает полноэкранный режим и оптимизирована для мобильных и десктопов.
+
+## Как играть в Klondike Solitaire
+
+- **Раздача карт:** Семь столбцов с увеличивающимся числом карт; оставшиеся карты — в запас.
+
+- **Постройка таблицы:** Стройте вниз в чередующихся цветах. Перемещайте последовательности между столбцами, чтобы открыть карты.
+
+- **Перенос в основания:** Начинайте с Тузов и собирайте по масти до Королей в четырех основаниях.
+
+- **Использование запаса:** Тяните из запаса, когда застряли, и ищите возможности открыть скрытые карты.
+
+Подробнее: [How to play (EN)](https://world-solitaire.com/en/how-to-play-solitaire/) · [Klondike rules (EN)](https://world-solitaire.com/en/klondike-rules/) · [Strategy (EN)](https://world-solitaire.com/en/solitaire-strategy/)
+
+---
+
+# Slovak game page
+
+URL: https://world-solitaire.com/sk/
+
+## Hrajte Solitaire Zadarmo Online
+
+Vitajte na World Solitaire – najlepšie miesto na hranie klasického solitéra online zadarmo. Bez reklám, bez registrácie. Celá obrazovka, funguje na PC a mobilných zariadeniach.
+
+## FAQ
+
+### Ako vyhrať v Klondike Solitaire?
+
+Presuňte všetky karty na základy podľa farby od esa po kráľa. Stavajte tableau striedavými farbami a odkrývajte skryté karty.
+
+### Je World Solitaire zadarmo a bez reklám?
+
+Áno. World Solitaire je úplne zadarmo a bez reklám. Registrácia nie je potrebná.
+
+### Môžem hrať na celú obrazovku na mobile?
+
+Áno. Hra podporuje režim celej obrazovky a je optimalizovaná pre mobil aj desktop.
+
+## Ako hrať Klondike Solitaire
+
+- **Rozdať karty:** Sedem stĺpcov tableau so stúpajúcim počtom kariet; zvyšok tvorí zásobu.
+
+- **Stavať tableau:** Skladať zostupne striedavými farbami. Presúvajte sekvencie a odkrývajte karty.
+
+- **Na základy:** Od es stúpať podľa farby ku kráľovi na štyroch základoch.
+
+- **Múdro použiť zásobu:** Ťahať zo zásoby, keď uviaznete, a hľadať skryté karty.
+
+---
+
+# Slovenian game page
+
+URL: https://world-solitaire.com/sl/
+
+## Igrajte Solitaire Brezplačno Na Spletu
+
+Dobrodošli na World Solitaire – najboljše mesto za igranje klasičnega soliterja na spletu brezplačno. Brez oglasov, brez registracije. Na celotnem zaslonu, deluje na računalnikih in mobilnih napravah.
+
+## FAQ
+
+### Kako zmagati v Klondike Solitaire?
+
+Premaknite vse karte na temelje po barvi od asa do kralja. Gradite tableau v izmeničnih barvah in odkrivajte skrite karte.
+
+### Je World Solitaire brezplačen in brez oglasov?
+
+Da. World Solitaire je popolnoma brezplačen in brez oglasov. Registracija ni potrebna.
+
+### Ali lahko igram v celozaslonskem načinu na telefonu?
+
+Da. Igra podpira celozaslonski način in je optimizirana za mobilne naprave in namizje.
+
+## Kako igrati Klondike Solitaire
+
+- **Podeliti karte:** Sedem stolpcev tableau z naraščajočim številom kart; preostanek gre v zalogo.
+
+- **Graditi tableau:** Padajoče v izmeničnih barvah. Premikajte zaporedja, da odkrijete karte.
+
+- **Na temelje:** Od asov naraščajoče po barvi do kralja na štirih temeljih.
+
+- **Pametno uporabiti zalogo:** Vlecite iz zaloge, ko ste blokirani, in iščite skrite karte.
+
+---
+
+# Serbian game page
+
+URL: https://world-solitaire.com/sr/
+
+## Igrajte Solitaire besplatno online
+
+Dobrodošli na World Solitaire – najbolje mesto za igranje klasičnog solitera na mreži besplatno. Bez oglasa, bez registracije. Na celoj ekranu, funkcioniše na računarima i mobilnim uređajima.
+
+## FAQ
+
+### Kako pobediti u Klondike Solitaireu?
+
+Premestite sve karte na temelje po boji od asa do kralja. Gradite tableau naizmeničnim bojama i otkrivajte okrenute karte.
+
+### Da li je World Solitaire besplatan i bez reklama?
+
+Da. World Solitaire je potpuno besplatan i bez reklama. Registracija nije potrebna.
+
+### Mogu li da igram na celom ekranu na telefonu?
+
+Da. Igra podržava ceo ekran i optimizovana je za mobilni i desktop.
+
+## Kako igrati Klondike Solitaire
+
+- **Podeliti karte:** Sedam tableau hrpa sa rastućim kartama; ostatak ide u zalihu.
+
+- **Graditi tableau:** Spustajte se naizmeničnim bojama. Premještajte nizove da otkrijete karte.
+
+- **Na temelje:** Od asova rastuće po boji do kralja na četiri temelja.
+
+- **Pametno koristiti zalihu:** Vucite iz zalihe kad zapnete i tražite skrivene karte.
+
+---
+
+# Swedish game page
+
+URL: https://world-solitaire.com/sv/
+
+## Spela Solitaire gratis online
+
+Välkommen till World Solitaire – den bästa platsen för att spela klassisk Solitaire online gratis. Inget behov av registrering eller annonser. Spela i helskärm, fungerar på både datorer och mobila enheter.
+
+## FAQ
+
+### Hur vinner man i Klondike Solitaire?
+
+Flytta alla kort till fundamenten per färg från ess till kung. Bygg tableau i växlande färger och vänd upp dolda kort.
+
+### Är World Solitaire gratis och utan reklam?
+
+Ja. World Solitaire är helt gratis och reklamfritt. Ingen registrering krävs.
+
+### Kan jag spela i helskärm på mobilen?
+
+Ja. Spelet stöder helskärm och är optimerat för mobil och dator.
+
+## Hur man spelar Klondike Solitaire
+
+- **Dela korten:** Sju tableau-högar med ökande kort; resten bildar stocken.
+
+- **Bygga tableau:** Bygg fallande i växlande färger. Flytta sekvenser för att avslöja kort.
+
+- **Till fundamenten:** Från ess uppåt per färg till kung på fyra fundament.
+
+- **Använd stocken klokt:** Dra från stocken när du fastnar och leta efter dolda kort.
+
+---
+
+# Turkish game page
+
+URL: https://world-solitaire.com/tr/
+
+# World of Solitaire Oyna - Ücretsiz Klondike, Reklamsız
+
+## Mobilde ve masaüstünde anında yeni oyun başlat
+
+World Solitaire'a hoş geldiniz — klasik solitaire'i ücretsiz online oynamak için en iyi yer.
+Modern geliştirmeler, ülke sıralaması rekabeti, kazanılabilir dağıtımlar ve sezgisel oyun mekaniği ile
+zamansız kart oyununun keyfini çıkarın. Kayıt gerekmez, oyununuzu bölen reklam yok.
+
+### Neden World Solitaire?
+
+- **Tamamen Ücretsiz:** Herhangi bir maliyet veya gizli ücret olmadan sınırsız oyun oynayın
+
+- **Reklamsız:** Reklamsız deneyimimizle kesintisiz oyun keyfini yaşayın
+
+- **Tam Ekran Modu:** Tam ekran arayüzümüzle oyuna dalın
+
+- **Mobil Optimizasyonu:** Akıllı telefonlar, tabletler ve masaüstü bilgisayarlarda mükemmel oyun deneyimi
+
+- **Ülke Rekabeti:** Ülke sıralamasında yarışın ve zirveye tırmanın
+
+- **Kazanılabilir Dağıtımlar:** Her oyun doğru strateji ile çözülebilir olacak şekilde tasarlanmıştır
+
+### Oyun Özellikleri
+
+Solitaire oyunumuz modern geliştirmelerle klasik Klondike kurallarını içerir.
+Kartları akıcı animasyonlarla sürükleyip bırakın, mevcut olduğunda otomatik kazanma özelliğini kullanın,
+ve detaylı istatistiklerle ilerlemenizi takip edin. Oyun ilerlemenizi otomatik olarak kaydeder
+ve ihtiyaç duyduğunuzda yardımcı ipuçları sağlar.
+
+### Erişilebilirlik ve Uyumluluk
+
+World Solitaire tüm modern web tarayıcıları ve cihazlarda kusursuz çalışır.
+Chrome, Firefox, Safari, Edge veya başka herhangi bir tarayıcı kullanıyor olun,
+akıcı oyun deneyimi yaşayacaksınız. Responsive tasarımımız akıllı telefonlardan
+büyük masaüstü monitörlere kadar cihazlarda optimal performans sağlar.
+
+## SSS
+
+### Klondike Solitaire'de nasıl kazanılır?
+
+Tüm kartları As'tan Kral'a kadar takımlara göre temel yığınlara taşıyın. Tablo sütunlarını alternatif renklerde oluşturun ve kapalı kartları açın.
+
+### World Solitaire ücretsiz ve reklamsız mı?
+
+Evet. World Solitaire tamamen ücretsiz ve reklamsızdır. Kayıt gerekmez.
+
+### Mobilde tam ekranda oynayabilir miyim?
+
+Evet. Oyun tam ekranı destekler ve mobil ile masaüstü için optimize edilmiştir.
+
+## Klondike Solitaire nasıl oynanır
+
+- **Kartları dağıtın:** Yedi tablo yığını artan sayıda kartla dağıtılır; kalan kartlar stoğa gider.
+
+- **Tabloyu oluşturun:** Alternatif renklerde aşağı doğru oluşturun. Yeni kartları açmak için dizileri yığınlar arasında taşıyın.
+
+- **Temellere taşıyın:** Dört temel yığında As'tan Kral'a kadar takıma göre yukarı doğru oluşturun.
+
+- **Stoğu akıllıca kullanın:** Sıkıştığınızda stoktan çekin ve gizli kartları açma fırsatları arayın.
+
+[Hemen oynamaya başlayın](#table) · [Klondike nasıl oynanır](https://world-solitaire.com/tr/how-to-play-solitaire/) · [Klondike Solitaire kuralları](https://world-solitaire.com/tr/klondike-rules/) · [Solitaire strateji ipuçları](https://world-solitaire.com/tr/solitaire-strategy/)
+
+Diger diller: [English](https://world-solitaire.com/en/) · [Deutsch](https://world-solitaire.com/de/)
+
+---
+
+# How to Play Solitaire (EN)
+
+URL: https://world-solitaire.com/en/how-to-play-solitaire/
+
+[World Solitaire](https://world-solitaire.com/)
+[Play now](https://world-solitaire.com/#table)
+
+[Home](https://world-solitaire.com/)›How to Play
+
+[Play free Klondike Solitaire online](https://world-solitaire.com/#table)
+
+# How to Play Klondike Solitaire
+
+Klondike Solitaire is the classic solitaire most players know. This quick guide covers setup, [official rules](https://world-solitaire.com/en/klondike-rules/), and practical tips to win more often.
+
+## Setup
+
+- Deal seven tableau piles: from one to seven cards, only the top card face-up.
+
+- The remaining cards form the stock.
+
+- Foundations start with Aces and build up by suit to Kings.
+
+## Rules
+
+- Build tableau piles down in alternating colors (e.g., red 7 on black 8).
+
+- Move sequences between tableau piles to reveal hidden cards.
+
+- Empty tableau spots can be filled with a King or a sequence starting with a King.
+
+- Move cards to foundations in ascending order by suit from Ace to King.
+
+## Winning Tips
+
+- Prioritize revealing face-down cards in the tableau.
+
+- Avoid blocking low-value cards under high ones when possible.
+
+- Use undo and hints sparingly to improve efficiency.
+
+## How to Win at Solitaire (Klondike)
+
+Winning is not guaranteed on every deal, but strong habits raise your success rate: open hidden cards before cycling the stock repeatedly, protect empty columns for Kings, and delay foundation moves that lock the tableau. For a concise tactical checklist, read [Solitaire strategy tips](https://world-solitaire.com/en/solitaire-strategy/), then [play free online](https://world-solitaire.com/#table) to practice.
+
+## How to Play Klondike Solitaire: FAQ
+
+### What is the fastest way to learn how to play Klondike Solitaire?
+
+Memorize setup, legal moves, and foundation order. Then focus on revealing hidden cards quickly.
+
+### Can I win every Solitaire game?
+
+No, but practicing on winnable deals helps improve consistency and planning.
+
+### Should I move cards to foundations immediately?
+
+Only when it does not block better tableau moves. Tableau flexibility often matters more.
+
+### How do you win at Solitaire more often?
+
+Focus on revealing face-down cards, avoid blocking low cards, and use foundations when they do not remove critical tableau options. The [strategy guide](https://world-solitaire.com/en/solitaire-strategy/) expands on each habit.
+
+### Related Articles
+
+[Play Solitaire now](https://world-solitaire.com/)
+[Klondike Solitaire rules](https://world-solitaire.com/en/klondike-rules/)
+[Solitaire strategy guide](https://world-solitaire.com/en/solitaire-strategy/)
+
+---
+
+# Klondike Rules (EN)
+
+URL: https://world-solitaire.com/en/klondike-rules/
+
+[World Solitaire](https://world-solitaire.com/)
+[Play now](https://world-solitaire.com/#table)
+
+[Home](https://world-solitaire.com/)›Klondike Rules
+
+[Play free online now](https://world-solitaire.com/#table)
+
+# Klondike Solitaire Rules
+
+This guide explains the official Klondike Solitaire rules used in World Solitaire, including setup, legal moves, and stock cycle basics.
+
+## Rules of Klondike Solitaire (quick reference)
+
+Tableau: build down in alternating colors. Empty columns: Kings only (or a sequence starting with a King). Foundations: build up by suit from Ace to King. Stock feeds the waste pile; the top waste card is playable. For a beginner-friendly walkthrough, see [how to play Klondike Solitaire](https://world-solitaire.com/en/how-to-play-solitaire/), then [play free online](https://world-solitaire.com/#table).
+
+## How to Play Klondike: Objective and Setup
+
+- Deal seven tableau piles from one to seven cards, with only top cards face-up.
+
+- Place all remaining cards in the stock pile.
+
+- Build four foundations by suit from Ace to King.
+
+## Klondike Solitaire Rules for Legal Moves
+
+- Build tableau piles down in alternating colors.
+
+- Move sequences between tableau piles to reveal hidden cards.
+
+- Only Kings or King-starting sequences can fill empty tableau columns.
+
+- Draw from stock to waste when no tableau move is available.
+
+- Move cards to foundations when the move does not reduce tableau options.
+
+## Klondike Rules FAQ
+
+### What are the rules of Klondike Solitaire?
+
+Build tableau piles down in alternating colors, move sequences to reveal hidden cards, place only Kings (or King-led sequences) in empty columns, and complete foundations by suit from Ace to King. Details on stock and waste are covered in the sections above.
+
+### Can you move any card to an empty tableau column?
+
+No. In standard Klondike, only a King or a sequence starting with a King can be placed in an empty column.
+
+### What is the goal in Klondike Solitaire?
+
+Move all cards to the four foundations by suit from Ace to King.
+
+### When should you move cards to foundations?
+
+Usually after checking tableau impact. If foundation moves block reveal opportunities, delay them.
+
+### Related Articles
+
+[Play Solitaire](https://world-solitaire.com/)
+[How to play Klondike Solitaire](https://world-solitaire.com/en/how-to-play-solitaire/)
+[Solitaire strategy tips](https://world-solitaire.com/en/solitaire-strategy/)
+
+---
+
+# Solitaire Strategy (EN)
+
+URL: https://world-solitaire.com/en/solitaire-strategy/
+
+[World Solitaire](https://world-solitaire.com/)
+[Play Solitaire](https://world-solitaire.com/)
+
+[Home](https://world-solitaire.com/)›Strategy
+
+[Play Now](https://world-solitaire.com/#table)
+
+# Solitaire Strategy
+
+Practical strategies to improve your win rate when playing free online Solitaire.
+
+## How to Beat Solitaire
+
+Beating Klondike consistently means stacking small advantages: reveal hidden cards before burning the stock, keep a free column for Kings when possible, and avoid premature foundation moves that trap needed cards. Apply the tactics below on every deal, then [play free Solitaire online](https://world-solitaire.com/#table) to build muscle memory.
+
+## Best Solitaire Strategy Tips to Win More Games
+
+### Reveal Hidden Cards Early
+
+Turning over face-down cards in the tableau early unlocks more move options. Move sequences to reveal the cards underneath — this is critical for game progress.
+
+### Prioritize Moves That Open New Tableau Columns
+
+Opening an empty tableau spot makes the game easier; you can move Kings there and reorganize piles. Prefer moves that open new columns over simply moving to foundations.
+
+### Delay Moving to Foundations If It Restricts Tableau Options
+
+Moving a card to a foundation is irreversible. If that move would reduce your options on the tableau, try other moves first. [Klondike rules](https://world-solitaire.com/en/klondike-rules/) always allow moving to foundations; the strategy is knowing when to do it.
+
+### Manage the Stock Cycle Mindfully
+
+Keep track of which cards you've drawn from the stock in your mind. Knowing where cards are helps you plan the tableau better. Avoid wasting the stock cycle unnecessarily.
+
+## Solitaire Strategy FAQ
+
+### What is the best Solitaire strategy for beginners?
+
+Start by revealing hidden tableau cards as early as possible. This unlocks more legal moves and improves planning options.
+
+### Should I prioritize foundations or tableau moves?
+
+Prioritize tableau moves when they open hidden cards or empty columns. Move to foundations when it does not reduce flexibility.
+
+### How do I use the stock pile strategically?
+
+Track stock order and avoid cycling without evaluating tableau alternatives first. Better stock timing often creates decisive moves.
+
+### Related Articles
+
+[Play Solitaire now](https://world-solitaire.com/)
+[How to play Klondike Solitaire](https://world-solitaire.com/en/how-to-play-solitaire/)
+[Klondike Solitaire rules](https://world-solitaire.com/en/klondike-rules/)
+
+---
+
+# Winning Checklist (EN)
+
+URL: https://world-solitaire.com/en/solitaire-winning-checklist/
+
+[World Solitaire](https://world-solitaire.com/)
+[Play now](https://world-solitaire.com/#table)
+
+[Home](https://world-solitaire.com/)›[English](https://world-solitaire.com/en/)›Winning Checklist
+
+[Play free Klondike Solitaire online](https://world-solitaire.com/#table)
+
+# Solitaire Winning Checklist
+
+This checklist is designed for players who already know the basic rules and want to win more often.
+Keep it open in a second tab while you play. For fundamentals, start with
+[How to play Klondike Solitaire](https://world-solitaire.com/en/how-to-play-solitaire/).
+
+## Priority checklist (top to bottom)
+
+- Reveal face-down cards in the tableau as early as possible.
+
+- Preserve at least one empty tableau column for King mobility.
+
+- Avoid moving low cards to foundations too early if tableau flexibility drops.
+
+- Before drawing from stock, scan for sequence moves in tableau.
+
+- When two legal moves exist, choose the move that opens more future options.
+
+- Track color balance to avoid dead-end runs in tableau columns.
+
+## Common anti-patterns
+
+- **Foundation rush:** moving everything up too fast and blocking tableau rebuilding.
+
+- **Stock spam:** cycling stock without checking a single deep tableau move.
+
+- **Column lock:** filling your only empty column with a low-value King sequence.
+
+- **Undo drift:** using undo without a clear tactical objective.
+
+## 60-second move audit
+
+When stuck, ask these in order:
+
+- Can I reveal a hidden card in one or two moves?
+
+- Can I create or preserve an empty column?
+
+- Does this foundation move reduce my tableau options?
+
+- If I draw stock now, what exact card am I hoping to unlock?
+
+## Next reading
+
+### Related Articles
+
+[Klondike Solitaire rules](https://world-solitaire.com/en/klondike-rules/)
+[Solitaire strategy guide](https://world-solitaire.com/en/solitaire-strategy/)
+[How to play Klondike Solitaire](https://world-solitaire.com/en/how-to-play-solitaire/)
+
+---
+
+# How to Play (TR)
+
+URL: https://world-solitaire.com/tr/how-to-play-solitaire/
+
+[World Solitaire](https://world-solitaire.com/tr/)
+[Solitaire Oyna](https://world-solitaire.com/tr/)
+
+[Ana Sayfa](https://world-solitaire.com/tr/)›Nasıl Oynanır
+
+[Hemen Oyna](https://world-solitaire.com/tr/#table)
+
+# Klondike Solitaire Nasıl Oynanır
+
+Klondike Solitaire (patience oyunu), çoğu oyuncunun bildiği klasik iskambil solitaire'dir. Bu hızlı rehber, kurulum, kurallar ve daha sık kazanmak için pratik ipuçlarını kapsar.
+
+## Klondike Solitaire Nasıl Oynanır: Kurulum
+
+- Yedi tablo yığını dağıtılır: birden yediye, yalnızca üst kart açık.
+
+- Kalan kartlar stok yığınını oluşturur.
+
+- Temeller As ile başlar ve Kral'a kadar takımına göre yükselir.
+
+## Klondike Solitaire Kuralları
+
+- Tabloda alternatif renklerde azalan sırayla oluşturun.
+
+- Gizli kartları açmak için dizileri yığınlar arasında taşıyın.
+
+- Boş tablo alanlarına yalnızca Kral veya Kral ile başlayan dizi konabilir.
+
+- Kartları temel yığınlara takımına göre As'tan Kral'a taşıyın.
+
+## Kazanma İpuçları
+
+- Tablo yığınlarındaki gizli kartları erken açmaya öncelik verin.
+
+- Mümkün olduğunda düşük değerli kartları yüksek kartların altında bloke etmekten kaçının.
+
+- Geri al ve ipucu özelliklerini tasarruflu kullanarak verimliliğinizi artırın.
+
+## Solitaire'te daha sık kazanmak
+
+Her dağıtım kazanılabilir değildir; yine de gizli kartları stok çevriminden önce açmak, Kral'lar için boş sütun planlamak ve tabloyu kilitleyen erken temel hamlelerinden kaçınmak kazanma şansını artırır. Ayrıntılı taktikler için [Solitaire strateji rehberi](https://world-solitaire.com/tr/solitaire-strategy/)ne bakın, ardından [ücretsiz oyna](https://world-solitaire.com/tr/#table).
+
+## Nasıl Oynanır SSS
+
+### Klondike Solitaire nasıl hızlı öğrenilir?
+
+Kurulum, temel kurallar ve tablo hamlelerini öğrenip gizli kart açmaya öncelik vererek hızlıca ilerleyebilirsiniz.
+
+### Her solitaire oyunu kazanılabilir mi?
+
+Her dağıtım kazanılabilir olmayabilir; yine de iyi kararlarla kazanma oranı belirgin şekilde yükselir.
+
+### Kartları temele hemen taşımak doğru mu?
+
+Tabloyu kısıtlamıyorsa evet; aksi halde önce tablo esnekliğini koruyan hamleler daha değerlidir.
+
+### İlgili Makaleler
+
+[Hemen Solitaire oyna](https://world-solitaire.com/tr/#table)
+[Klondike Solitaire kuralları](https://world-solitaire.com/tr/klondike-rules/)
+[Solitaire strateji rehberi](https://world-solitaire.com/tr/solitaire-strategy/)
+
+---
+
+# Klondike Rules (TR)
+
+URL: https://world-solitaire.com/tr/klondike-rules/
+
+[World Solitaire](https://world-solitaire.com/tr/)
+[Solitaire Oyna](https://world-solitaire.com/tr/)
+
+[Ana Sayfa](https://world-solitaire.com/tr/)›Klondike Kuralları
+
+[Hemen Oyna](https://world-solitaire.com/tr/#table)
+
+# Klondike Solitaire Kuralları
+
+World Solitaire'de kullanılan resmi Klondike kuralları. Bu iskambil solitaire kuralları rehberi kurulum, hamleler, temeller, puanlama ve varyasyonları kapsar.
+
+## Klondike Solitaire Kuralları (hızlı referans)
+
+Tablo: alternatif renklerde azalan sıra. Boş sütunlar: yalnızca Kral (veya Kral ile başlayan dizi). Temeller: takıma göre As'tan Kral'a. Stok atığı besler; atığın üstteki kartı oynanabilir. Adım adım için [Klondike nasıl oynanır](https://world-solitaire.com/tr/how-to-play-solitaire/) sayfasına bakın, ardından [ücretsiz çevrimiçi oyna](https://world-solitaire.com/tr/#table).
+
+## Klondike Solitaire Nasıl Oynanır: Amaç ve Kurulum
+
+- Yedi tablo yığınına bir ila yedi kart dağıtın; yalnızca üstteki kartlar yüzü açık olsun.
+
+- Kalan tüm kartları stok yığına koyun.
+
+- Dört temeli takımlarına göre As'tan Kral'a tamamlayın.
+
+## Klondike Solitaire Kuralları: Geçerli Hamleler
+
+- Tablo yığınları arasında alternatif renklerde azalan sırayla taşıma yapın.
+
+- Boş tablo alanlarına sadece Kral veya Kral ile başlayan dizi konur.
+
+- Gerektiğinde stoktan atığa kart çevirin.
+
+- Tablo seçeneklerini kısıtlamadan temellere taşıyın.
+
+## Stok ve Atık
+
+Stok yığınından kartları tek tek atık yığına çevirirsiniz. Atıktaki üst kart oynanabilir — tabloya veya temellere taşınabilir. Stok bittiğinde atık tekrar stok olarak kullanılabilir (çevrim sayısı oyun ayarlarına bağlıdır).
+
+## Puanlama
+
+World Solitaire'de hamle sayısı, süre ve temellere taşınan kartlara göre puan hesaplanır. Az hamle ve kısa süreyle kazanmak daha yüksek puan getirir.
+
+## Varyasyonlar
+
+Standart Klondike tek kart çevirmeli stok kullanır. Bazı varyasyonlarda üç kart çevirme veya sonsuz stok döngüsü kullanılır. World Solitaire klasik iskambil solitaire kurallarını takip eder.
+
+## Klondike Kuralları SSS
+
+### Klondike Solitaire kuralları nelerdir?
+
+Tabloda alternatif renklerde azalan sıra kurun, dizileri taşıyarak gizli kartları açın, boş sütunlara yalnızca Kral (veya Kral ile başlayan dizi) koyun ve temelleri takımlarına göre As'tan Kral'a tamamlayın. Stok ve atık ayrıntıları yukarıdaki bölümlerde.
+
+### Boş tablo sütununa herhangi bir kart konabilir mi?
+
+Hayır. Sadece Kral veya Kral ile başlayan dizi boş sütuna taşınabilir.
+
+### Klondike Solitaire'de amaç nedir?
+
+Amaç, kartları dört temel yığına takımına göre As'tan Kral'a tamamlamaktır.
+
+### Temellere ne zaman kart taşınmalı?
+
+Tablodaki açılma fırsatlarını kısıtlamadığı durumlarda temellere taşıma daha güvenlidir.
+
+### İlgili Makaleler
+
+[Hemen Solitaire oyna](https://world-solitaire.com/tr/#table)
+[Klondike nasıl oynanır](https://world-solitaire.com/tr/how-to-play-solitaire/)
+[Solitaire strateji ipuçları](https://world-solitaire.com/tr/solitaire-strategy/)
+
+---
+
+# Solitaire Strategy (TR)
+
+URL: https://world-solitaire.com/tr/solitaire-strategy/
+
+[World Solitaire](https://world-solitaire.com/tr/)
+[Solitaire Oyna](https://world-solitaire.com/tr/)
+
+[Ana Sayfa](https://world-solitaire.com/tr/)›Strateji
+
+[Hemen Oyna](https://world-solitaire.com/tr/#table)
+
+# Solitaire Stratejileri
+
+Ücretsiz online solitaire oynarken kazanma oranınızı artırmak için pratik stratejiler.
+
+## Solitaire'te galip gelmek
+
+Klondike'da üstünlük sağlamak için önce gizli kartları açın, stok döngüsünü boşa harcamayın ve temele erken taşıma ile tabloyu sıkıştırmayın. Aşağıdaki başlıklar bu ilkeleri uygular; pratik için [hemen Solitaire oyna](https://world-solitaire.com/tr/#table).
+
+## Daha Çok Kazanmak için En İyi Solitaire Stratejileri
+
+### Erken Aşamada Gizli Kartları Açın
+
+Tablo yığınlarındaki kapalı kartları erkenden açmak daha fazla hamle seçeneği sağlar. Dizileri taşıyarak altındaki kartları ortaya çıkarın — bu, oyunun ilerleyişi için kritiktir.
+
+### Yeni Tablo Sütunları Açan Hamlelere Öncelik Verin
+
+Boş bir tablo alanı açmak oyunu kolaylaştırır; Kral'ları oraya taşıyabilir ve yığınları yeniden düzenleyebilirsiniz. Yeni sütun açan hamleleri, yalnızca temellere taşımaya tercih edin.
+
+### Tablo Seçeneklerini Kısıtlıyorsa Temellere Taşımayı Erteleyin
+
+Bir kartı temele taşımak geri alınamaz. Eğer bu taşıma tablodaki seçenekleri azaltacaksa, başka hamleler deneyin. [Klondike kuralları](https://world-solitaire.com/tr/klondike-rules/) temellere her zaman taşımaya izin verir; strateji ne zaman taşımak gerektiğini bilmektir.
+
+### Stok Döngüsünü Bilinçli Yönetin
+
+Stoktan çektiğiniz kartları zihninizde takip edin. Hangi kartların nerede olduğunu bilmek, tabloyu daha iyi planlamanıza yardımcı olur. Stok döngüsünü boş yere tüketmekten kaçının.
+
+## Solitaire Strateji SSS
+
+### Yeni başlayanlar için en iyi solitaire stratejisi nedir?
+
+Kapalı kartları erken açmaya odaklanın; bu, oyunun geri kalanı için en büyük avantajı sağlar.
+
+### Temellere mi tablo hamlelerine mi öncelik vermeliyim?
+
+Tabloyu açan hamleler genelde önce gelir. Temel taşıması tabloyu daraltmıyorsa daha güvenli hale gelir.
+
+### Stok yığını nasıl verimli kullanılır?
+
+Stok kartlarının sırasını takip edin ve her çevrimde önce tablo hamlelerini kontrol edin.
+
+### İlgili Makaleler
+
+[Hemen Solitaire oyna](https://world-solitaire.com/tr/#table)
+[Klondike nasıl oynanır](https://world-solitaire.com/tr/how-to-play-solitaire/)
+[Klondike Solitaire kuralları](https://world-solitaire.com/tr/klondike-rules/)

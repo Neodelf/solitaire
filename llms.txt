@@ -1,0 +1,30 @@
+# World Solitaire
+
+> Free Klondike Solitaire online — no ads, no sign-up, mobile and desktop.
+
+World Solitaire is a browser-based Klondike card game with country leaderboards, winnable deals, fullscreen mode, and guides on rules and strategy. Audience: casual and competitive solitaire players. Focused topics: Klondike Solitaire gameplay, rules, strategy, win rate tips.
+
+## Main pages
+
+- [Home](https://world-solitaire.com/): Play Klondike free — overview, features, how to play
+- [English](https://world-solitaire.com/en/): English game page and guide hub
+- [Russian](https://world-solitaire.com/ru/): Русская версия игры
+- [Turkish](https://world-solitaire.com/tr/): Türkçe oyun sayfası
+
+Other locales (same game UI): /bg/ /cs/ /da/ /de/ /el/ /es/ /et/ /fi/ /fr/ /he/ /hr/ /hu/ /it/ /ja/ /ko/ /lt/ /lv/ /nb/ /nl/ /pl/ /pt/ /ro/ /sk/ /sl/ /sr/ /sv/
+
+Full locale list and URLs: [sitemap.xml](https://world-solitaire.com/sitemap.xml)
+
+## Guides
+
+- [How to Play Solitaire](https://world-solitaire.com/en/how-to-play-solitaire/): Setup, rules, foundations, winning tips (EN)
+- [Klondike Rules](https://world-solitaire.com/en/klondike-rules/): Full Klondike Solitaire rules (EN)
+- [Solitaire Strategy](https://world-solitaire.com/en/solitaire-strategy/): 7 strategy tips to win more (EN)
+- [Winning Checklist](https://world-solitaire.com/en/solitaire-winning-checklist/): Printable decision checklist (EN)
+- [Klondike Nasıl Oynanır](https://world-solitaire.com/tr/how-to-play-solitaire/): How to play (TR)
+- [Klondike Kuralları](https://world-solitaire.com/tr/klondike-rules/): Rules (TR)
+- [Solitaire Strateji](https://world-solitaire.com/tr/solitaire-strategy/): Strategy tips (TR)
+
+## Full content for LLMs
+
+- [llms-full.txt](https://world-solitaire.com/llms-full.txt): Markdown dump of key landing SEO text and all guides
