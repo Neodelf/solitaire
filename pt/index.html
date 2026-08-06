@@ -152,7 +152,7 @@
 
    <!-- Structured Data Schema.org -->
    <script type="application/ld+json">
-   {
+{
      "@context": "https://schema.org",
      "@type": "WebApplication",
      "name": "World Solitaire",
@@ -165,18 +165,13 @@
        "price": "0",
        "priceCurrency": "USD"
      },
-     "aggregateRating": {
-       "@type": "AggregateRating",
-       "ratingValue": "4.8",
-       "ratingCount": "1250"
-     },
      "author": {
        "@type": "Organization",
        "name": "World Solitaire",
        "url": "https://world-solitaire.com/"
      },
      "datePublished": "2024-01-01",
-     "dateModified": "2024-12-19",
+     "dateModified": "2026-08-05",
      "inLanguage": ["pt", "en", "ru", "de", "fr", "es", "it", "nl", "pl", "cs", "hu", "ro", "bg", "hr", "sk", "sl", "sr", "et", "lv", "lt", "fi", "sv", "no", "da", "he", "tr", "el", "ja", "ko"],
      "screenshot": "https://world-solitaire.com/img/frontpage_solitaire_desktop@2x.png",
      "softwareVersion": "2.0",
@@ -187,7 +182,7 @@
    </script>
 
    <script type="application/ld+json">
-   {
+{
      "@context": "https://schema.org",
      "@type": "VideoGame",
      "name": "World Solitaire",
@@ -201,11 +196,6 @@
        "price": "0",
        "priceCurrency": "USD"
      },
-     "aggregateRating": {
-       "@type": "AggregateRating",
-       "ratingValue": "4.8",
-       "ratingCount": "1250"
-     },
      "author": {
        "@type": "Organization",
        "name": "World Solitaire"
@@ -216,12 +206,12 @@
        "url": "https://world-solitaire.com/"
      },
      "datePublished": "2024-01-01",
-     "dateModified": "2024-12-19"
+     "dateModified": "2026-08-05"
    }
    </script>
 
    <script type="application/ld+json">
-   {
+{
      "@context": "https://schema.org",
      "@type": "Organization",
      "name": "World Solitaire",
@@ -240,24 +230,89 @@
    </script>
 
    <script type="application/ld+json">
-   {
-     "@context": "https://schema.org",
-     "@type": "BreadcrumbList",
-     "itemListElement": [
-       {
-         "@type": "ListItem",
-         "position": 1,
-         "name": "Início",
-         "item": "https://world-solitaire.com/"
-       },
-       {
-         "@type": "ListItem",
-         "position": 2,
-         "name": "Jogo de Solitaire",
-         "item": "https://world-solitaire.com/pt/"
-       }
-     ]
-   }
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://world-solitaire.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Jogo de Solitaire",
+      "item": "https://world-solitaire.com/pt/"
+    }
+  ]
+}
+   </script>
+   <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Como se ganha no Solitaire Klondike?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mova todas as cartas para as fundações por naipe do Ás ao Rei. Construa o tableau em cores alternadas e revele cartas viradas para baixo."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "O World Solitaire é grátis e sem anúncios?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sim. O World Solitaire é totalmente grátis e sem anúncios. Não é necessário registo."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Posso jogar em ecrã inteiro no telemóvel?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sim. O jogo suporta ecrã inteiro e está otimizado para telemóvel e computador."
+      }
+    }
+  ]
+}
+   </script>
+
+   <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Como jogar Solitaire Klondike",
+  "description": "Guia rápido das regras e passos do Solitaire Klondike online.",
+  "datePublished": "2024-01-01",
+  "dateModified": "2026-08-05",
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Distribuir as cartas",
+      "text": "Sete pilhas de tableau com cartas crescentes; as restantes vão para o stock."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Construir o tableau",
+      "text": "Desça em cores alternadas. Mova sequências para revelar novas cartas."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Mover para as fundações",
+      "text": "A partir dos Áses, suba por naipe até ao Rei em quatro fundações."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Usar o stock com cuidado",
+      "text": "Compre do stock quando estiver bloqueado e procure libertar cartas ocultas."
+    }
+  ]
+}
    </script>
 </head>
 <body>
@@ -355,13 +410,6 @@
               progresso e fornece dicas úteis quando você precisar.
             </p>
 
-            <h3>Como Jogar Solitaire</h3>
-            <p>
-              O objetivo é mover todas as cartas para as quatro pilhas de fundação, construindo do Ás ao Rei 
-              em cada naipe. As cartas no tabuleiro podem ser construídas para baixo em cores alternadas. Espaços vazios do tabuleiro 
-              só podem ser preenchidos com Reis. Use a pilha de estoque para sacar cartas adicionais quando necessário.
-            </p>
-
             <h3>Acessibilidade e Compatibilidade</h3>
             <p>
               World Solitaire funciona perfeitamente em todos os navegadores web modernos e dispositivos. 
@@ -369,6 +417,22 @@
               você desfrutará de uma experiência de jogo fluida. Nosso design responsivo garante desempenho ótimo 
               em dispositivos desde smartphones até monitores desktop grandes.
             </p>
+
+            <!-- aio-visible-faq-howto -->
+            <h2>Perguntas frequentes</h2>
+            <h3>Como se ganha no Solitaire Klondike?</h3>
+            <p>Mova todas as cartas para as fundações por naipe do Ás ao Rei. Construa o tableau em cores alternadas e revele cartas viradas para baixo.</p>
+            <h3>O World Solitaire é grátis e sem anúncios?</h3>
+            <p>Sim. O World Solitaire é totalmente grátis e sem anúncios. Não é necessário registo.</p>
+            <h3>Posso jogar em ecrã inteiro no telemóvel?</h3>
+            <p>Sim. O jogo suporta ecrã inteiro e está otimizado para telemóvel e computador.</p>
+            <h2>Como jogar Solitaire Klondike</h2>
+            <ol>
+            <li><strong>Distribuir as cartas:</strong> Sete pilhas de tableau com cartas crescentes; as restantes vão para o stock.</li>
+            <li><strong>Construir o tableau:</strong> Desça em cores alternadas. Mova sequências para revelar novas cartas.</li>
+            <li><strong>Mover para as fundações:</strong> A partir dos Áses, suba por naipe até ao Rei em quatro fundações.</li>
+            <li><strong>Usar o stock com cuidado:</strong> Compre do stock quando estiver bloqueado e procure libertar cartas ocultas.</li>
+            </ol>
          </section>
 
       </div>

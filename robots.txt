@@ -3,6 +3,8 @@
 # Allow crawling of all content
 User-agent: *
 Disallow:
+Allow: /llms.txt
+Allow: /llms-full.txt
 
 # Block problematic bots
 User-agent: AhrefsBot
