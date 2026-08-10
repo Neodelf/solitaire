@@ -82,6 +82,47 @@ body {
       width: min(100%, 22rem);
    }
 }
+
+#locale-picker {
+   position: fixed;
+   inset: 0;
+   z-index: 10000;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   background: rgba(0, 0, 0, 0.55);
+   padding: 1rem;
+}
+.locale-picker-panel {
+   display: grid;
+   grid-template-columns: repeat(auto-fill, minmax(2.5rem, 1fr));
+   gap: 0.4rem;
+   width: min(100%, 22rem);
+   max-height: min(80vh, 28rem);
+   overflow: auto;
+   padding: 1rem;
+   background: rgba(8, 8, 8, 0.9);
+   border-radius: 8px;
+}
+.locale-picker-item {
+   appearance: none;
+   border: 0;
+   background: transparent;
+   color: inherit;
+   font-size: 1.75rem;
+   line-height: 1;
+   padding: 0.35rem;
+   border-radius: 6px;
+   cursor: pointer;
+}
+.locale-picker-item:hover,
+.locale-picker-item:focus-visible {
+   background: rgba(255, 255, 255, 0.15);
+   outline: none;
+}
+.locale-picker-item.is-current {
+   background: rgba(255, 255, 255, 0.25);
+}
 .navbar {
    background: rgba(8,8,8,.75);
 }

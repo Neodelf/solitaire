@@ -86,6 +86,31 @@ class SolitaireAnalytics {
     }
 
     /**
+     * Страна игрока из localStorage (модалка выбора), иначе локаль страницы
+     */
+    getPlayerCountry() {
+        try {
+            const saved = localStorage.getItem('ws_player_country');
+            if (saved && /^[a-z]{2}$/.test(saved)) return saved;
+        } catch (e) { /* private mode */ }
+        return this.getPageLocale();
+    }
+
+    trackCountrySelected(locale) {
+        this.trackEvent('country_selected', {
+            player_country: locale,
+            page_locale: this.getPageLocale()
+        });
+    }
+
+    trackCountryDismissed() {
+        this.trackEvent('country_dismissed', {
+            player_country: this.getPlayerCountry(),
+            page_locale: this.getPageLocale()
+        });
+    }
+
+    /**
      * Отслеживание начала новой игры
      */
     trackGameStart(gameType = 'klondike') {
@@ -100,7 +125,9 @@ class SolitaireAnalytics {
         this.trackEvent('game_start', {
             game_type: gameType,
             session_id: this.gameSessionId,
-            game_start_time: this.gameStartTime
+            game_start_time: this.gameStartTime,
+            player_country: this.getPlayerCountry(),
+            page_locale: this.getPageLocale()
         });
 
         if (window.customDimensions) {
@@ -176,7 +203,9 @@ class SolitaireAnalytics {
             total_undos: this.undoCount,
             game_time_seconds: Math.round(gameTime / 1000),
             auto_win_used: this.autoWinUsed,
-            game_efficiency: this.calculateEfficiency()
+            game_efficiency: this.calculateEfficiency(),
+            player_country: this.getPlayerCountry(),
+            page_locale: this.getPageLocale()
         });
 
         if (window.customDimensions) {

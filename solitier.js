@@ -59,6 +59,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
          tr: '🇹🇷'
       };
       var pageLocale = getLocaleFromPath();
+      var PLAYER_COUNTRY_KEY = 'ws_player_country';
 
       function getLocaleFromPath() {
          var path = (window.location && window.location.pathname) ? window.location.pathname : '';
@@ -68,6 +69,62 @@ document.addEventListener("DOMContentLoaded", function(event) {
             if (SUPPORTED_LOCALES.indexOf(candidate) >= 0) return candidate;
          }
          return 'en';
+      }
+
+      function getPlayerCountry() {
+         try {
+            var saved = localStorage.getItem(PLAYER_COUNTRY_KEY);
+            if (saved && SUPPORTED_LOCALES.indexOf(saved) >= 0) return saved;
+         } catch (e) { /* ponytail: private mode */ }
+         return pageLocale;
+      }
+
+      function setPlayerCountry(locale) {
+         if (SUPPORTED_LOCALES.indexOf(locale) < 0) return;
+         try {
+            localStorage.setItem(PLAYER_COUNTRY_KEY, locale);
+         } catch (e) { /* ponytail: private mode */ }
+      }
+
+      function closeLocalePicker() {
+         var existing = document.querySelector('#locale-picker');
+         if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
+      }
+
+      function openLocalePicker() {
+         if (document.querySelector('#locale-picker')) return;
+         var current = getPlayerCountry();
+         var overlay = document.createElement('div');
+         overlay.id = 'locale-picker';
+         var panel = document.createElement('div');
+         panel.className = 'locale-picker-panel';
+         panel.addEventListener('click', function(e) {
+            e.stopPropagation();
+         });
+         SUPPORTED_LOCALES.forEach(function(locale) {
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'locale-picker-item';
+            if (locale === current) btn.className += ' is-current';
+            btn.setAttribute('aria-label', locale.toUpperCase());
+            btn.textContent = LOCALE_EMOJI[locale] || '🏳️';
+            btn.addEventListener('click', function() {
+               setPlayerCountry(locale);
+               closeLocalePicker();
+               if (window.solitaireAnalytics && window.solitaireAnalytics.trackCountrySelected) {
+                  window.solitaireAnalytics.trackCountrySelected(locale);
+               }
+            });
+            panel.appendChild(btn);
+         });
+         overlay.appendChild(panel);
+         overlay.addEventListener('click', function() {
+            closeLocalePicker();
+            if (window.solitaireAnalytics && window.solitaireAnalytics.trackCountryDismissed) {
+               window.solitaireAnalytics.trackCountryDismissed();
+            }
+         });
+         document.body.appendChild(overlay);
       }
 
       function renderLocaleRanking() {
@@ -338,6 +395,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
    // 4–5. RENDER TABLE (7 tops first) THEN START GAMEPLAY
       scheduleLocaleRankingRender();
+      openLocalePicker();
       startDeferredDealRender(table, playedCards, false, function() {
          play(table);
          setupClickDelegation();
@@ -2369,7 +2427,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
          scoreSubmitted = true;
          var params = new URLSearchParams();
          params.append('score', parseInt(finalScore, 10));
-         params.append('locale', pageLocale);
+         params.append('locale', getPlayerCountry());
          if (SHEETS_ENDPOINT_TOKEN) params.append('token', SHEETS_ENDPOINT_TOKEN);
          fetch(SHEETS_ENDPOINT_URL, {
             method: 'POST',
