@@ -36,14 +36,21 @@ body {
    justify-content: center;
 }
 .locale-player-country {
-   background: rgba(255,255,255,.2);
-   border-radius: 4px;
-   padding: 0.15em 0.45em;
+   background: rgba(0,0,0,.2);
+   padding: 0.5em 0.75em;
    color: #f3f5f7;
-   font-size: 1.35rem;
+   font-size: 1.275rem;
    line-height: 1.2;
-   font-weight: 600;
    white-space: nowrap;
+   width: fit-content;
+   max-width: 100%;
+}
+.locale-ranking-row {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 0.4em;
+   max-width: 100%;
 }
 .locale-ranking-grid {
    display: grid;
@@ -60,6 +67,22 @@ body {
    min-height: 1.2em;
    width: fit-content;
    max-width: 100%;
+}
+.locale-picker-settings {
+   appearance: none;
+   border: 0;
+   background: rgba(0,0,0,.2);
+   color: #f3f5f7;
+   font-size: 1.275rem;
+   line-height: 1;
+   padding: 0.5em 0.55em;
+   cursor: pointer;
+   flex-shrink: 0;
+}
+.locale-picker-settings:hover,
+.locale-picker-settings:focus-visible {
+   background: rgba(255,255,255,.15);
+   outline: none;
 }
 .locale-ranking-item {
    white-space: nowrap;

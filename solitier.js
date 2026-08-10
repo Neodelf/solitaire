@@ -97,6 +97,27 @@ document.addEventListener("DOMContentLoaded", function(event) {
          return el;
       }
 
+      function renderLocalePickerSettingsBtn() {
+         var btn = document.createElement('button');
+         btn.type = 'button';
+         btn.className = 'locale-picker-settings';
+         btn.setAttribute('aria-label', 'Choose country');
+         btn.textContent = '⚙';
+         btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            openLocalePicker();
+         });
+         return btn;
+      }
+
+      function wrapRankingRow(grid) {
+         var row = document.createElement('div');
+         row.className = 'locale-ranking-row';
+         row.appendChild(grid);
+         row.appendChild(renderLocalePickerSettingsBtn());
+         return row;
+      }
+
       function refreshPlayerCountryUI() {
          var ranking = document.querySelector('#locale-ranking');
          if (!ranking) return;
@@ -182,7 +203,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                   loadingItem.appendChild(loader);
                   loadingGrid.appendChild(loadingItem);
                }
-               loadingContainer.appendChild(loadingGrid);
+               loadingContainer.appendChild(wrapRankingRow(loadingGrid));
                scoreBlock.parentNode.insertBefore(loadingContainer, scoreBlock);
             }
          }
@@ -222,7 +243,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                      ' ' + entry.score;
                   grid.appendChild(item);
                });
-               container.appendChild(grid);
+               container.appendChild(wrapRankingRow(grid));
 
                if (scoreBlock && scoreBlock.parentNode) {
                   var existing = d.querySelector('#locale-ranking');
