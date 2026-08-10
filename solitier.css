@@ -73,9 +73,9 @@ body {
    border: 0;
    background: rgba(0,0,0,.2);
    color: #f3f5f7;
-   font-size: 1.275rem;
+   font-size: 1.85rem;
    line-height: 1;
-   padding: 0.5em 0.55em;
+   padding: 0.35em 0.45em;
    cursor: pointer;
    flex-shrink: 0;
 }
