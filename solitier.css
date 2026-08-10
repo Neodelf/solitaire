@@ -30,7 +30,20 @@ body {
 #locale-ranking {
    margin: 0.75em 0 0.5em;
    display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 0.35em;
    justify-content: center;
+}
+.locale-player-country {
+   background: rgba(255,255,255,.2);
+   border-radius: 4px;
+   padding: 0.15em 0.45em;
+   color: #f3f5f7;
+   font-size: 1.35rem;
+   line-height: 1.2;
+   font-weight: 600;
+   white-space: nowrap;
 }
 .locale-ranking-grid {
    display: grid;

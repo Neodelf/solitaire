@@ -86,6 +86,40 @@ document.addEventListener("DOMContentLoaded", function(event) {
          } catch (e) { /* ponytail: private mode */ }
       }
 
+      var localeTotals = null;
+
+      function renderPlayerCountryEl(totals) {
+         var locale = getPlayerCountry();
+         var el = document.createElement('div');
+         el.className = 'locale-player-country';
+         var score = totals && totals[locale] != null ? (parseInt(totals[locale], 10) || 0) : 0;
+         el.textContent = (LOCALE_EMOJI[locale] || '🏳️') + ' ' + locale.toUpperCase() + ' ' + score;
+         return el;
+      }
+
+      function refreshPlayerCountryUI() {
+         var ranking = document.querySelector('#locale-ranking');
+         if (!ranking) return;
+         var badge = ranking.querySelector('.locale-player-country');
+         var next = renderPlayerCountryEl(localeTotals);
+         if (badge && badge.parentNode) {
+            badge.parentNode.replaceChild(next, badge);
+         } else {
+            ranking.insertBefore(next, ranking.firstChild);
+         }
+         var current = getPlayerCountry();
+         var items = ranking.querySelectorAll('.locale-ranking-item');
+         for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            if (item.classList.contains('is-placeholder')) continue;
+            if (item.dataset.locale === current) {
+               item.classList.add('is-current');
+            } else {
+               item.classList.remove('is-current');
+            }
+         }
+      }
+
       function closeLocalePicker() {
          var existing = document.querySelector('#locale-picker');
          if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
@@ -111,6 +145,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             btn.addEventListener('click', function() {
                setPlayerCountry(locale);
                closeLocalePicker();
+               refreshPlayerCountryUI();
                if (window.solitaireAnalytics && window.solitaireAnalytics.trackCountrySelected) {
                   window.solitaireAnalytics.trackCountrySelected(locale);
                }
@@ -136,6 +171,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                var loadingContainer = d.createElement('div');
                loadingContainer.id = 'locale-ranking';
                loadingContainer.className = 'is-loading';
+               loadingContainer.appendChild(renderPlayerCountryEl(null));
                var loadingGrid = d.createElement('div');
                loadingGrid.className = 'locale-ranking-grid';
                for (var i = 0; i < LOCALE_RANKING_LIMIT; i++) {
@@ -156,6 +192,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
             })
             .then(function(payload) {
                if (!payload || !payload.ok || !payload.totals) return;
+               localeTotals = payload.totals;
+               var playerCountry = getPlayerCountry();
                var entries = Object.keys(payload.totals).map(function(locale) {
                   return {
                      locale: locale,
@@ -169,14 +207,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
                var container = d.createElement('div');
                container.id = 'locale-ranking';
+               container.appendChild(renderPlayerCountryEl(payload.totals));
                var grid = d.createElement('div');
                grid.className = 'locale-ranking-grid';
                entries.forEach(function(entry) {
                   var item = d.createElement('div');
                   item.className = 'locale-ranking-item';
-                  if (entry.locale === pageLocale) {
+                  if (entry.locale === playerCountry) {
                      item.className += ' is-current';
                   }
+                  item.dataset.locale = entry.locale;
                   item.textContent = (LOCALE_EMOJI[entry.locale] || '🏳️') +
                      ' ' + entry.locale.toUpperCase() +
                      ' ' + entry.score;
