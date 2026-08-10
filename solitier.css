@@ -92,17 +92,17 @@ body {
    justify-content: center;
    background: rgba(0, 0, 0, 0.55);
    padding: 1rem;
+   overflow: hidden;
 }
 .locale-picker-panel {
    display: grid;
-   grid-template-columns: repeat(auto-fill, minmax(5rem, 1fr));
-   gap: 0.4rem;
-   width: min(100%, 28rem);
-   max-height: min(80vh, 36rem);
-   overflow: auto;
+   grid-template-columns: repeat(6, minmax(0, 1fr));
+   gap: 0.35rem;
+   width: min(100%, 32rem);
    padding: 1rem;
    background: rgba(8, 8, 8, 0.9);
    border-radius: 8px;
+   overflow: hidden;
 }
 .locale-picker-item {
    appearance: none;
@@ -122,6 +122,18 @@ body {
 }
 .locale-picker-item.is-current {
    background: rgba(255, 255, 255, 0.25);
+}
+@media (max-width: 420px), (max-height: 560px) {
+   .locale-picker-panel {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      width: min(100%, 22rem);
+      gap: 0.25rem;
+      padding: 0.75rem;
+   }
+   .locale-picker-item {
+      font-size: 2.5rem;
+      padding: 0.2rem;
+   }
 }
 .navbar {
    background: rgba(8,8,8,.75);
