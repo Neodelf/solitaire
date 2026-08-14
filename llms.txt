@@ -2,7 +2,7 @@
 
 > Free Klondike Solitaire online — no ads, no sign-up, mobile and desktop.
 
-World Solitaire is a browser-based Klondike card game with country leaderboards, winnable deals, fullscreen mode, and guides on rules and strategy. Audience: casual and competitive solitaire players. Focused topics: Klondike Solitaire gameplay, rules, strategy, win rate tips.
+World Solitaire is a browser-based Klondike card game: no ads, no sign-up, play in the browser. Country leaderboards, a daily deal, fullscreen mode, and guides on rules and strategy. Not affiliated with worldofsolitaire.com.
 
 ## Main pages
 

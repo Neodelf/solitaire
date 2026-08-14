@@ -10,6 +10,89 @@ Optional Features:
 - Sound Fx
 
 */
+
+(function (root) {
+   function pad(n) { return n < 10 ? '0' + n : String(n); }
+   function utcDateKey(d) {
+      d = d || new Date();
+      return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate());
+   }
+   function hashString(s) {
+      var h = 2166136261;
+      for (var i = 0; i < s.length; i++) {
+         h ^= s.charCodeAt(i);
+         h = Math.imul(h, 16777619);
+      }
+      return h >>> 0;
+   }
+   function mulberry32(a) {
+      return function () {
+         a |= 0;
+         a = a + 0x6D2B79F5 | 0;
+         var t = Math.imul(a ^ a >>> 15, 1 | a);
+         t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+         return ((t ^ t >>> 14) >>> 0) / 4294967296;
+      };
+   }
+   function seededShuffle(arr, rng) {
+      var a = arr.slice();
+      for (var i = a.length - 1; i > 0; i--) {
+         var j = Math.floor(rng() * (i + 1));
+         var tmp = a[i];
+         a[i] = a[j];
+         a[j] = tmp;
+      }
+      return a;
+   }
+   function shuffleDeckForDate(deck, dateKey) {
+      return seededShuffle(deck, mulberry32(hashString('ws-daily-' + dateKey)));
+   }
+   var STREAK_KEY = 'ws_daily_streak';
+   function loadStreak() {
+      try {
+         var raw = localStorage.getItem(STREAK_KEY);
+         if (!raw) return { count: 0, lastWon: null };
+         var parsed = JSON.parse(raw);
+         return {
+            count: parseInt(parsed.count, 10) || 0,
+            lastWon: parsed.lastWon || null
+         };
+      } catch (e) {
+         return { count: 0, lastWon: null };
+      }
+   }
+   function saveStreak(state) {
+      try { localStorage.setItem(STREAK_KEY, JSON.stringify(state)); } catch (e) { /* private mode */ }
+   }
+   function previousUtcDateKey(dateKey) {
+      var p = String(dateKey).split('-');
+      var d = new Date(Date.UTC(+p[0], +p[1] - 1, +p[2]));
+      d.setUTCDate(d.getUTCDate() - 1);
+      return utcDateKey(d);
+   }
+   function recordDailyWin(dateKey) {
+      var s = loadStreak();
+      if (s.lastWon === dateKey) return s.count;
+      s.count = (s.lastWon === previousUtcDateKey(dateKey)) ? (s.count + 1) : 1;
+      s.lastWon = dateKey;
+      saveStreak(s);
+      return s.count;
+   }
+   function alreadyWonToday(dateKey) {
+      return loadStreak().lastWon === dateKey;
+   }
+   root.wsDailyDeal = {
+      utcDateKey: utcDateKey,
+      hashString: hashString,
+      mulberry32: mulberry32,
+      seededShuffle: seededShuffle,
+      shuffleDeckForDate: shuffleDeckForDate,
+      loadStreak: loadStreak,
+      recordDailyWin: recordDailyWin,
+      alreadyWonToday: alreadyWonToday
+   };
+})(typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : this));
+
 document.addEventListener("DOMContentLoaded", function(event) {
    if (!document.querySelector('#table')) {
       return;
@@ -139,6 +222,22 @@ document.addEventListener("DOMContentLoaded", function(event) {
                item.classList.remove('is-current');
             }
          }
+      }
+
+      function hasChosenCountry() {
+         try {
+            var saved = localStorage.getItem(PLAYER_COUNTRY_KEY);
+            return !!(saved && SUPPORTED_LOCALES.indexOf(saved) >= 0);
+         } catch (e) {
+            return true;
+         }
+      }
+
+      function maybePromptCountryAfterWin() {
+         if (hasChosenCountry()) return;
+         setTimeout(function() {
+            openLocalePicker();
+         }, 1200);
       }
 
       function closeLocalePicker() {
@@ -419,6 +518,61 @@ document.addEventListener("DOMContentLoaded", function(event) {
       var scoreSubmitted = false;
       var suppressClickUntil = 0;
       var unplayedTabCards = [];
+      var isDailyDeal = false;
+
+      function todayKey() {
+         return window.wsDailyDeal ? window.wsDailyDeal.utcDateKey() : '';
+      }
+
+      function shouldDealDaily() {
+         if (!window.wsDailyDeal) return false;
+         return !window.wsDailyDeal.alreadyWonToday(todayKey());
+      }
+
+      function shuffleForPlay(sourceDeck, useDaily) {
+         if (!window.wsDailyDeal || !useDaily) {
+            isDailyDeal = false;
+            return shuffle(sourceDeck);
+         }
+         isDailyDeal = true;
+         return window.wsDailyDeal.shuffleDeckForDate(sourceDeck, todayKey());
+      }
+
+      function renderDailyStreakChip() {
+         var scoreBlock = d.querySelector('#score');
+         if (!scoreBlock || !window.wsDailyDeal) return;
+         var existing = d.querySelector('#daily-streak');
+         var streak = window.wsDailyDeal.loadStreak();
+         var el = existing || d.createElement('div');
+         el.id = 'daily-streak';
+         el.className = 'daily-streak';
+         if (isDailyDeal) {
+            el.textContent = streak.count > 0 ? ('Daily · ' + streak.count) : 'Daily';
+         } else {
+            el.textContent = streak.count > 0 ? ('Streak ' + streak.count) : '';
+         }
+         if (!el.textContent) {
+            el.style.display = 'none';
+         } else {
+            el.style.display = '';
+         }
+         if (!existing) scoreBlock.appendChild(el);
+      }
+
+      function onGameWon() {
+         if (isDailyDeal && window.wsDailyDeal) {
+            window.wsDailyDeal.recordDailyWin(todayKey());
+            isDailyDeal = false;
+            renderDailyStreakChip();
+            if (window.solitaireAnalytics) {
+               window.solitaireAnalytics.trackEvent('daily_deal_won', {
+                  streak: window.wsDailyDeal.loadStreak().count,
+                  page_locale: pageLocale
+               });
+            }
+         }
+         maybePromptCountryAfterWin();
+      }
 
       var COMPETITION_BASE_WIN = 1000;
       var COMPETITION_TIME_PENALTY_PER_SEC = 1;
@@ -444,7 +598,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
          debugDeal = params.get('debug') === '1';
       }
 
-      deck = debugDeal ? buildDebugDeck(suits) : shuffle(deck);
+      deck = debugDeal ? buildDebugDeck(suits) : shuffleForPlay(deck, shouldDealDaily());
 
    // 3. DEAL DECK
       table = debugDeal ? debugDealStockOnly(deck, table) : deal(deck, table);
@@ -454,9 +608,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
          window.solitaireAnalytics.trackGameStart('klondike');
       }
 
-   // 4–5. RENDER TABLE (7 tops first) THEN START GAMEPLAY
+      // 4–5. RENDER TABLE (7 tops first) THEN START GAMEPLAY
       scheduleLocaleRankingRender();
-      openLocalePicker();
+      renderDailyStreakChip();
       startDeferredDealRender(table, playedCards, false, function() {
          play(table);
          setupClickDelegation();
@@ -2369,7 +2523,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             } else {
                debugDeal = false;
             }
-            deck = debugDeal ? buildDebugDeck(suits) : shuffle(deck);
+            deck = debugDeal ? buildDebugDeck(suits) : shuffleForPlay(deck, false);
 
             table = [];
             table['stock'] = [];
@@ -2387,6 +2541,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
 
             playedCards = initialPlayedCards;
+            renderDailyStreakChip();
             startDeferredDealRender(table, playedCards, false, function() {
                play(table);
             });
@@ -2545,7 +2700,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                dataLayer.push({
                   event: 'gameWon'
                 });
-                
+               onGameWon();
 
                // return true
                return true;
@@ -2611,6 +2766,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             if (window.solitaireAnalytics) {
                window.solitaireAnalytics.trackGameWin('auto');
             }
+            onGameWon();
          }
 
       // auto win animation

@@ -20,7 +20,6 @@ class PerformanceTracker {
 
         if (this.hasGameTable) {
             this.trackMemoryUsage();
-            this.trackUserInteractionPerformance();
         }
     }
 
@@ -131,12 +130,27 @@ class PerformanceTracker {
         });
     }
 
+    isFirstPartyScript(filename) {
+        if (!filename) return false;
+        const f = String(filename);
+        if (f.indexOf('chrome-extension://') === 0) return false;
+        if (f.indexOf('moz-extension://') === 0) return false;
+        if (/googletagmanager|google-analytics|gtag\/js|ahrefs\.com|doubleclick/.test(f)) {
+            return false;
+        }
+        return /solitier\.js|analytics\.js|performance-tracker|custom-dimensions|ecommerce-tracker/.test(f)
+            || f.indexOf('world-solitaire.com') >= 0;
+    }
+
     /**
      * Отслеживание ошибок JavaScript (не resource load errors)
      */
     trackJavaScriptErrors() {
         window.addEventListener('error', (event) => {
             if (event.target && event.target !== window) {
+                return;
+            }
+            if (!this.isFirstPartyScript(event.filename)) {
                 return;
             }
 
@@ -164,6 +178,10 @@ class PerformanceTracker {
 
         window.addEventListener('unhandledrejection', (event) => {
             const reason = event.reason;
+            const stack = reason && reason.stack ? String(reason.stack) : '';
+            if (stack && !this.isFirstPartyScript(stack)) {
+                return;
+            }
             const message =
                 (reason && reason.message) ||
                 (typeof reason === 'string' ? reason : null) ||
@@ -199,33 +217,6 @@ class PerformanceTracker {
                 });
             }, 30000);
         }
-    }
-
-    trackUserInteractionPerformance() {
-        document.addEventListener('click', (event) => {
-            const startTime = performance.now();
-
-            requestAnimationFrame(() => {
-                const endTime = performance.now();
-                this.sendMetrics('click_response', {
-                    response_time: endTime - startTime,
-                    target_element: event.target.tagName,
-                    target_class: event.target.className
-                });
-            });
-        });
-
-        let dragStartTime = 0;
-        document.addEventListener('dragstart', () => {
-            dragStartTime = performance.now();
-        });
-
-        document.addEventListener('dragend', () => {
-            const dragTime = performance.now() - dragStartTime;
-            this.sendMetrics('drag_performance', {
-                drag_duration: dragTime
-            });
-        });
     }
 
     sendMetrics(metricType, data) {

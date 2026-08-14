@@ -146,6 +146,18 @@ class SolitaireAnalytics {
 
         this.moveCount++;
 
+        if (this.moveCount === 1) {
+            this.trackEvent('first_card_move', {
+                from_pile: fromPile,
+                to_pile: toPile,
+                card_rank: cardRank,
+                card_suit: cardSuit,
+                move_type: moveType,
+                player_country: this.getPlayerCountry(),
+                page_locale: this.getPageLocale()
+            });
+        }
+
         this.trackEvent('card_move', {
             from_pile: fromPile,
             to_pile: toPile,
