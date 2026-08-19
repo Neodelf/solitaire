@@ -311,6 +311,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
          return entries.slice(0, limit);
       }
 
+      function fmtScore(score) {
+         var n = parseInt(score, 10) || 0;
+         return n >= 1000 ? Math.floor(n / 1000) + 'K' : String(n);
+      }
+
       function buildRankingGrid(entries, playerCountry) {
          var grid = d.createElement('div');
          grid.className = 'locale-ranking-grid';
@@ -323,7 +328,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             item.dataset.locale = entry.locale;
             item.textContent = (LOCALE_EMOJI[entry.locale] || '🏳️') +
                ' ' + entry.locale.toUpperCase() +
-               ' ' + entry.score;
+               ' ' + fmtScore(entry.score);
             grid.appendChild(item);
          });
          return grid;
@@ -384,16 +389,23 @@ document.addEventListener("DOMContentLoaded", function(event) {
          var container = d.createElement('div');
          container.id = 'locale-ranking';
          container.appendChild(renderPlayerCountryEl(totals));
-         container.appendChild(wrapRankingRow(buildPeriodRow(
+
+         var allRow = d.createElement('div');
+         allRow.className = 'locale-ranking-all-row';
+         allRow.appendChild(buildPeriodRow(
             labels.common,
             buildRankingGrid(buildTopEntries(totals, LOCALE_RANKING_LIMIT), playerCountry)
-         )));
-         container.appendChild(buildDoublePeriodRow(
+         ));
+         allRow.appendChild(buildPeriodRow(
             labels.daily,
-            isRankingEmpty(dailyTotals) ? buildEmptyRankingMessage() : buildRankingGrid(buildTopEntries(dailyTotals, LOCALE_RANKING_LIMIT), playerCountry),
+            isRankingEmpty(dailyTotals) ? buildEmptyRankingMessage() : buildRankingGrid(buildTopEntries(dailyTotals, LOCALE_RANKING_LIMIT), playerCountry)
+         ));
+         allRow.appendChild(buildPeriodRow(
             labels.monthly,
             isRankingEmpty(monthlyTotals) ? buildEmptyRankingMessage() : buildRankingGrid(buildTopEntries(monthlyTotals, LOCALE_RANKING_LIMIT), playerCountry)
          ));
+         allRow.appendChild(renderLocalePickerSettingsBtn());
+         container.appendChild(allRow);
          return container;
       }
 
@@ -519,9 +531,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
                loadingContainer.id = 'locale-ranking';
                loadingContainer.className = 'is-loading';
                loadingContainer.appendChild(renderPlayerCountryEl(null));
-               loadingContainer.appendChild(wrapRankingRow(buildLoadingGrid()));
-               loadingContainer.appendChild(buildPeriodRow(labels.daily, buildLoadingGrid()));
-               loadingContainer.appendChild(buildPeriodRow(labels.monthly, buildLoadingGrid()));
+               var loadingAllRow = d.createElement('div');
+               loadingAllRow.className = 'locale-ranking-all-row';
+               loadingAllRow.appendChild(buildPeriodRow(labels.common, buildLoadingGrid()));
+               loadingAllRow.appendChild(buildPeriodRow(labels.daily, buildLoadingGrid()));
+               loadingAllRow.appendChild(buildPeriodRow(labels.monthly, buildLoadingGrid()));
+               loadingContainer.appendChild(loadingAllRow);
                scoreBlock.parentNode.insertBefore(loadingContainer, scoreBlock);
             }
          }

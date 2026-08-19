@@ -111,18 +111,18 @@ body {
    border-radius: 4px;
    padding: 0.1em 0.25em;
 }
+.locale-ranking-all-row {
+   display: flex;
+   align-items: flex-start;
+   justify-content: center;
+   flex-wrap: wrap;
+   gap: 0.5em 1em;
+   max-width: 100%;
+}
 .locale-ranking-period-row {
    display: flex;
    align-items: center;
    justify-content: center;
-   gap: 0.5em;
-   max-width: 100%;
-}
-.locale-ranking-period-row-double {
-   gap: 1em;
-   flex-wrap: wrap;
-}
-.locale-ranking-period-row-double > .locale-ranking-period-row {
    gap: 0.5em;
 }
 .locale-ranking-label {
@@ -150,9 +150,6 @@ body {
    .locale-ranking-label {
       min-width: 3.5em;
       font-size: 0.95rem;
-   }
-   .locale-ranking-period-row-double {
-      gap: 0.6em;
    }
    .locale-ranking-empty {
       max-width: min(100%, 18rem);
