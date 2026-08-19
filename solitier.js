@@ -174,6 +174,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       };
       var pageLocale = getLocaleFromPath();
       var PLAYER_COUNTRY_KEY = 'ws_player_country';
+      var RANKING_CACHE_KEY = 'ws_locale_ranking_cache_v1';
 
       function getLocaleFromPath() {
          var path = (window.location && window.location.pathname) ? window.location.pathname : '';
@@ -206,6 +207,59 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
       function getRankingLabels() {
          return RANKING_LABELS[pageLocale] || RANKING_LABELS.en;
+      }
+
+      function getRankingUrl() {
+         if (!SHEETS_ENDPOINT_URL) return '';
+         var joiner = SHEETS_ENDPOINT_URL.indexOf('?') >= 0 ? '&' : '?';
+         return SHEETS_ENDPOINT_URL + joiner + 'ts=' + Date.now();
+      }
+
+      function loadCachedRankingPayload() {
+         try {
+            var raw = localStorage.getItem(RANKING_CACHE_KEY);
+            if (!raw) return null;
+            var parsed = JSON.parse(raw);
+            if (!parsed || !parsed.totals) return null;
+            return parsed;
+         } catch (e) { /* ponytail: private mode */ }
+         return null;
+      }
+
+      function saveCachedRankingPayload(payload) {
+         if (!payload || !payload.totals) return;
+         try {
+            localStorage.setItem(RANKING_CACHE_KEY, JSON.stringify({
+               totals: payload.totals,
+               dailyTotals: payload.dailyTotals || {},
+               monthlyTotals: payload.monthlyTotals || {},
+               dailyPeriod: payload.dailyPeriod || '',
+               monthlyPeriod: payload.monthlyPeriod || ''
+            }));
+         } catch (e) { /* ponytail: private mode */ }
+      }
+
+      function replaceRankingContainer(container, scoreBlock) {
+         if (!scoreBlock || !scoreBlock.parentNode) return;
+         var existing = d.querySelector('#locale-ranking');
+         if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
+         if (container) scoreBlock.parentNode.insertBefore(container, scoreBlock);
+      }
+
+      function fetchRankingPayload(attempt) {
+         attempt = attempt || 0;
+         return fetch(getRankingUrl(), {
+            cache: 'no-store'
+         }).then(function(response) {
+            return response.json();
+         }).catch(function(error) {
+            if (attempt >= 2) throw error;
+            return new Promise(function(resolve) {
+               setTimeout(resolve, 700 * (attempt + 1));
+            }).then(function() {
+               return fetchRankingPayload(attempt + 1);
+            });
+         });
       }
 
       function buildTopEntries(totals, limit) {
@@ -405,24 +459,26 @@ document.addEventListener("DOMContentLoaded", function(event) {
                scoreBlock.parentNode.insertBefore(loadingContainer, scoreBlock);
             }
          }
-         fetch(SHEETS_ENDPOINT_URL)
-            .then(function(response) {
-               return response.json();
-            })
+         fetchRankingPayload()
             .then(function(payload) {
                if (!payload || !payload.ok || !payload.totals) return;
                localeTotals = payload.totals;
                localeDailyTotals = payload.dailyTotals || {};
                localeMonthlyTotals = payload.monthlyTotals || {};
+               saveCachedRankingPayload(payload);
                var container = renderRankingContainer(localeTotals, localeDailyTotals, localeMonthlyTotals);
-
-               if (scoreBlock && scoreBlock.parentNode) {
-                  var existing = d.querySelector('#locale-ranking');
-                  if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
-                  scoreBlock.parentNode.insertBefore(container, scoreBlock);
-               }
+               replaceRankingContainer(container, scoreBlock);
             })
             .catch(function(error) {
+               var cached = loadCachedRankingPayload();
+               if (cached) {
+                  localeTotals = cached.totals;
+                  localeDailyTotals = cached.dailyTotals || {};
+                  localeMonthlyTotals = cached.monthlyTotals || {};
+                  replaceRankingContainer(renderRankingContainer(localeTotals, localeDailyTotals, localeMonthlyTotals), scoreBlock);
+               } else {
+                  replaceRankingContainer(null, scoreBlock);
+               }
                console.warn('Ranking load failed', error);
             });
       }
