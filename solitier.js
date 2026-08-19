@@ -141,6 +141,37 @@ document.addEventListener("DOMContentLoaded", function(event) {
          sv: '🇸🇪',
          tr: '🇹🇷'
       };
+      var RANKING_LABELS = {
+         bg: { daily: 'Дневен', monthly: 'Месечен' },
+         cs: { daily: 'Denní', monthly: 'Měsíční' },
+         da: { daily: 'Daglig', monthly: 'Månedlig' },
+         de: { daily: 'Täglich', monthly: 'Monatlich' },
+         el: { daily: 'Ημερήσιο', monthly: 'Μηνιαίο' },
+         en: { daily: 'Daily', monthly: 'Monthly' },
+         es: { daily: 'Diario', monthly: 'Mensual' },
+         et: { daily: 'Päeva', monthly: 'Kuu' },
+         fi: { daily: 'Päivä', monthly: 'Kuukausi' },
+         fr: { daily: 'Quotidien', monthly: 'Mensuel' },
+         he: { daily: 'יומי', monthly: 'חודשי' },
+         hr: { daily: 'Dnevni', monthly: 'Mjesečni' },
+         hu: { daily: 'Napi', monthly: 'Havi' },
+         it: { daily: 'Giornaliero', monthly: 'Mensile' },
+         ja: { daily: '日間', monthly: '月間' },
+         ko: { daily: '일간', monthly: '월간' },
+         lt: { daily: 'Dienos', monthly: 'Mėnesio' },
+         lv: { daily: 'Dienas', monthly: 'Mēneša' },
+         nb: { daily: 'Daglig', monthly: 'Månedlig' },
+         nl: { daily: 'Dagelijks', monthly: 'Maandelijks' },
+         pl: { daily: 'Dzienny', monthly: 'Miesięczny' },
+         pt: { daily: 'Diário', monthly: 'Mensal' },
+         ro: { daily: 'Zilnic', monthly: 'Lunar' },
+         ru: { daily: 'Дневной', monthly: 'Месячный' },
+         sk: { daily: 'Denný', monthly: 'Mesačný' },
+         sl: { daily: 'Dnevni', monthly: 'Mesečni' },
+         sr: { daily: 'Dnevni', monthly: 'Mesečni' },
+         sv: { daily: 'Daglig', monthly: 'Månatlig' },
+         tr: { daily: 'Günlük', monthly: 'Aylık' }
+      };
       var pageLocale = getLocaleFromPath();
       var PLAYER_COUNTRY_KEY = 'ws_player_country';
 
@@ -170,6 +201,81 @@ document.addEventListener("DOMContentLoaded", function(event) {
       }
 
       var localeTotals = null;
+      var localeDailyTotals = null;
+      var localeMonthlyTotals = null;
+
+      function getRankingLabels() {
+         return RANKING_LABELS[pageLocale] || RANKING_LABELS.en;
+      }
+
+      function buildTopEntries(totals, limit) {
+         if (!totals) return [];
+         var entries = Object.keys(totals).map(function(locale) {
+            return {
+               locale: locale,
+               score: parseInt(totals[locale], 10) || 0
+            };
+         });
+         entries.sort(function(a, b) {
+            return b.score - a.score;
+         });
+         return entries.slice(0, limit);
+      }
+
+      function buildRankingGrid(entries, playerCountry) {
+         var grid = d.createElement('div');
+         grid.className = 'locale-ranking-grid';
+         entries.forEach(function(entry) {
+            var item = d.createElement('div');
+            item.className = 'locale-ranking-item';
+            if (entry.locale === playerCountry) {
+               item.className += ' is-current';
+            }
+            item.dataset.locale = entry.locale;
+            item.textContent = (LOCALE_EMOJI[entry.locale] || '🏳️') +
+               ' ' + entry.locale.toUpperCase() +
+               ' ' + entry.score;
+            grid.appendChild(item);
+         });
+         return grid;
+      }
+
+      function buildLoadingGrid() {
+         var grid = d.createElement('div');
+         grid.className = 'locale-ranking-grid';
+         for (var i = 0; i < LOCALE_RANKING_LIMIT; i++) {
+            var loadingItem = d.createElement('div');
+            loadingItem.className = 'locale-ranking-item is-placeholder';
+            var loader = d.createElement('span');
+            loader.className = 'locale-ranking-spinner';
+            loadingItem.appendChild(loader);
+            grid.appendChild(loadingItem);
+         }
+         return grid;
+      }
+
+      function buildPeriodRow(labelText, grid) {
+         var row = d.createElement('div');
+         row.className = 'locale-ranking-period-row';
+         var label = d.createElement('div');
+         label.className = 'locale-ranking-label';
+         label.textContent = labelText;
+         row.appendChild(label);
+         row.appendChild(grid);
+         return row;
+      }
+
+      function renderRankingContainer(totals, dailyTotals, monthlyTotals) {
+         var playerCountry = getPlayerCountry();
+         var labels = getRankingLabels();
+         var container = d.createElement('div');
+         container.id = 'locale-ranking';
+         container.appendChild(renderPlayerCountryEl(totals));
+         container.appendChild(wrapRankingRow(buildRankingGrid(buildTopEntries(totals, LOCALE_RANKING_LIMIT), playerCountry)));
+         container.appendChild(buildPeriodRow(labels.daily, buildRankingGrid(buildTopEntries(dailyTotals, LOCALE_RANKING_LIMIT), playerCountry)));
+         container.appendChild(buildPeriodRow(labels.monthly, buildRankingGrid(buildTopEntries(monthlyTotals, LOCALE_RANKING_LIMIT), playerCountry)));
+         return container;
+      }
 
       function renderPlayerCountryEl(totals) {
          var locale = getPlayerCountry();
@@ -285,6 +391,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       function renderLocaleRanking() {
          if (!SHEETS_ENDPOINT_URL) return;
          var scoreBlock = d.querySelector('#score');
+         var labels = getRankingLabels();
          if (scoreBlock && scoreBlock.parentNode) {
             var existing = d.querySelector('#locale-ranking');
             if (!existing) {
@@ -292,17 +399,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
                loadingContainer.id = 'locale-ranking';
                loadingContainer.className = 'is-loading';
                loadingContainer.appendChild(renderPlayerCountryEl(null));
-               var loadingGrid = d.createElement('div');
-               loadingGrid.className = 'locale-ranking-grid';
-               for (var i = 0; i < LOCALE_RANKING_LIMIT; i++) {
-                  var loadingItem = d.createElement('div');
-                  loadingItem.className = 'locale-ranking-item is-placeholder';
-                  var loader = d.createElement('span');
-                  loader.className = 'locale-ranking-spinner';
-                  loadingItem.appendChild(loader);
-                  loadingGrid.appendChild(loadingItem);
-               }
-               loadingContainer.appendChild(wrapRankingRow(loadingGrid));
+               loadingContainer.appendChild(wrapRankingRow(buildLoadingGrid()));
+               loadingContainer.appendChild(buildPeriodRow(labels.daily, buildLoadingGrid()));
+               loadingContainer.appendChild(buildPeriodRow(labels.monthly, buildLoadingGrid()));
                scoreBlock.parentNode.insertBefore(loadingContainer, scoreBlock);
             }
          }
@@ -313,36 +412,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
             .then(function(payload) {
                if (!payload || !payload.ok || !payload.totals) return;
                localeTotals = payload.totals;
-               var playerCountry = getPlayerCountry();
-               var entries = Object.keys(payload.totals).map(function(locale) {
-                  return {
-                     locale: locale,
-                     score: parseInt(payload.totals[locale], 10) || 0
-                  };
-               });
-               entries.sort(function(a, b) {
-                  return b.score - a.score;
-               });
-               entries = entries.slice(0, LOCALE_RANKING_LIMIT);
-
-               var container = d.createElement('div');
-               container.id = 'locale-ranking';
-               container.appendChild(renderPlayerCountryEl(payload.totals));
-               var grid = d.createElement('div');
-               grid.className = 'locale-ranking-grid';
-               entries.forEach(function(entry) {
-                  var item = d.createElement('div');
-                  item.className = 'locale-ranking-item';
-                  if (entry.locale === playerCountry) {
-                     item.className += ' is-current';
-                  }
-                  item.dataset.locale = entry.locale;
-                  item.textContent = (LOCALE_EMOJI[entry.locale] || '🏳️') +
-                     ' ' + entry.locale.toUpperCase() +
-                     ' ' + entry.score;
-                  grid.appendChild(item);
-               });
-               container.appendChild(wrapRankingRow(grid));
+               localeDailyTotals = payload.dailyTotals || {};
+               localeMonthlyTotals = payload.monthlyTotals || {};
+               var container = renderRankingContainer(localeTotals, localeDailyTotals, localeMonthlyTotals);
 
                if (scoreBlock && scoreBlock.parentNode) {
                   var existing = d.querySelector('#locale-ranking');

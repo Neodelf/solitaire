@@ -111,11 +111,30 @@ body {
    border-radius: 4px;
    padding: 0.1em 0.25em;
 }
+.locale-ranking-period-row {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 0.5em;
+   max-width: 100%;
+}
+.locale-ranking-label {
+   font-size: 1.1rem;
+   color: #f3f5f7;
+   opacity: 0.85;
+   min-width: 4.5em;
+   text-align: right;
+   flex-shrink: 0;
+}
 
 @media (max-width: 520px) {
    .locale-ranking-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       width: min(100%, 22rem);
+   }
+   .locale-ranking-label {
+      min-width: 3.5em;
+      font-size: 0.95rem;
    }
 }
 
