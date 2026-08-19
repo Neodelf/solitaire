@@ -236,12 +236,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
       var localeDailyTotals = null;
       var localeMonthlyTotals = null;
 
+      function getRankingLocale() {
+         var country = getPlayerCountry();
+         return RANKING_LABELS[country] ? country : pageLocale;
+      }
+
       function getRankingLabels() {
-         return RANKING_LABELS[pageLocale] || RANKING_LABELS.en;
+         return RANKING_LABELS[getRankingLocale()] || RANKING_LABELS.en;
       }
 
       function getEmptyRankingMessage() {
-         return EMPTY_RANKING_MESSAGES[pageLocale] || EMPTY_RANKING_MESSAGES.en;
+         return EMPTY_RANKING_MESSAGES[getRankingLocale()] || EMPTY_RANKING_MESSAGES.en;
       }
 
       function getRankingUrl() {
