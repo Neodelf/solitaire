@@ -142,35 +142,66 @@ document.addEventListener("DOMContentLoaded", function(event) {
          tr: '🇹🇷'
       };
       var RANKING_LABELS = {
-         bg: { daily: 'Дневен', monthly: 'Месечен' },
-         cs: { daily: 'Denní', monthly: 'Měsíční' },
-         da: { daily: 'Daglig', monthly: 'Månedlig' },
-         de: { daily: 'Täglich', monthly: 'Monatlich' },
-         el: { daily: 'Ημερήσιο', monthly: 'Μηνιαίο' },
-         en: { daily: 'Daily', monthly: 'Monthly' },
-         es: { daily: 'Diario', monthly: 'Mensual' },
-         et: { daily: 'Päeva', monthly: 'Kuu' },
-         fi: { daily: 'Päivä', monthly: 'Kuukausi' },
-         fr: { daily: 'Quotidien', monthly: 'Mensuel' },
-         he: { daily: 'יומי', monthly: 'חודשי' },
-         hr: { daily: 'Dnevni', monthly: 'Mjesečni' },
-         hu: { daily: 'Napi', monthly: 'Havi' },
-         it: { daily: 'Giornaliero', monthly: 'Mensile' },
-         ja: { daily: '日間', monthly: '月間' },
-         ko: { daily: '일간', monthly: '월간' },
-         lt: { daily: 'Dienos', monthly: 'Mėnesio' },
-         lv: { daily: 'Dienas', monthly: 'Mēneša' },
-         nb: { daily: 'Daglig', monthly: 'Månedlig' },
-         nl: { daily: 'Dagelijks', monthly: 'Maandelijks' },
-         pl: { daily: 'Dzienny', monthly: 'Miesięczny' },
-         pt: { daily: 'Diário', monthly: 'Mensal' },
-         ro: { daily: 'Zilnic', monthly: 'Lunar' },
-         ru: { daily: 'Дневной', monthly: 'Месячный' },
-         sk: { daily: 'Denný', monthly: 'Mesačný' },
-         sl: { daily: 'Dnevni', monthly: 'Mesečni' },
-         sr: { daily: 'Dnevni', monthly: 'Mesečni' },
-         sv: { daily: 'Daglig', monthly: 'Månatlig' },
-         tr: { daily: 'Günlük', monthly: 'Aylık' }
+         bg: { common: 'Общ', daily: 'Дневен', monthly: 'Месечен' },
+         cs: { common: 'Celkem', daily: 'Denní', monthly: 'Měsíční' },
+         da: { common: 'Samlet', daily: 'Daglig', monthly: 'Månedlig' },
+         de: { common: 'Gesamt', daily: 'Täglich', monthly: 'Monatlich' },
+         el: { common: 'Γενικό', daily: 'Ημερήσιο', monthly: 'Μηνιαίο' },
+         en: { common: 'Common', daily: 'Daily', monthly: 'Monthly' },
+         es: { common: 'General', daily: 'Diario', monthly: 'Mensual' },
+         et: { common: 'Üld', daily: 'Päeva', monthly: 'Kuu' },
+         fi: { common: 'Yleis', daily: 'Päivä', monthly: 'Kuukausi' },
+         fr: { common: 'Général', daily: 'Quotidien', monthly: 'Mensuel' },
+         he: { common: 'כללי', daily: 'יומי', monthly: 'חודשי' },
+         hr: { common: 'Ukupni', daily: 'Dnevni', monthly: 'Mjesečni' },
+         hu: { common: 'Összes', daily: 'Napi', monthly: 'Havi' },
+         it: { common: 'Generale', daily: 'Giornaliero', monthly: 'Mensile' },
+         ja: { common: '総合', daily: '日間', monthly: '月間' },
+         ko: { common: '종합', daily: '일간', monthly: '월간' },
+         lt: { common: 'Bendras', daily: 'Dienos', monthly: 'Mėnesio' },
+         lv: { common: 'Kopējais', daily: 'Dienas', monthly: 'Mēneša' },
+         nb: { common: 'Totalt', daily: 'Daglig', monthly: 'Månedlig' },
+         nl: { common: 'Algemeen', daily: 'Dagelijks', monthly: 'Maandelijks' },
+         pl: { common: 'Ogólny', daily: 'Dzienny', monthly: 'Miesięczny' },
+         pt: { common: 'Geral', daily: 'Diário', monthly: 'Mensal' },
+         ro: { common: 'General', daily: 'Zilnic', monthly: 'Lunar' },
+         ru: { common: 'Общий', daily: 'Дневной', monthly: 'Месячный' },
+         sk: { common: 'Celkový', daily: 'Denný', monthly: 'Mesačný' },
+         sl: { common: 'Skupni', daily: 'Dnevni', monthly: 'Mesečni' },
+         sr: { common: 'Ukupni', daily: 'Dnevni', monthly: 'Mesečni' },
+         sv: { common: 'Total', daily: 'Daglig', monthly: 'Månatlig' },
+         tr: { common: 'Genel', daily: 'Günlük', monthly: 'Aylık' }
+      };
+      var EMPTY_RANKING_MESSAGES = {
+         bg: 'Спечели игра и изведи страната си в класацията!',
+         cs: 'Vyhraj hru a posuň svou zemi v žebříčku výš!',
+         da: 'Vind et spil, og løft dit land i ranglisten!',
+         de: 'Gewinne ein Spiel und bring dein Land im Ranking nach oben!',
+         el: 'Κέρδισε ένα παιχνίδι και ανέβασε τη χώρα σου στην κατάταξη!',
+         en: 'Win a game and lift your country in the rankings!',
+         es: '¡Gana una partida y haz subir a tu país en el ranking!',
+         et: 'Võida mäng ja tõsta oma riik edetabelis kõrgemale!',
+         fi: 'Voita peli ja nosta maasi rankingissa!',
+         fr: 'Gagne une partie et fais monter ton pays dans le classement !',
+         he: 'נצח משחק והעלה את המדינה שלך בדירוג!',
+         hr: 'Pobijedi igru i podigni svoju zemlju na ljestvici!',
+         hu: 'Nyerj meg egy játékot, és emeld feljebb az országodat a ranglistán!',
+         it: 'Vinci una partita e fai salire il tuo paese in classifica!',
+         ja: 'ゲームに勝って、あなたの国をランキングで上げよう！',
+         ko: '게임에서 이겨 나라의 순위를 올리세요!',
+         lt: 'Laimėk žaidimą ir pakelk savo šalį reitinge!',
+         lv: 'Uzvari spēlē un pacel savu valsti reitingā augstāk!',
+         nb: 'Vinn et spill og løft landet ditt på rankingen!',
+         nl: 'Win een spel en breng je land hoger in de ranglijst!',
+         pl: 'Wygraj grę i podnieś swój kraj w rankingu!',
+         pt: 'Ganhe um jogo e faça seu país subir no ranking!',
+         ro: 'Câștigă un joc și urcă-ți țara în clasament!',
+         ru: 'Выиграй игру и подними свою страну в рейтинге!',
+         sk: 'Vyhraj hru a posuň svoju krajinu v rebríčku vyššie!',
+         sl: 'Zmagaj v igri in dvigni svojo državo na lestvici!',
+         sr: 'Pobedi u igri i podigni svoju zemlju na rang-listi!',
+         sv: 'Vinn ett spel och lyft ditt land i rankingen!',
+         tr: 'Bir oyun kazan ve ülkeni sıralamada yükselt!'
       };
       var pageLocale = getLocaleFromPath();
       var PLAYER_COUNTRY_KEY = 'ws_player_country';
@@ -207,6 +238,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
       function getRankingLabels() {
          return RANKING_LABELS[pageLocale] || RANKING_LABELS.en;
+      }
+
+      function getEmptyRankingMessage() {
+         return EMPTY_RANKING_MESSAGES[pageLocale] || EMPTY_RANKING_MESSAGES.en;
       }
 
       function getRankingUrl() {
@@ -294,6 +329,22 @@ document.addEventListener("DOMContentLoaded", function(event) {
          return grid;
       }
 
+      function isRankingEmpty(totals) {
+         if (!totals) return true;
+         for (var locale in totals) {
+            if (!Object.prototype.hasOwnProperty.call(totals, locale)) continue;
+            if ((parseInt(totals[locale], 10) || 0) > 0) return false;
+         }
+         return true;
+      }
+
+      function buildEmptyRankingMessage() {
+         var el = d.createElement('div');
+         el.className = 'locale-ranking-empty';
+         el.textContent = getEmptyRankingMessage();
+         return el;
+      }
+
       function buildLoadingGrid() {
          var grid = d.createElement('div');
          grid.className = 'locale-ranking-grid';
@@ -319,15 +370,30 @@ document.addEventListener("DOMContentLoaded", function(event) {
          return row;
       }
 
+      function buildDoublePeriodRow(leftLabel, leftContent, rightLabel, rightContent) {
+         var row = d.createElement('div');
+         row.className = 'locale-ranking-period-row locale-ranking-period-row-double';
+         row.appendChild(buildPeriodRow(leftLabel, leftContent));
+         row.appendChild(buildPeriodRow(rightLabel, rightContent));
+         return row;
+      }
+
       function renderRankingContainer(totals, dailyTotals, monthlyTotals) {
          var playerCountry = getPlayerCountry();
          var labels = getRankingLabels();
          var container = d.createElement('div');
          container.id = 'locale-ranking';
          container.appendChild(renderPlayerCountryEl(totals));
-         container.appendChild(wrapRankingRow(buildRankingGrid(buildTopEntries(totals, LOCALE_RANKING_LIMIT), playerCountry)));
-         container.appendChild(buildPeriodRow(labels.daily, buildRankingGrid(buildTopEntries(dailyTotals, LOCALE_RANKING_LIMIT), playerCountry)));
-         container.appendChild(buildPeriodRow(labels.monthly, buildRankingGrid(buildTopEntries(monthlyTotals, LOCALE_RANKING_LIMIT), playerCountry)));
+         container.appendChild(wrapRankingRow(buildPeriodRow(
+            labels.common,
+            buildRankingGrid(buildTopEntries(totals, LOCALE_RANKING_LIMIT), playerCountry)
+         )));
+         container.appendChild(buildDoublePeriodRow(
+            labels.daily,
+            isRankingEmpty(dailyTotals) ? buildEmptyRankingMessage() : buildRankingGrid(buildTopEntries(dailyTotals, LOCALE_RANKING_LIMIT), playerCountry),
+            labels.monthly,
+            isRankingEmpty(monthlyTotals) ? buildEmptyRankingMessage() : buildRankingGrid(buildTopEntries(monthlyTotals, LOCALE_RANKING_LIMIT), playerCountry)
+         ));
          return container;
       }
 
