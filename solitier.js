@@ -173,39 +173,42 @@ document.addEventListener("DOMContentLoaded", function(event) {
          tr: { common: 'Genel', daily: 'Günlük', monthly: 'Aylık' }
       };
       var EMPTY_RANKING_MESSAGES = {
-         bg: 'Спечели игра и изведи страната си в класацията!',
-         cs: 'Vyhraj hru a posuň svou zemi v žebříčku výš!',
-         da: 'Vind et spil, og løft dit land i ranglisten!',
-         de: 'Gewinne ein Spiel und bring dein Land im Ranking nach oben!',
-         el: 'Κέρδισε ένα παιχνίδι και ανέβασε τη χώρα σου στην κατάταξη!',
-         en: 'Win a game and lift your country in the rankings!',
-         es: '¡Gana una partida y haz subir a tu país en el ranking!',
-         et: 'Võida mäng ja tõsta oma riik edetabelis kõrgemale!',
-         fi: 'Voita peli ja nosta maasi rankingissa!',
-         fr: 'Gagne une partie et fais monter ton pays dans le classement !',
-         he: 'נצח משחק והעלה את המדינה שלך בדירוג!',
-         hr: 'Pobijedi igru i podigni svoju zemlju na ljestvici!',
-         hu: 'Nyerj meg egy játékot, és emeld feljebb az országodat a ranglistán!',
-         it: 'Vinci una partita e fai salire il tuo paese in classifica!',
-         ja: 'ゲームに勝って、あなたの国をランキングで上げよう！',
-         ko: '게임에서 이겨 나라의 순위를 올리세요!',
-         lt: 'Laimėk žaidimą ir pakelk savo šalį reitinge!',
-         lv: 'Uzvari spēlē un pacel savu valsti reitingā augstāk!',
-         nb: 'Vinn et spill og løft landet ditt på rankingen!',
-         nl: 'Win een spel en breng je land hoger in de ranglijst!',
-         pl: 'Wygraj grę i podnieś swój kraj w rankingu!',
-         pt: 'Ganhe um jogo e faça seu país subir no ranking!',
-         ro: 'Câștigă un joc și urcă-ți țara în clasament!',
-         ru: 'Выиграй игру и подними свою страну в рейтинге!',
-         sk: 'Vyhraj hru a posuň svoju krajinu v rebríčku vyššie!',
-         sl: 'Zmagaj v igri in dvigni svojo državo na lestvici!',
-         sr: 'Pobedi u igri i podigni svoju zemlju na rang-listi!',
-         sv: 'Vinn ett spel och lyft ditt land i rankingen!',
-         tr: 'Bir oyun kazan ve ülkeni sıralamada yükselt!'
+         bg: 'Празно',
+         cs: 'Prázdné',
+         da: 'Tom',
+         de: 'Leer',
+         el: 'Κενό',
+         en: 'Empty',
+         es: 'Vacío',
+         et: 'Tühi',
+         fi: 'Tyhjä',
+         fr: 'Vide',
+         he: 'ריק',
+         hr: 'Prazno',
+         hu: 'Üres',
+         it: 'Vuoto',
+         ja: '空',
+         ko: '비어 있음',
+         lt: 'Tuščia',
+         lv: 'Tukšs',
+         nb: 'Tom',
+         nl: 'Leeg',
+         pl: 'Puste',
+         pt: 'Vazio',
+         ro: 'Gol',
+         ru: 'Пусто',
+         sk: 'Prázdne',
+         sl: 'Prazno',
+         sr: 'Prazno',
+         sv: 'Tom',
+         tr: 'Boş'
       };
       var pageLocale = getLocaleFromPath();
       var PLAYER_COUNTRY_KEY = 'ws_player_country';
       var RANKING_CACHE_KEY = 'ws_locale_ranking_cache_v1';
+      var CONTRIB_KEY_ALL = 'ws_player_contrib_all';
+      var CONTRIB_KEY_DAILY = 'ws_player_contrib_daily';
+      var CONTRIB_KEY_MONTHLY = 'ws_player_contrib_monthly';
 
       function getLocaleFromPath() {
          var path = (window.location && window.location.pathname) ? window.location.pathname : '';
@@ -277,6 +280,58 @@ document.addEventListener("DOMContentLoaded", function(event) {
                monthlyPeriod: payload.monthlyPeriod || ''
             }));
          } catch (e) { /* ponytail: private mode */ }
+      }
+
+      function utcMonthKey() {
+         var d = new Date();
+         return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1);
+      }
+
+      function loadContribs() {
+         var today = utcDateKey();
+         var month = utcMonthKey();
+         function readScore(key, periodKey, currentPeriod) {
+            try {
+               var raw = localStorage.getItem(key);
+               if (!raw) return 0;
+               var obj = JSON.parse(raw);
+               if (obj[periodKey] !== currentPeriod) return 0;
+               return parseInt(obj.score, 10) || 0;
+            } catch (e) { return 0; }
+         }
+         var all = 0;
+         try {
+            var rawAll = localStorage.getItem(CONTRIB_KEY_ALL);
+            if (rawAll) all = parseInt(JSON.parse(rawAll).score, 10) || 0;
+         } catch (e) { /* private mode */ }
+         return {
+            all: all,
+            daily: readScore(CONTRIB_KEY_DAILY, 'date', today),
+            monthly: readScore(CONTRIB_KEY_MONTHLY, 'month', month)
+         };
+      }
+
+      function addPlayerScore(score) {
+         if (!score || score <= 0) return;
+         var today = utcDateKey();
+         var month = utcMonthKey();
+         function increment(key, periodKey, currentPeriod) {
+            try {
+               var raw = localStorage.getItem(key);
+               var obj = raw ? JSON.parse(raw) : {};
+               if (obj[periodKey] !== currentPeriod) { obj.score = 0; obj[periodKey] = currentPeriod; }
+               obj.score = (parseInt(obj.score, 10) || 0) + score;
+               localStorage.setItem(key, JSON.stringify(obj));
+            } catch (e) { /* private mode */ }
+         }
+         try {
+            var rawAll = localStorage.getItem(CONTRIB_KEY_ALL);
+            var objAll = rawAll ? JSON.parse(rawAll) : { score: 0 };
+            objAll.score = (parseInt(objAll.score, 10) || 0) + score;
+            localStorage.setItem(CONTRIB_KEY_ALL, JSON.stringify(objAll));
+         } catch (e) { /* private mode */ }
+         increment(CONTRIB_KEY_DAILY, 'date', today);
+         increment(CONTRIB_KEY_MONTHLY, 'month', month);
       }
 
       function replaceRankingContainer(container, scoreBlock) {
@@ -369,7 +424,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
          return grid;
       }
 
-      function buildPeriodRow(labelText, grid) {
+      function buildContribBadge(score) {
+         if (!score || score <= 0) return null;
+         var el = d.createElement('div');
+         el.className = 'locale-ranking-contrib';
+         el.textContent = '+ ' + fmtScore(score);
+         return el;
+      }
+
+      function buildPeriodRow(labelText, grid, badgeEl) {
          var row = d.createElement('div');
          row.className = 'locale-ranking-period-row';
          var label = d.createElement('div');
@@ -377,6 +440,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
          label.textContent = labelText;
          row.appendChild(label);
          row.appendChild(grid);
+         if (badgeEl) row.appendChild(badgeEl);
          return row;
       }
 
@@ -391,6 +455,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       function renderRankingContainer(totals, dailyTotals, monthlyTotals) {
          var playerCountry = getPlayerCountry();
          var labels = getRankingLabels();
+         var contribs = loadContribs();
          var container = d.createElement('div');
          container.id = 'locale-ranking';
          container.appendChild(renderPlayerCountryEl(totals));
@@ -399,15 +464,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
          allRow.className = 'locale-ranking-all-row';
          allRow.appendChild(buildPeriodRow(
             labels.common,
-            buildRankingGrid(buildTopEntries(totals, LOCALE_RANKING_LIMIT), playerCountry)
+            buildRankingGrid(buildTopEntries(totals, LOCALE_RANKING_LIMIT), playerCountry),
+            buildContribBadge(contribs.all)
          ));
          allRow.appendChild(buildPeriodRow(
             labels.daily,
-            isRankingEmpty(dailyTotals) ? buildEmptyRankingMessage() : buildRankingGrid(buildTopEntries(dailyTotals, LOCALE_RANKING_LIMIT), playerCountry)
+            isRankingEmpty(dailyTotals) ? buildEmptyRankingMessage() : buildRankingGrid(buildTopEntries(dailyTotals, LOCALE_RANKING_LIMIT), playerCountry),
+            buildContribBadge(contribs.daily)
          ));
          allRow.appendChild(buildPeriodRow(
             labels.monthly,
-            isRankingEmpty(monthlyTotals) ? buildEmptyRankingMessage() : buildRankingGrid(buildTopEntries(monthlyTotals, LOCALE_RANKING_LIMIT), playerCountry)
+            isRankingEmpty(monthlyTotals) ? buildEmptyRankingMessage() : buildRankingGrid(buildTopEntries(monthlyTotals, LOCALE_RANKING_LIMIT), playerCountry),
+            buildContribBadge(contribs.monthly)
          ));
          allRow.appendChild(renderLocalePickerSettingsBtn());
          container.appendChild(allRow);
@@ -2855,6 +2923,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       function sendScoreToSheet(finalScore) {
          if (!SHEETS_ENDPOINT_URL || scoreSubmitted) return;
          scoreSubmitted = true;
+         addPlayerScore(parseInt(finalScore, 10));
          var params = new URLSearchParams();
          params.append('score', parseInt(finalScore, 10));
          params.append('locale', getPlayerCountry());
