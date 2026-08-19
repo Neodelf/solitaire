@@ -126,19 +126,20 @@ body {
    gap: 0.5em;
 }
 .locale-ranking-label {
-   font-size: 1.1rem;
+   font-size: 1.275rem;
    color: #f3f5f7;
-   opacity: 0.85;
-   min-width: 4.5em;
-   text-align: right;
+   line-height: 1.2;
+   white-space: nowrap;
    flex-shrink: 0;
+   padding: 0.5em 0.75em;
+   background: rgba(0,0,0,.2);
 }
 .locale-ranking-empty {
    padding: 0.5em 0.75em;
    background: rgba(0,0,0,.2);
    color: #f3f5f7;
-   font-size: 1rem;
-   line-height: 1.25;
+   font-size: 1.275rem;
+   line-height: 1.2;
    max-width: min(100%, 32rem);
 }
 
@@ -148,12 +149,11 @@ body {
       width: min(100%, 22rem);
    }
    .locale-ranking-label {
-      min-width: 3.5em;
-      font-size: 0.95rem;
+      font-size: 1rem;
    }
    .locale-ranking-empty {
       max-width: min(100%, 18rem);
-      font-size: 0.95rem;
+      font-size: 1rem;
    }
 }
 
