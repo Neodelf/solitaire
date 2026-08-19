@@ -141,6 +141,37 @@ document.addEventListener("DOMContentLoaded", function(event) {
          sv: '🇸🇪',
          tr: '🇹🇷'
       };
+      var UI_STRINGS = {
+         bg: { play: 'Играй', pause: 'Пауза', timer: 'Таймер:', moves: 'Ходове:', score: 'Резултат:', competition: 'Competition:', newGame: 'Нова игра', chooseCountry: 'Избери страна', daily: 'Дневна', dailyStreak: 'Дневна · ', streak: 'Серия ' },
+         cs: { play: 'Hraj', pause: 'Pauza', timer: 'Časovač:', moves: 'Tahy:', score: 'Skóre:', competition: 'Competition:', newGame: 'Nová hra', chooseCountry: 'Vybrat zemi', daily: 'Denní', dailyStreak: 'Denní · ', streak: 'Série ' },
+         da: { play: 'Play', pause: 'Pause', timer: 'Timer:', moves: 'Moves:', score: 'Score:', competition: 'Competition:', newGame: 'Nyt spil', chooseCountry: 'Vælg land', daily: 'Daglig', dailyStreak: 'Daglig · ', streak: 'Streak ' },
+         de: { play: 'Spielen', pause: 'Pause', timer: 'Timer:', moves: 'Züge:', score: 'Punkte:', competition: 'Competition:', newGame: 'Neues Spiel', chooseCountry: 'Land wählen', daily: 'Täglich', dailyStreak: 'Täglich · ', streak: 'Serie ' },
+         el: { play: 'Παίξε', pause: 'Παύση', timer: 'Χρόνος:', moves: 'Κινήσεις:', score: 'Πόντοι:', competition: 'Competition:', newGame: 'Νέο παιχνίδι', chooseCountry: 'Επιλογή χώρας', daily: 'Ημερήσιο', dailyStreak: 'Ημερήσιο · ', streak: 'Σερί ' },
+         en: { play: 'Play', pause: 'Pause', timer: 'Timer:', moves: 'Moves:', score: 'Score:', competition: 'Competition:', newGame: 'New Game', chooseCountry: 'Choose country', daily: 'Daily', dailyStreak: 'Daily · ', streak: 'Streak ' },
+         es: { play: 'Jugar', pause: 'Pausa', timer: 'Tiempo:', moves: 'Movimientos:', score: 'Puntuación:', competition: 'Competition:', newGame: 'Nuevo juego', chooseCountry: 'Elegir país', daily: 'Diario', dailyStreak: 'Diario · ', streak: 'Racha ' },
+         et: { play: 'Mängi', pause: 'Paus', timer: 'Aeg:', moves: 'Käigud:', score: 'Punktid:', competition: 'Competition:', newGame: 'Uus mäng', chooseCountry: 'Vali riik', daily: 'Päeva', dailyStreak: 'Päeva · ', streak: 'Seeria ' },
+         fi: { play: 'Pelaa', pause: 'Tauko', timer: 'Aika:', moves: 'Siirrot:', score: 'Pisteet:', competition: 'Competition:', newGame: 'Uusi peli', chooseCountry: 'Valitse maa', daily: 'Päivä', dailyStreak: 'Päivä · ', streak: 'Putki ' },
+         fr: { play: 'Jouer', pause: 'Pause', timer: 'Temps:', moves: 'Mouvements:', score: 'Score:', competition: 'Competition:', newGame: 'Nouvelle partie', chooseCountry: 'Choisir un pays', daily: 'Quotidien', dailyStreak: 'Quotidien · ', streak: 'Série ' },
+         he: { play: 'התחל', pause: 'הפסק', timer: 'זמן:', moves: 'מהלכים:', score: 'ניקוד:', competition: 'Competition:', newGame: 'משחק חדש', chooseCountry: 'בחר מדינה', daily: 'יומי', dailyStreak: 'יומי · ', streak: 'רצף ' },
+         hr: { play: 'Igraj', pause: 'Pauza', timer: 'Timer:', moves: 'Potezi:', score: 'Rezultat:', competition: 'Competition:', newGame: 'Nova igra', chooseCountry: 'Odaberi zemlju', daily: 'Dnevni', dailyStreak: 'Dnevni · ', streak: 'Niz ' },
+         hu: { play: 'Indítás', pause: 'Szünet', timer: 'Idő:', moves: 'Lépések:', score: 'Pontszám:', competition: 'Competition:', newGame: 'Új játék', chooseCountry: 'Ország választása', daily: 'Napi', dailyStreak: 'Napi · ', streak: 'Sorozat ' },
+         it: { play: 'Avvia', pause: 'Pausa', timer: 'Tempo:', moves: 'Mosse:', score: 'Punteggio:', competition: 'Competition:', newGame: 'Nuova partita', chooseCountry: 'Scegli paese', daily: 'Giornaliero', dailyStreak: 'Giornaliero · ', streak: 'Serie ' },
+         ja: { play: 'スタート', pause: '一時停止', timer: '時間:', moves: '手数:', score: 'スコア:', competition: 'Competition:', newGame: '新しいゲーム', chooseCountry: '国を選択', daily: '日間', dailyStreak: '日間 · ', streak: '連続 ' },
+         ko: { play: '시작', pause: '일시정지', timer: '시간:', moves: '횟수:', score: '점수:', competition: 'Competition:', newGame: '새 게임', chooseCountry: '국가 선택', daily: '일간', dailyStreak: '일간 · ', streak: '연속 ' },
+         lt: { play: 'Pradėti', pause: 'Pauzė', timer: 'Laikas:', moves: 'Eismai:', score: 'Taškai:', competition: 'Competition:', newGame: 'Naujas žaidimas', chooseCountry: 'Pasirinkti šalį', daily: 'Dienos', dailyStreak: 'Dienos · ', streak: 'Serija ' },
+         lv: { play: 'Sākt', pause: 'Pauze', timer: 'Laiks:', moves: 'Gājieni:', score: 'Punkti:', competition: 'Competition:', newGame: 'Jauna spēle', chooseCountry: 'Izvēlēties valsti', daily: 'Dienas', dailyStreak: 'Dienas · ', streak: 'Sērija ' },
+         nb: { play: 'Start', pause: 'Pause', timer: 'Tid:', moves: 'Trekk:', score: 'Poeng:', competition: 'Competition:', newGame: 'Nytt spill', chooseCountry: 'Velg land', daily: 'Daglig', dailyStreak: 'Daglig · ', streak: 'Rekke ' },
+         nl: { play: 'Play', pause: 'Pauze', timer: 'Tijd:', moves: 'Bewegingen:', score: 'Score:', competition: 'Competition:', newGame: 'Nieuw spel', chooseCountry: 'Kies land', daily: 'Dagelijks', dailyStreak: 'Dagelijks · ', streak: 'Reeks ' },
+         pl: { play: 'Play', pause: 'Pauza', timer: 'Czas:', moves: 'Ruchy:', score: 'Wynik:', competition: 'Competition:', newGame: 'Nowa gra', chooseCountry: 'Wybierz kraj', daily: 'Dzienny', dailyStreak: 'Dzienny · ', streak: 'Seria ' },
+         pt: { play: 'Iniciar', pause: 'Pausar', timer: 'Tempo:', moves: 'Movimentos:', score: 'Pontos:', competition: 'Competition:', newGame: 'Novo jogo', chooseCountry: 'Escolher país', daily: 'Diário', dailyStreak: 'Diário · ', streak: 'Sequência ' },
+         ro: { play: 'Start', pause: 'Pauză', timer: 'Timp:', moves: 'Mutări:', score: 'Puncte:', competition: 'Competition:', newGame: 'Joc nou', chooseCountry: 'Alege țara', daily: 'Zilnic', dailyStreak: 'Zilnic · ', streak: 'Serie ' },
+         ru: { play: 'Старт', pause: 'Пауза', timer: 'Время:', moves: 'Ходы:', score: 'Очки:', competition: 'Соревнование:', newGame: 'Новая игра', chooseCountry: 'Выбрать страну', daily: 'Ежедневный', dailyStreak: 'Ежедневный · ', streak: 'Серия ' },
+         sk: { play: 'Štart', pause: 'Pauza', timer: 'Čas:', moves: 'Počet ťahov:', score: 'Body:', competition: 'Competition:', newGame: 'Nová hra', chooseCountry: 'Vybrať krajinu', daily: 'Denný', dailyStreak: 'Denný · ', streak: 'Séria ' },
+         sl: { play: 'Začni', pause: 'Pavza', timer: 'Čas:', moves: 'Število potez:', score: 'Točke:', competition: 'Competition:', newGame: 'Nova igra', chooseCountry: 'Izberi državo', daily: 'Dnevni', dailyStreak: 'Dnevni · ', streak: 'Niz ' },
+         sr: { play: 'Počni', pause: 'Pauza', timer: 'Vreme:', moves: 'Broj poteza:', score: 'Poeni:', competition: 'Competition:', newGame: 'Nova igra', chooseCountry: 'Odaberi zemlju', daily: 'Dnevni', dailyStreak: 'Dnevni · ', streak: 'Niz ' },
+         sv: { play: 'Starta', pause: 'Paus', timer: 'Tid:', moves: 'Drag antal:', score: 'Poäng:', competition: 'Competition:', newGame: 'Nytt spel', chooseCountry: 'Välj land', daily: 'Daglig', dailyStreak: 'Daglig · ', streak: 'Streak ' },
+         tr: { play: 'Başlat', pause: 'Duraklat', timer: 'Süre:', moves: 'Hamle Sayısı:', score: 'Puan:', competition: 'Competition:', newGame: 'Yeni oyun', chooseCountry: 'Ülke seç', daily: 'Günlük', dailyStreak: 'Günlük · ', streak: 'Seri ' }
+      };
       var RANKING_LABELS = {
          bg: { common: 'Общ', daily: 'Дневен', monthly: 'Месечен' },
          cs: { common: 'Celkem', daily: 'Denní', monthly: 'Měsíční' },
@@ -246,6 +277,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
       function getRankingLabels() {
          return RANKING_LABELS[getRankingLocale()] || RANKING_LABELS.en;
+      }
+
+      function getUIStrings() {
+         return UI_STRINGS[getRankingLocale()] || UI_STRINGS.en;
       }
 
       function getEmptyRankingMessage() {
@@ -495,7 +530,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
          var btn = document.createElement('button');
          btn.type = 'button';
          btn.className = 'locale-picker-settings';
-         btn.setAttribute('aria-label', 'Choose country');
+         btn.setAttribute('aria-label', getUIStrings().chooseCountry);
          btn.textContent = '⚙';
          btn.addEventListener('click', function(e) {
             e.preventDefault();
@@ -512,7 +547,24 @@ document.addEventListener("DOMContentLoaded", function(event) {
          return row;
       }
 
+      function applyUIStrings() {
+         var s = getUIStrings();
+         var set = function(sel, text) {
+            var el = document.querySelector(sel);
+            if (el) el.textContent = text;
+         };
+         set('#play', s.play);
+         set('#pause', s.pause);
+         set('#score .timer label', s.timer);
+         set('#score .move-count label', s.moves);
+         set('#score .score label', s.score);
+         var comp = document.querySelector('#score .competition-score label');
+         if (comp) comp.textContent = s.competition;
+         set('#new-game', s.newGame);
+      }
+
       function refreshPlayerCountryUI() {
+         applyUIStrings();
          var ranking = document.querySelector('#locale-ranking');
          if (!ranking) return;
          var badge = ranking.querySelector('.locale-player-country');
@@ -828,10 +880,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
          var el = existing || d.createElement('div');
          el.id = 'daily-streak';
          el.className = 'daily-streak';
+         var us = getUIStrings();
          if (isDailyDeal) {
-            el.textContent = streak.count > 0 ? ('Daily · ' + streak.count) : 'Daily';
+            el.textContent = streak.count > 0 ? (us.dailyStreak + streak.count) : us.daily;
          } else {
-            el.textContent = streak.count > 0 ? ('Streak ' + streak.count) : '';
+            el.textContent = streak.count > 0 ? (us.streak + streak.count) : '';
          }
          if (!el.textContent) {
             el.style.display = 'none';
@@ -892,6 +945,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
       // 4–5. RENDER TABLE (7 tops first) THEN START GAMEPLAY
       scheduleLocaleRankingRender();
+      applyUIStrings();
       renderDailyStreakChip();
       startDeferredDealRender(table, playedCards, false, function() {
          play(table);
