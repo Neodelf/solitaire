@@ -61,35 +61,35 @@ document.addEventListener("DOMContentLoaded", function(event) {
          tr: '🇹🇷'
       };
       var UI_STRINGS = {
-         bg: { play: 'Играй', pause: 'Пауза', timer: 'Таймер:', moves: 'Ходове:', score: 'Резултат:', competition: 'Competition:', newGame: 'Нова игра', chooseCountry: 'Избери страна' },
-         cs: { play: 'Hraj', pause: 'Pauza', timer: 'Časovač:', moves: 'Tahy:', score: 'Skóre:', competition: 'Competition:', newGame: 'Nová hra', chooseCountry: 'Vybrat zemi' },
-         da: { play: 'Play', pause: 'Pause', timer: 'Timer:', moves: 'Moves:', score: 'Score:', competition: 'Competition:', newGame: 'Nyt spil', chooseCountry: 'Vælg land' },
-         de: { play: 'Spielen', pause: 'Pause', timer: 'Timer:', moves: 'Züge:', score: 'Punkte:', competition: 'Competition:', newGame: 'Neues Spiel', chooseCountry: 'Land wählen' },
-         el: { play: 'Παίξε', pause: 'Παύση', timer: 'Χρόνος:', moves: 'Κινήσεις:', score: 'Πόντοι:', competition: 'Competition:', newGame: 'Νέο παιχνίδι', chooseCountry: 'Επιλογή χώρας' },
-         en: { play: 'Play', pause: 'Pause', timer: 'Timer:', moves: 'Moves:', score: 'Score:', competition: 'Competition:', newGame: 'New Game', chooseCountry: 'Choose country' },
-         es: { play: 'Jugar', pause: 'Pausa', timer: 'Tiempo:', moves: 'Movimientos:', score: 'Puntuación:', competition: 'Competition:', newGame: 'Nuevo juego', chooseCountry: 'Elegir país' },
-         et: { play: 'Mängi', pause: 'Paus', timer: 'Aeg:', moves: 'Käigud:', score: 'Punktid:', competition: 'Competition:', newGame: 'Uus mäng', chooseCountry: 'Vali riik' },
-         fi: { play: 'Pelaa', pause: 'Tauko', timer: 'Aika:', moves: 'Siirrot:', score: 'Pisteet:', competition: 'Competition:', newGame: 'Uusi peli', chooseCountry: 'Valitse maa' },
-         fr: { play: 'Jouer', pause: 'Pause', timer: 'Temps:', moves: 'Mouvements:', score: 'Score:', competition: 'Competition:', newGame: 'Nouvelle partie', chooseCountry: 'Choisir un pays' },
-         he: { play: 'התחל', pause: 'הפסק', timer: 'זמן:', moves: 'מהלכים:', score: 'ניקוד:', competition: 'Competition:', newGame: 'משחק חדש', chooseCountry: 'בחר מדינה' },
-         hr: { play: 'Igraj', pause: 'Pauza', timer: 'Timer:', moves: 'Potezi:', score: 'Rezultat:', competition: 'Competition:', newGame: 'Nova igra', chooseCountry: 'Odaberi zemlju' },
-         hu: { play: 'Indítás', pause: 'Szünet', timer: 'Idő:', moves: 'Lépések:', score: 'Pontszám:', competition: 'Competition:', newGame: 'Új játék', chooseCountry: 'Ország választása' },
-         it: { play: 'Avvia', pause: 'Pausa', timer: 'Tempo:', moves: 'Mosse:', score: 'Punteggio:', competition: 'Competition:', newGame: 'Nuova partita', chooseCountry: 'Scegli paese' },
-         ja: { play: 'スタート', pause: '一時停止', timer: '時間:', moves: '手数:', score: 'スコア:', competition: 'Competition:', newGame: '新しいゲーム', chooseCountry: '国を選択' },
-         ko: { play: '시작', pause: '일시정지', timer: '시간:', moves: '횟수:', score: '점수:', competition: 'Competition:', newGame: '새 게임', chooseCountry: '국가 선택' },
-         lt: { play: 'Pradėti', pause: 'Pauzė', timer: 'Laikas:', moves: 'Eismai:', score: 'Taškai:', competition: 'Competition:', newGame: 'Naujas žaidimas', chooseCountry: 'Pasirinkti šalį' },
-         lv: { play: 'Sākt', pause: 'Pauze', timer: 'Laiks:', moves: 'Gājieni:', score: 'Punkti:', competition: 'Competition:', newGame: 'Jauna spēle', chooseCountry: 'Izvēlēties valsti' },
-         nb: { play: 'Start', pause: 'Pause', timer: 'Tid:', moves: 'Trekk:', score: 'Poeng:', competition: 'Competition:', newGame: 'Nytt spill', chooseCountry: 'Velg land' },
-         nl: { play: 'Play', pause: 'Pauze', timer: 'Tijd:', moves: 'Bewegingen:', score: 'Score:', competition: 'Competition:', newGame: 'Nieuw spel', chooseCountry: 'Kies land' },
-         pl: { play: 'Play', pause: 'Pauza', timer: 'Czas:', moves: 'Ruchy:', score: 'Wynik:', competition: 'Competition:', newGame: 'Nowa gra', chooseCountry: 'Wybierz kraj' },
-         pt: { play: 'Iniciar', pause: 'Pausar', timer: 'Tempo:', moves: 'Movimentos:', score: 'Pontos:', competition: 'Competition:', newGame: 'Novo jogo', chooseCountry: 'Escolher país' },
-         ro: { play: 'Start', pause: 'Pauză', timer: 'Timp:', moves: 'Mutări:', score: 'Puncte:', competition: 'Competition:', newGame: 'Joc nou', chooseCountry: 'Alege țara' },
-         ru: { play: 'Старт', pause: 'Пауза', timer: 'Время:', moves: 'Ходы:', score: 'Очки:', competition: 'Соревнование:', newGame: 'Новая игра', chooseCountry: 'Выбрать страну' },
-         sk: { play: 'Štart', pause: 'Pauza', timer: 'Čas:', moves: 'Počet ťahov:', score: 'Body:', competition: 'Competition:', newGame: 'Nová hra', chooseCountry: 'Vybrať krajinu' },
-         sl: { play: 'Začni', pause: 'Pavza', timer: 'Čas:', moves: 'Število potez:', score: 'Točke:', competition: 'Competition:', newGame: 'Nova igra', chooseCountry: 'Izberi državo' },
-         sr: { play: 'Počni', pause: 'Pauza', timer: 'Vreme:', moves: 'Broj poteza:', score: 'Poeni:', competition: 'Competition:', newGame: 'Nova igra', chooseCountry: 'Odaberi zemlju' },
-         sv: { play: 'Starta', pause: 'Paus', timer: 'Tid:', moves: 'Drag antal:', score: 'Poäng:', competition: 'Competition:', newGame: 'Nytt spel', chooseCountry: 'Välj land' },
-         tr: { play: 'Başlat', pause: 'Duraklat', timer: 'Süre:', moves: 'Hamle Sayısı:', score: 'Puan:', competition: 'Competition:', newGame: 'Yeni oyun', chooseCountry: 'Ülke seç' }
+         bg: { play: 'Играй', pause: 'Пауза', timer: 'Таймер:', moves: 'Ходове:', score: 'Резултат:', newGame: 'Нова игра', chooseCountry: 'Избери страна' },
+         cs: { play: 'Hraj', pause: 'Pauza', timer: 'Časovač:', moves: 'Tahy:', score: 'Skóre:', newGame: 'Nová hra', chooseCountry: 'Vybrat zemi' },
+         da: { play: 'Play', pause: 'Pause', timer: 'Timer:', moves: 'Moves:', score: 'Score:', newGame: 'Nyt spil', chooseCountry: 'Vælg land' },
+         de: { play: 'Spielen', pause: 'Pause', timer: 'Timer:', moves: 'Züge:', score: 'Punkte:', newGame: 'Neues Spiel', chooseCountry: 'Land wählen' },
+         el: { play: 'Παίξε', pause: 'Παύση', timer: 'Χρόνος:', moves: 'Κινήσεις:', score: 'Πόντοι:', newGame: 'Νέο παιχνίδι', chooseCountry: 'Επιλογή χώρας' },
+         en: { play: 'Play', pause: 'Pause', timer: 'Timer:', moves: 'Moves:', score: 'Score:', newGame: 'New Game', chooseCountry: 'Choose country' },
+         es: { play: 'Jugar', pause: 'Pausa', timer: 'Tiempo:', moves: 'Movimientos:', score: 'Puntuación:', newGame: 'Nuevo juego', chooseCountry: 'Elegir país' },
+         et: { play: 'Mängi', pause: 'Paus', timer: 'Aeg:', moves: 'Käigud:', score: 'Punktid:', newGame: 'Uus mäng', chooseCountry: 'Vali riik' },
+         fi: { play: 'Pelaa', pause: 'Tauko', timer: 'Aika:', moves: 'Siirrot:', score: 'Pisteet:', newGame: 'Uusi peli', chooseCountry: 'Valitse maa' },
+         fr: { play: 'Jouer', pause: 'Pause', timer: 'Temps:', moves: 'Mouvements:', score: 'Score:', newGame: 'Nouvelle partie', chooseCountry: 'Choisir un pays' },
+         he: { play: 'התחל', pause: 'הפסק', timer: 'זמן:', moves: 'מהלכים:', score: 'ניקוד:', newGame: 'משחק חדש', chooseCountry: 'בחר מדינה' },
+         hr: { play: 'Igraj', pause: 'Pauza', timer: 'Timer:', moves: 'Potezi:', score: 'Rezultat:', newGame: 'Nova igra', chooseCountry: 'Odaberi zemlju' },
+         hu: { play: 'Indítás', pause: 'Szünet', timer: 'Idő:', moves: 'Lépések:', score: 'Pontszám:', newGame: 'Új játék', chooseCountry: 'Ország választása' },
+         it: { play: 'Avvia', pause: 'Pausa', timer: 'Tempo:', moves: 'Mosse:', score: 'Punteggio:', newGame: 'Nuova partita', chooseCountry: 'Scegli paese' },
+         ja: { play: 'スタート', pause: '一時停止', timer: '時間:', moves: '手数:', score: 'スコア:', newGame: '新しいゲーム', chooseCountry: '国を選択' },
+         ko: { play: '시작', pause: '일시정지', timer: '시간:', moves: '횟수:', score: '점수:', newGame: '새 게임', chooseCountry: '국가 선택' },
+         lt: { play: 'Pradėti', pause: 'Pauzė', timer: 'Laikas:', moves: 'Eismai:', score: 'Taškai:', newGame: 'Naujas žaidimas', chooseCountry: 'Pasirinkti šalį' },
+         lv: { play: 'Sākt', pause: 'Pauze', timer: 'Laiks:', moves: 'Gājieni:', score: 'Punkti:', newGame: 'Jauna spēle', chooseCountry: 'Izvēlēties valsti' },
+         nb: { play: 'Start', pause: 'Pause', timer: 'Tid:', moves: 'Trekk:', score: 'Poeng:', newGame: 'Nytt spill', chooseCountry: 'Velg land' },
+         nl: { play: 'Play', pause: 'Pauze', timer: 'Tijd:', moves: 'Bewegingen:', score: 'Score:', newGame: 'Nieuw spel', chooseCountry: 'Kies land' },
+         pl: { play: 'Play', pause: 'Pauza', timer: 'Czas:', moves: 'Ruchy:', score: 'Wynik:', newGame: 'Nowa gra', chooseCountry: 'Wybierz kraj' },
+         pt: { play: 'Iniciar', pause: 'Pausar', timer: 'Tempo:', moves: 'Movimentos:', score: 'Pontos:', newGame: 'Novo jogo', chooseCountry: 'Escolher país' },
+         ro: { play: 'Start', pause: 'Pauză', timer: 'Timp:', moves: 'Mutări:', score: 'Puncte:', newGame: 'Joc nou', chooseCountry: 'Alege țara' },
+         ru: { play: 'Старт', pause: 'Пауза', timer: 'Время:', moves: 'Ходы:', score: 'Очки:', newGame: 'Новая игра', chooseCountry: 'Выбрать страну' },
+         sk: { play: 'Štart', pause: 'Pauza', timer: 'Čas:', moves: 'Počet ťahov:', score: 'Body:', newGame: 'Nová hra', chooseCountry: 'Vybrať krajinu' },
+         sl: { play: 'Začni', pause: 'Pavza', timer: 'Čas:', moves: 'Število potez:', score: 'Točke:', newGame: 'Nova igra', chooseCountry: 'Izberi državo' },
+         sr: { play: 'Počni', pause: 'Pauza', timer: 'Vreme:', moves: 'Broj poteza:', score: 'Poeni:', newGame: 'Nova igra', chooseCountry: 'Odaberi zemlju' },
+         sv: { play: 'Starta', pause: 'Paus', timer: 'Tid:', moves: 'Drag antal:', score: 'Poäng:', newGame: 'Nytt spel', chooseCountry: 'Välj land' },
+         tr: { play: 'Başlat', pause: 'Duraklat', timer: 'Süre:', moves: 'Hamle Sayısı:', score: 'Puan:', newGame: 'Yeni oyun', chooseCountry: 'Ülke seç' }
       };
       var RANKING_LABELS = {
          bg: { common: 'Общ', daily: 'Дневен', monthly: 'Месечен' },
@@ -482,9 +482,23 @@ document.addEventListener("DOMContentLoaded", function(event) {
          set('#score .timer label', s.timer);
          set('#score .move-count label', s.moves);
          set('#score .score label', s.score);
-         var comp = document.querySelector('#score .competition-score label');
-         if (comp) comp.textContent = s.competition;
          set('#new-game', s.newGame);
+
+         var ranking = document.querySelector('#locale-ranking');
+         if (!ranking) return;
+         var labels = getRankingLabels();
+         var labelEls = ranking.querySelectorAll('.locale-ranking-label');
+         var texts = [labels.common, labels.daily, labels.monthly];
+         for (var i = 0; i < labelEls.length && i < texts.length; i++) {
+            labelEls[i].textContent = texts[i];
+         }
+         var emptyMsg = getEmptyRankingMessage();
+         var emptyEls = ranking.querySelectorAll('.locale-ranking-empty');
+         for (var j = 0; j < emptyEls.length; j++) {
+            emptyEls[j].textContent = emptyMsg;
+         }
+         var settings = ranking.querySelector('.locale-picker-settings');
+         if (settings) settings.setAttribute('aria-label', s.chooseCountry);
       }
 
       function refreshPlayerCountryUI() {
@@ -746,8 +760,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
       var $moveCountSpan = d.querySelector('#score .move-count span');
       var $score = d.querySelector('#score .score');
       var $scoreSpan = d.querySelector('#score .score span');
-      var $competitionScore = d.querySelector('#score .competition-score');
-      var $competitionScoreSpan = $competitionScore ? $competitionScore.querySelector('span') : null;
       var $newGameButton = d.querySelector('#new-game');
       var $playPause = d.querySelector('#play-pause');
       var $table = d.querySelector('#table');
@@ -771,7 +783,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
       var time = 0;
       var moves = 0;
       var score = 0;
-      var competitionScore = 0;
       var lastEventTime = 0;
       var scoreSubmitted = false;
       var suppressClickUntil = 0;
@@ -780,10 +791,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
       function onGameWon() {
          maybePromptCountryAfterWin();
       }
-
-      var COMPETITION_BASE_WIN = 1000;
-      var COMPETITION_TIME_PENALTY_PER_SEC = 1;
-      var COMPETITION_MOVE_PENALTY = 2;
 
       // Scoring: Standard Klondike rules (minimum score is 0)
       var SCORE = {
@@ -2691,7 +2698,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
             time = 0;
             moves = 0;
             score = 0;
-            competitionScore = 0;
             lastEventTime = 0;
             scoreSubmitted = false;
 
@@ -2704,7 +2710,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
             $score.dataset.score = 0;
             if ($scoreSpan) $scoreSpan.textContent = '0';
-            if ($competitionScoreSpan) updateCompetitionScore(0);
 
             // hide auto win button and remove listener
             if ($autoWin) {
@@ -2866,25 +2871,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
          });
       }
 
-   // competition scoring
-      function calculateCompetitionScore(time, moves, won) {
-         if (!won) return 0;
-         var total = COMPETITION_BASE_WIN -
-            (COMPETITION_TIME_PENALTY_PER_SEC * time) -
-            (COMPETITION_MOVE_PENALTY * moves);
-         total = total < 0 ? 0 : total;
-         return parseInt(total);
-      }
-
-      function updateCompetitionScore(value) {
-         if (!$competitionScore || !$competitionScoreSpan) return 0;
-         competitionScore = parseInt(value);
-         competitionScore = isNaN(competitionScore) ? 0 : competitionScore;
-         $competitionScore.dataset.competitionScore = competitionScore;
-         $competitionScoreSpan.textContent = competitionScore;
-         return competitionScore;
-      }
-
       // check for win
          function checkForWin(table) {
             // if all foundation piles are full
@@ -2895,7 +2881,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
                   === 52 ) {
                // console.log('Game Has Been Won');
                timer('stop');
-               updateCompetitionScore(calculateCompetitionScore(time, moves, true));
                sendScoreToSheet(score);
                // show victory effect
                showVictoryEffect();
@@ -2966,7 +2951,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
             autoWinAnimation(table);
             // stop timer
             timer('stop');
-            updateCompetitionScore(calculateCompetitionScore(time, moves, true));
             sendScoreToSheet(score);
 
             // Отслеживание победы в сценарии авто-победы.

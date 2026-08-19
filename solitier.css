@@ -245,9 +245,6 @@ body {
    display: inline-block;
    min-width: 100px;
 }
-#score .competition-score {
-   min-width: 140px;
-}
 
 #score .new-game-control {
    position: absolute;
