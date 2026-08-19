@@ -249,15 +249,7 @@ body {
 #score .competition-score {
    min-width: 140px;
 }
-#score .daily-streak {
-   min-width: auto;
-   margin-left: 0.75em;
-   padding: 0.2em 0.55em;
-   border: 1px solid rgba(255, 255, 255, 0.35);
-   border-radius: 4px;
-   font-size: 0.85em;
-   letter-spacing: 0.02em;
-}
+
 #score .new-game-control {
    position: absolute;
    left: 50%;

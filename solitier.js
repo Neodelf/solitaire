@@ -11,87 +11,6 @@ Optional Features:
 
 */
 
-(function (root) {
-   function pad(n) { return n < 10 ? '0' + n : String(n); }
-   function utcDateKey(d) {
-      d = d || new Date();
-      return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate());
-   }
-   function hashString(s) {
-      var h = 2166136261;
-      for (var i = 0; i < s.length; i++) {
-         h ^= s.charCodeAt(i);
-         h = Math.imul(h, 16777619);
-      }
-      return h >>> 0;
-   }
-   function mulberry32(a) {
-      return function () {
-         a |= 0;
-         a = a + 0x6D2B79F5 | 0;
-         var t = Math.imul(a ^ a >>> 15, 1 | a);
-         t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
-         return ((t ^ t >>> 14) >>> 0) / 4294967296;
-      };
-   }
-   function seededShuffle(arr, rng) {
-      var a = arr.slice();
-      for (var i = a.length - 1; i > 0; i--) {
-         var j = Math.floor(rng() * (i + 1));
-         var tmp = a[i];
-         a[i] = a[j];
-         a[j] = tmp;
-      }
-      return a;
-   }
-   function shuffleDeckForDate(deck, dateKey) {
-      return seededShuffle(deck, mulberry32(hashString('ws-daily-' + dateKey)));
-   }
-   var STREAK_KEY = 'ws_daily_streak';
-   function loadStreak() {
-      try {
-         var raw = localStorage.getItem(STREAK_KEY);
-         if (!raw) return { count: 0, lastWon: null };
-         var parsed = JSON.parse(raw);
-         return {
-            count: parseInt(parsed.count, 10) || 0,
-            lastWon: parsed.lastWon || null
-         };
-      } catch (e) {
-         return { count: 0, lastWon: null };
-      }
-   }
-   function saveStreak(state) {
-      try { localStorage.setItem(STREAK_KEY, JSON.stringify(state)); } catch (e) { /* private mode */ }
-   }
-   function previousUtcDateKey(dateKey) {
-      var p = String(dateKey).split('-');
-      var d = new Date(Date.UTC(+p[0], +p[1] - 1, +p[2]));
-      d.setUTCDate(d.getUTCDate() - 1);
-      return utcDateKey(d);
-   }
-   function recordDailyWin(dateKey) {
-      var s = loadStreak();
-      if (s.lastWon === dateKey) return s.count;
-      s.count = (s.lastWon === previousUtcDateKey(dateKey)) ? (s.count + 1) : 1;
-      s.lastWon = dateKey;
-      saveStreak(s);
-      return s.count;
-   }
-   function alreadyWonToday(dateKey) {
-      return loadStreak().lastWon === dateKey;
-   }
-   root.wsDailyDeal = {
-      utcDateKey: utcDateKey,
-      hashString: hashString,
-      mulberry32: mulberry32,
-      seededShuffle: seededShuffle,
-      shuffleDeckForDate: shuffleDeckForDate,
-      loadStreak: loadStreak,
-      recordDailyWin: recordDailyWin,
-      alreadyWonToday: alreadyWonToday
-   };
-})(typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : this));
 
 document.addEventListener("DOMContentLoaded", function(event) {
    if (!document.querySelector('#table')) {
@@ -142,35 +61,35 @@ document.addEventListener("DOMContentLoaded", function(event) {
          tr: '🇹🇷'
       };
       var UI_STRINGS = {
-         bg: { play: 'Играй', pause: 'Пауза', timer: 'Таймер:', moves: 'Ходове:', score: 'Резултат:', competition: 'Competition:', newGame: 'Нова игра', chooseCountry: 'Избери страна', daily: 'Дневна', dailyStreak: 'Дневна · ', streak: 'Серия ' },
-         cs: { play: 'Hraj', pause: 'Pauza', timer: 'Časovač:', moves: 'Tahy:', score: 'Skóre:', competition: 'Competition:', newGame: 'Nová hra', chooseCountry: 'Vybrat zemi', daily: 'Denní', dailyStreak: 'Denní · ', streak: 'Série ' },
-         da: { play: 'Play', pause: 'Pause', timer: 'Timer:', moves: 'Moves:', score: 'Score:', competition: 'Competition:', newGame: 'Nyt spil', chooseCountry: 'Vælg land', daily: 'Daglig', dailyStreak: 'Daglig · ', streak: 'Streak ' },
-         de: { play: 'Spielen', pause: 'Pause', timer: 'Timer:', moves: 'Züge:', score: 'Punkte:', competition: 'Competition:', newGame: 'Neues Spiel', chooseCountry: 'Land wählen', daily: 'Täglich', dailyStreak: 'Täglich · ', streak: 'Serie ' },
-         el: { play: 'Παίξε', pause: 'Παύση', timer: 'Χρόνος:', moves: 'Κινήσεις:', score: 'Πόντοι:', competition: 'Competition:', newGame: 'Νέο παιχνίδι', chooseCountry: 'Επιλογή χώρας', daily: 'Ημερήσιο', dailyStreak: 'Ημερήσιο · ', streak: 'Σερί ' },
-         en: { play: 'Play', pause: 'Pause', timer: 'Timer:', moves: 'Moves:', score: 'Score:', competition: 'Competition:', newGame: 'New Game', chooseCountry: 'Choose country', daily: 'Daily', dailyStreak: 'Daily · ', streak: 'Streak ' },
-         es: { play: 'Jugar', pause: 'Pausa', timer: 'Tiempo:', moves: 'Movimientos:', score: 'Puntuación:', competition: 'Competition:', newGame: 'Nuevo juego', chooseCountry: 'Elegir país', daily: 'Diario', dailyStreak: 'Diario · ', streak: 'Racha ' },
-         et: { play: 'Mängi', pause: 'Paus', timer: 'Aeg:', moves: 'Käigud:', score: 'Punktid:', competition: 'Competition:', newGame: 'Uus mäng', chooseCountry: 'Vali riik', daily: 'Päeva', dailyStreak: 'Päeva · ', streak: 'Seeria ' },
-         fi: { play: 'Pelaa', pause: 'Tauko', timer: 'Aika:', moves: 'Siirrot:', score: 'Pisteet:', competition: 'Competition:', newGame: 'Uusi peli', chooseCountry: 'Valitse maa', daily: 'Päivä', dailyStreak: 'Päivä · ', streak: 'Putki ' },
-         fr: { play: 'Jouer', pause: 'Pause', timer: 'Temps:', moves: 'Mouvements:', score: 'Score:', competition: 'Competition:', newGame: 'Nouvelle partie', chooseCountry: 'Choisir un pays', daily: 'Quotidien', dailyStreak: 'Quotidien · ', streak: 'Série ' },
-         he: { play: 'התחל', pause: 'הפסק', timer: 'זמן:', moves: 'מהלכים:', score: 'ניקוד:', competition: 'Competition:', newGame: 'משחק חדש', chooseCountry: 'בחר מדינה', daily: 'יומי', dailyStreak: 'יומי · ', streak: 'רצף ' },
-         hr: { play: 'Igraj', pause: 'Pauza', timer: 'Timer:', moves: 'Potezi:', score: 'Rezultat:', competition: 'Competition:', newGame: 'Nova igra', chooseCountry: 'Odaberi zemlju', daily: 'Dnevni', dailyStreak: 'Dnevni · ', streak: 'Niz ' },
-         hu: { play: 'Indítás', pause: 'Szünet', timer: 'Idő:', moves: 'Lépések:', score: 'Pontszám:', competition: 'Competition:', newGame: 'Új játék', chooseCountry: 'Ország választása', daily: 'Napi', dailyStreak: 'Napi · ', streak: 'Sorozat ' },
-         it: { play: 'Avvia', pause: 'Pausa', timer: 'Tempo:', moves: 'Mosse:', score: 'Punteggio:', competition: 'Competition:', newGame: 'Nuova partita', chooseCountry: 'Scegli paese', daily: 'Giornaliero', dailyStreak: 'Giornaliero · ', streak: 'Serie ' },
-         ja: { play: 'スタート', pause: '一時停止', timer: '時間:', moves: '手数:', score: 'スコア:', competition: 'Competition:', newGame: '新しいゲーム', chooseCountry: '国を選択', daily: '日間', dailyStreak: '日間 · ', streak: '連続 ' },
-         ko: { play: '시작', pause: '일시정지', timer: '시간:', moves: '횟수:', score: '점수:', competition: 'Competition:', newGame: '새 게임', chooseCountry: '국가 선택', daily: '일간', dailyStreak: '일간 · ', streak: '연속 ' },
-         lt: { play: 'Pradėti', pause: 'Pauzė', timer: 'Laikas:', moves: 'Eismai:', score: 'Taškai:', competition: 'Competition:', newGame: 'Naujas žaidimas', chooseCountry: 'Pasirinkti šalį', daily: 'Dienos', dailyStreak: 'Dienos · ', streak: 'Serija ' },
-         lv: { play: 'Sākt', pause: 'Pauze', timer: 'Laiks:', moves: 'Gājieni:', score: 'Punkti:', competition: 'Competition:', newGame: 'Jauna spēle', chooseCountry: 'Izvēlēties valsti', daily: 'Dienas', dailyStreak: 'Dienas · ', streak: 'Sērija ' },
-         nb: { play: 'Start', pause: 'Pause', timer: 'Tid:', moves: 'Trekk:', score: 'Poeng:', competition: 'Competition:', newGame: 'Nytt spill', chooseCountry: 'Velg land', daily: 'Daglig', dailyStreak: 'Daglig · ', streak: 'Rekke ' },
-         nl: { play: 'Play', pause: 'Pauze', timer: 'Tijd:', moves: 'Bewegingen:', score: 'Score:', competition: 'Competition:', newGame: 'Nieuw spel', chooseCountry: 'Kies land', daily: 'Dagelijks', dailyStreak: 'Dagelijks · ', streak: 'Reeks ' },
-         pl: { play: 'Play', pause: 'Pauza', timer: 'Czas:', moves: 'Ruchy:', score: 'Wynik:', competition: 'Competition:', newGame: 'Nowa gra', chooseCountry: 'Wybierz kraj', daily: 'Dzienny', dailyStreak: 'Dzienny · ', streak: 'Seria ' },
-         pt: { play: 'Iniciar', pause: 'Pausar', timer: 'Tempo:', moves: 'Movimentos:', score: 'Pontos:', competition: 'Competition:', newGame: 'Novo jogo', chooseCountry: 'Escolher país', daily: 'Diário', dailyStreak: 'Diário · ', streak: 'Sequência ' },
-         ro: { play: 'Start', pause: 'Pauză', timer: 'Timp:', moves: 'Mutări:', score: 'Puncte:', competition: 'Competition:', newGame: 'Joc nou', chooseCountry: 'Alege țara', daily: 'Zilnic', dailyStreak: 'Zilnic · ', streak: 'Serie ' },
-         ru: { play: 'Старт', pause: 'Пауза', timer: 'Время:', moves: 'Ходы:', score: 'Очки:', competition: 'Соревнование:', newGame: 'Новая игра', chooseCountry: 'Выбрать страну', daily: 'Ежедневный', dailyStreak: 'Ежедневный · ', streak: 'Серия ' },
-         sk: { play: 'Štart', pause: 'Pauza', timer: 'Čas:', moves: 'Počet ťahov:', score: 'Body:', competition: 'Competition:', newGame: 'Nová hra', chooseCountry: 'Vybrať krajinu', daily: 'Denný', dailyStreak: 'Denný · ', streak: 'Séria ' },
-         sl: { play: 'Začni', pause: 'Pavza', timer: 'Čas:', moves: 'Število potez:', score: 'Točke:', competition: 'Competition:', newGame: 'Nova igra', chooseCountry: 'Izberi državo', daily: 'Dnevni', dailyStreak: 'Dnevni · ', streak: 'Niz ' },
-         sr: { play: 'Počni', pause: 'Pauza', timer: 'Vreme:', moves: 'Broj poteza:', score: 'Poeni:', competition: 'Competition:', newGame: 'Nova igra', chooseCountry: 'Odaberi zemlju', daily: 'Dnevni', dailyStreak: 'Dnevni · ', streak: 'Niz ' },
-         sv: { play: 'Starta', pause: 'Paus', timer: 'Tid:', moves: 'Drag antal:', score: 'Poäng:', competition: 'Competition:', newGame: 'Nytt spel', chooseCountry: 'Välj land', daily: 'Daglig', dailyStreak: 'Daglig · ', streak: 'Streak ' },
-         tr: { play: 'Başlat', pause: 'Duraklat', timer: 'Süre:', moves: 'Hamle Sayısı:', score: 'Puan:', competition: 'Competition:', newGame: 'Yeni oyun', chooseCountry: 'Ülke seç', daily: 'Günlük', dailyStreak: 'Günlük · ', streak: 'Seri ' }
+         bg: { play: 'Играй', pause: 'Пауза', timer: 'Таймер:', moves: 'Ходове:', score: 'Резултат:', competition: 'Competition:', newGame: 'Нова игра', chooseCountry: 'Избери страна' },
+         cs: { play: 'Hraj', pause: 'Pauza', timer: 'Časovač:', moves: 'Tahy:', score: 'Skóre:', competition: 'Competition:', newGame: 'Nová hra', chooseCountry: 'Vybrat zemi' },
+         da: { play: 'Play', pause: 'Pause', timer: 'Timer:', moves: 'Moves:', score: 'Score:', competition: 'Competition:', newGame: 'Nyt spil', chooseCountry: 'Vælg land' },
+         de: { play: 'Spielen', pause: 'Pause', timer: 'Timer:', moves: 'Züge:', score: 'Punkte:', competition: 'Competition:', newGame: 'Neues Spiel', chooseCountry: 'Land wählen' },
+         el: { play: 'Παίξε', pause: 'Παύση', timer: 'Χρόνος:', moves: 'Κινήσεις:', score: 'Πόντοι:', competition: 'Competition:', newGame: 'Νέο παιχνίδι', chooseCountry: 'Επιλογή χώρας' },
+         en: { play: 'Play', pause: 'Pause', timer: 'Timer:', moves: 'Moves:', score: 'Score:', competition: 'Competition:', newGame: 'New Game', chooseCountry: 'Choose country' },
+         es: { play: 'Jugar', pause: 'Pausa', timer: 'Tiempo:', moves: 'Movimientos:', score: 'Puntuación:', competition: 'Competition:', newGame: 'Nuevo juego', chooseCountry: 'Elegir país' },
+         et: { play: 'Mängi', pause: 'Paus', timer: 'Aeg:', moves: 'Käigud:', score: 'Punktid:', competition: 'Competition:', newGame: 'Uus mäng', chooseCountry: 'Vali riik' },
+         fi: { play: 'Pelaa', pause: 'Tauko', timer: 'Aika:', moves: 'Siirrot:', score: 'Pisteet:', competition: 'Competition:', newGame: 'Uusi peli', chooseCountry: 'Valitse maa' },
+         fr: { play: 'Jouer', pause: 'Pause', timer: 'Temps:', moves: 'Mouvements:', score: 'Score:', competition: 'Competition:', newGame: 'Nouvelle partie', chooseCountry: 'Choisir un pays' },
+         he: { play: 'התחל', pause: 'הפסק', timer: 'זמן:', moves: 'מהלכים:', score: 'ניקוד:', competition: 'Competition:', newGame: 'משחק חדש', chooseCountry: 'בחר מדינה' },
+         hr: { play: 'Igraj', pause: 'Pauza', timer: 'Timer:', moves: 'Potezi:', score: 'Rezultat:', competition: 'Competition:', newGame: 'Nova igra', chooseCountry: 'Odaberi zemlju' },
+         hu: { play: 'Indítás', pause: 'Szünet', timer: 'Idő:', moves: 'Lépések:', score: 'Pontszám:', competition: 'Competition:', newGame: 'Új játék', chooseCountry: 'Ország választása' },
+         it: { play: 'Avvia', pause: 'Pausa', timer: 'Tempo:', moves: 'Mosse:', score: 'Punteggio:', competition: 'Competition:', newGame: 'Nuova partita', chooseCountry: 'Scegli paese' },
+         ja: { play: 'スタート', pause: '一時停止', timer: '時間:', moves: '手数:', score: 'スコア:', competition: 'Competition:', newGame: '新しいゲーム', chooseCountry: '国を選択' },
+         ko: { play: '시작', pause: '일시정지', timer: '시간:', moves: '횟수:', score: '점수:', competition: 'Competition:', newGame: '새 게임', chooseCountry: '국가 선택' },
+         lt: { play: 'Pradėti', pause: 'Pauzė', timer: 'Laikas:', moves: 'Eismai:', score: 'Taškai:', competition: 'Competition:', newGame: 'Naujas žaidimas', chooseCountry: 'Pasirinkti šalį' },
+         lv: { play: 'Sākt', pause: 'Pauze', timer: 'Laiks:', moves: 'Gājieni:', score: 'Punkti:', competition: 'Competition:', newGame: 'Jauna spēle', chooseCountry: 'Izvēlēties valsti' },
+         nb: { play: 'Start', pause: 'Pause', timer: 'Tid:', moves: 'Trekk:', score: 'Poeng:', competition: 'Competition:', newGame: 'Nytt spill', chooseCountry: 'Velg land' },
+         nl: { play: 'Play', pause: 'Pauze', timer: 'Tijd:', moves: 'Bewegingen:', score: 'Score:', competition: 'Competition:', newGame: 'Nieuw spel', chooseCountry: 'Kies land' },
+         pl: { play: 'Play', pause: 'Pauza', timer: 'Czas:', moves: 'Ruchy:', score: 'Wynik:', competition: 'Competition:', newGame: 'Nowa gra', chooseCountry: 'Wybierz kraj' },
+         pt: { play: 'Iniciar', pause: 'Pausar', timer: 'Tempo:', moves: 'Movimentos:', score: 'Pontos:', competition: 'Competition:', newGame: 'Novo jogo', chooseCountry: 'Escolher país' },
+         ro: { play: 'Start', pause: 'Pauză', timer: 'Timp:', moves: 'Mutări:', score: 'Puncte:', competition: 'Competition:', newGame: 'Joc nou', chooseCountry: 'Alege țara' },
+         ru: { play: 'Старт', pause: 'Пауза', timer: 'Время:', moves: 'Ходы:', score: 'Очки:', competition: 'Соревнование:', newGame: 'Новая игра', chooseCountry: 'Выбрать страну' },
+         sk: { play: 'Štart', pause: 'Pauza', timer: 'Čas:', moves: 'Počet ťahov:', score: 'Body:', competition: 'Competition:', newGame: 'Nová hra', chooseCountry: 'Vybrať krajinu' },
+         sl: { play: 'Začni', pause: 'Pavza', timer: 'Čas:', moves: 'Število potez:', score: 'Točke:', competition: 'Competition:', newGame: 'Nova igra', chooseCountry: 'Izberi državo' },
+         sr: { play: 'Počni', pause: 'Pauza', timer: 'Vreme:', moves: 'Broj poteza:', score: 'Poeni:', competition: 'Competition:', newGame: 'Nova igra', chooseCountry: 'Odaberi zemlju' },
+         sv: { play: 'Starta', pause: 'Paus', timer: 'Tid:', moves: 'Drag antal:', score: 'Poäng:', competition: 'Competition:', newGame: 'Nytt spel', chooseCountry: 'Välj land' },
+         tr: { play: 'Başlat', pause: 'Duraklat', timer: 'Süre:', moves: 'Hamle Sayısı:', score: 'Puan:', competition: 'Competition:', newGame: 'Yeni oyun', chooseCountry: 'Ülke seç' }
       };
       var RANKING_LABELS = {
          bg: { common: 'Общ', daily: 'Дневен', monthly: 'Месечен' },
@@ -857,60 +776,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
       var scoreSubmitted = false;
       var suppressClickUntil = 0;
       var unplayedTabCards = [];
-      var isDailyDeal = false;
-
-      function todayKey() {
-         return window.wsDailyDeal ? window.wsDailyDeal.utcDateKey() : '';
-      }
-
-      function shouldDealDaily() {
-         if (!window.wsDailyDeal) return false;
-         return !window.wsDailyDeal.alreadyWonToday(todayKey());
-      }
-
-      function shuffleForPlay(sourceDeck, useDaily) {
-         if (!window.wsDailyDeal || !useDaily) {
-            isDailyDeal = false;
-            return shuffle(sourceDeck);
-         }
-         isDailyDeal = true;
-         return window.wsDailyDeal.shuffleDeckForDate(sourceDeck, todayKey());
-      }
-
-      function renderDailyStreakChip() {
-         var scoreBlock = d.querySelector('#score');
-         if (!scoreBlock || !window.wsDailyDeal) return;
-         var existing = d.querySelector('#daily-streak');
-         var streak = window.wsDailyDeal.loadStreak();
-         var el = existing || d.createElement('div');
-         el.id = 'daily-streak';
-         el.className = 'daily-streak';
-         var us = getUIStrings();
-         if (isDailyDeal) {
-            el.textContent = streak.count > 0 ? (us.dailyStreak + streak.count) : us.daily;
-         } else {
-            el.textContent = streak.count > 0 ? (us.streak + streak.count) : '';
-         }
-         if (!el.textContent) {
-            el.style.display = 'none';
-         } else {
-            el.style.display = '';
-         }
-         if (!existing) scoreBlock.appendChild(el);
-      }
 
       function onGameWon() {
-         if (isDailyDeal && window.wsDailyDeal) {
-            window.wsDailyDeal.recordDailyWin(todayKey());
-            isDailyDeal = false;
-            renderDailyStreakChip();
-            if (window.solitaireAnalytics) {
-               window.solitaireAnalytics.trackEvent('daily_deal_won', {
-                  streak: window.wsDailyDeal.loadStreak().count,
-                  page_locale: pageLocale
-               });
-            }
-         }
          maybePromptCountryAfterWin();
       }
 
@@ -938,7 +805,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
          debugDeal = params.get('debug') === '1';
       }
 
-      deck = debugDeal ? buildDebugDeck(suits) : shuffleForPlay(deck, shouldDealDaily());
+      deck = debugDeal ? buildDebugDeck(suits) : shuffle(deck);
 
    // 3. DEAL DECK
       table = debugDeal ? debugDealStockOnly(deck, table) : deal(deck, table);
@@ -951,7 +818,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
       // 4–5. RENDER TABLE (7 tops first) THEN START GAMEPLAY
       scheduleLocaleRankingRender();
       applyUIStrings();
-      renderDailyStreakChip();
       startDeferredDealRender(table, playedCards, false, function() {
          play(table);
          setupClickDelegation();
@@ -2864,7 +2730,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             } else {
                debugDeal = false;
             }
-            deck = debugDeal ? buildDebugDeck(suits) : shuffleForPlay(deck, false);
+            deck = debugDeal ? buildDebugDeck(suits) : shuffle(deck);
 
             table = [];
             table['stock'] = [];
@@ -2882,7 +2748,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
 
             playedCards = initialPlayedCards;
-            renderDailyStreakChip();
             startDeferredDealRender(table, playedCards, false, function() {
                play(table);
             });
