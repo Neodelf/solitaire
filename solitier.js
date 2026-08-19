@@ -317,9 +317,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
          } catch (e) { /* ponytail: private mode */ }
       }
 
+      function p2(n) { return n < 10 ? '0' + n : String(n); }
+      function utcDateKey() {
+         var d = new Date();
+         return d.getUTCFullYear() + '-' + p2(d.getUTCMonth() + 1) + '-' + p2(d.getUTCDate());
+      }
       function utcMonthKey() {
          var d = new Date();
-         return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1);
+         return d.getUTCFullYear() + '-' + p2(d.getUTCMonth() + 1);
       }
 
       function loadContribs() {
