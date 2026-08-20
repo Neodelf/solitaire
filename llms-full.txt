@@ -15,7 +15,7 @@ URL: https://world-solitaire.com/
 ## Start a new solitaire game instantly on mobile or desktop
 
 Play Klondike Solitaire free online at World Solitaire — the classic card game with modern features.
-Experience the timeless solitaire with country leaderboard competition, winnable deals, and intuitive gameplay.
+Experience the timeless solitaire with country leaderboards, winnable deals, and intuitive gameplay.
 No registration required, no advertisements interrupting your game.
 
 ### Why Choose World Solitaire?
@@ -28,7 +28,7 @@ No registration required, no advertisements interrupting your game.
 
 - **Mobile Optimized:** Perfect gameplay on smartphones, tablets, and desktop computers
 
-- **Country Competition:** Compete on country leaderboards and climb your nation's rank
+- **Country Leaderboard:** Play on country leaderboards and climb your nation's rank
 
 - **Winnable Deals:** Every game is designed to be solvable with the right strategy
 
