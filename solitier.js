@@ -323,6 +323,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                locale: locale,
                score: parseInt(totals[locale], 10) || 0
             };
+         }).filter(function(entry) {
+            return entry.score > 0;
          });
          entries.sort(function(a, b) {
             return b.score - a.score;
