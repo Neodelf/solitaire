@@ -13,7 +13,8 @@ var DAILY_HEADER_ROW = 33;
 var DAILY_START_ROW = 34;
 var MONTHLY_HEADER_ROW = 65;
 var MONTHLY_START_ROW = 66;
-var PERIOD_START_COL = 3;
+// ponytail: sheet layout is A=locale, B+=period columns (not C+)
+var PERIOD_START_COL = 2;
 var LOCALES = [
   'bg','cs','da','de','el','en','es','et','fi','fr','he','hr','hu','it',
   'ja','ko','lt','lv','nb','nl','pl','pt','ro','ru','sk','sl','sr','sv','tr'
@@ -128,12 +129,17 @@ function formatMonthlyHeaderUtc() {
   return Utilities.formatDate(new Date(), 'UTC', 'MM.yy');
 }
 
+function normalizePeriodHeader(value) {
+  // getDisplayValues avoids Date objects when Sheets auto-parses "08.26" / "20.08.26"
+  return String(value == null ? '' : value).trim();
+}
+
 function findOrCreatePeriodColumn(sheet, headerRow, headerLabel) {
   var lastCol = Math.max(sheet.getLastColumn(), PERIOD_START_COL);
   var width = lastCol - PERIOD_START_COL + 1;
-  var headers = sheet.getRange(headerRow, PERIOD_START_COL, 1, width).getValues()[0];
+  var headers = sheet.getRange(headerRow, PERIOD_START_COL, 1, width).getDisplayValues()[0];
   for (var i = 0; i < headers.length; i++) {
-    if (String(headers[i]) === headerLabel) {
+    if (normalizePeriodHeader(headers[i]) === headerLabel) {
       return PERIOD_START_COL + i;
     }
   }
@@ -161,9 +167,9 @@ function readPeriodTotals(sheet, headerRow, dataStartRow, headerLabel) {
 function findPeriodColumn(sheet, headerRow, headerLabel) {
   var lastCol = Math.max(sheet.getLastColumn(), PERIOD_START_COL);
   var width = lastCol - PERIOD_START_COL + 1;
-  var headers = sheet.getRange(headerRow, PERIOD_START_COL, 1, width).getValues()[0];
+  var headers = sheet.getRange(headerRow, PERIOD_START_COL, 1, width).getDisplayValues()[0];
   for (var i = 0; i < headers.length; i++) {
-    if (String(headers[i]) === headerLabel) {
+    if (normalizePeriodHeader(headers[i]) === headerLabel) {
       return PERIOD_START_COL + i;
     }
   }
