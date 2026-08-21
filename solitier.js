@@ -425,8 +425,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
          var allRow = d.createElement('div');
          allRow.className = 'locale-ranking-all-row';
          appendPeriodRow(allRow, labels.daily, dailyTotals, buildContribBadge(contribs.daily), true);
-         appendPeriodRow(allRow, labels.common, totals, buildContribBadge(contribs.all), false);
          appendPeriodRow(allRow, labels.monthly, monthlyTotals, buildContribBadge(contribs.monthly), true);
+         appendPeriodRow(allRow, labels.common, totals, buildContribBadge(contribs.all), false);
          allRow.appendChild(renderLocalePickerSettingsBtn());
          container.appendChild(allRow);
          return container;
@@ -479,7 +479,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
          if (!ranking) return;
          var labels = getRankingLabels();
          var labelEls = ranking.querySelectorAll('.locale-ranking-label');
-         var texts = [labels.daily, labels.common, labels.monthly];
+         var texts = [labels.daily, labels.monthly, labels.common];
          for (var i = 0; i < labelEls.length && i < texts.length; i++) {
             labelEls[i].textContent = texts[i];
          }
@@ -612,10 +612,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
                var item = document.createElement('div');
                item.className = 'locale-ranking-detail-item';
                if (entry.locale === playerCountry) item.className += ' is-current';
-               item.textContent = (i < 3 ? medals[i] : (i + 1) + '.') + ' ' +
-                  (LOCALE_EMOJI[entry.locale] || '🏳️') +
+               var rest = (LOCALE_EMOJI[entry.locale] || '🏳️') +
                   ' ' + entry.locale.toUpperCase() +
                   ' ' + fmtScore(entry.score);
+               if (i < 3) {
+                  var medal = document.createElement('span');
+                  medal.className = 'locale-ranking-medal';
+                  medal.textContent = medals[i];
+                  item.appendChild(medal);
+                  item.appendChild(document.createTextNode(' ' + rest));
+               } else {
+                  item.textContent = (i + 1) + '. ' + rest;
+               }
                list.appendChild(item);
             });
             panel.appendChild(list);
@@ -639,8 +647,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                var loadingAllRow = d.createElement('div');
                loadingAllRow.className = 'locale-ranking-all-row';
                loadingAllRow.appendChild(buildPeriodRow(labels.daily, buildLoadingGrid()));
-               loadingAllRow.appendChild(buildPeriodRow(labels.common, buildLoadingGrid()));
                loadingAllRow.appendChild(buildPeriodRow(labels.monthly, buildLoadingGrid()));
+               loadingAllRow.appendChild(buildPeriodRow(labels.common, buildLoadingGrid()));
                loadingContainer.appendChild(loadingAllRow);
                scoreBlock.parentNode.insertBefore(loadingContainer, scoreBlock);
             }
