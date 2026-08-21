@@ -604,29 +604,52 @@ document.addEventListener("DOMContentLoaded", function(event) {
          if (!entries.length) {
             panel.appendChild(buildEmptyRankingMessage());
          } else {
-            var list = document.createElement('div');
-            list.className = 'locale-ranking-detail-list';
             var medals = ['🥇', '🥈', '🥉'];
+            var placeClass = ['is-gold', 'is-silver', 'is-bronze'];
             var playerCountry = getPlayerCountry();
-            entries.forEach(function(entry, i) {
-               var item = document.createElement('div');
-               item.className = 'locale-ranking-detail-item';
-               if (entry.locale === playerCountry) item.className += ' is-current';
-               var rest = (LOCALE_EMOJI[entry.locale] || '🏳️') +
+            var line = function(entry) {
+               return (LOCALE_EMOJI[entry.locale] || '🏳️') +
                   ' ' + entry.locale.toUpperCase() +
                   ' ' + fmtScore(entry.score);
-               if (i < 3) {
+            };
+            var body = document.createElement('div');
+            body.className = 'locale-ranking-detail-body';
+            var podium = document.createElement('div');
+            podium.className = 'locale-ranking-detail-podium';
+            [1, 0, 2].forEach(function(place) {
+               var slot = document.createElement('div');
+               slot.className = 'locale-ranking-podium-slot ' + placeClass[place];
+               var entry = entries[place];
+               if (entry) {
+                  if (entry.locale === playerCountry) slot.className += ' is-current';
                   var medal = document.createElement('span');
                   medal.className = 'locale-ranking-medal';
-                  medal.textContent = medals[i];
-                  item.appendChild(medal);
-                  item.appendChild(document.createTextNode(' ' + rest));
-               } else {
-                  item.textContent = (i + 1) + '. ' + rest;
+                  medal.textContent = medals[place];
+                  var label = document.createElement('div');
+                  label.textContent = line(entry);
+                  var step = document.createElement('div');
+                  step.className = 'locale-ranking-podium-step';
+                  slot.appendChild(medal);
+                  slot.appendChild(label);
+                  slot.appendChild(step);
                }
-               list.appendChild(item);
+               podium.appendChild(slot);
             });
-            panel.appendChild(list);
+            body.appendChild(podium);
+            var rest = entries.slice(3);
+            if (rest.length) {
+               var grid = document.createElement('div');
+               grid.className = 'locale-ranking-detail-rest';
+               rest.forEach(function(entry, i) {
+                  var item = document.createElement('div');
+                  item.className = 'locale-ranking-detail-item';
+                  if (entry.locale === playerCountry) item.className += ' is-current';
+                  item.textContent = (i + 4) + '. ' + line(entry);
+                  grid.appendChild(item);
+               });
+               body.appendChild(grid);
+            }
+            panel.appendChild(body);
          }
          overlay.appendChild(panel);
          overlay.addEventListener('click', closeRankingModal);
