@@ -405,16 +405,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
          return row;
       }
 
-      function buildDoublePeriodRow(leftLabel, leftContent, leftBadge, rightLabel, rightContent, rightBadge) {
-         var row = d.createElement('div');
-         row.className = 'locale-ranking-period-row locale-ranking-period-row-double';
-         row.appendChild(buildPeriodRow(leftLabel, leftContent, leftBadge));
-         row.appendChild(buildPeriodRow(rightLabel, rightContent, rightBadge));
+      function appendPeriodRow(parent, labelText, totals, badgeEl, useEmpty) {
+         var content = useEmpty && isRankingEmpty(totals)
+            ? buildEmptyRankingMessage()
+            : buildRankingGrid(buildTopEntries(totals, LOCALE_RANKING_LIMIT), getPlayerCountry());
+         var row = buildPeriodRow(labelText, content, badgeEl);
+         bindRankingOpen(row, labelText, totals);
+         parent.appendChild(row);
          return row;
       }
 
       function renderRankingContainer(totals, dailyTotals, monthlyTotals) {
-         var playerCountry = getPlayerCountry();
          var labels = getRankingLabels();
          var contribs = loadContribs();
          var container = d.createElement('div');
@@ -423,26 +424,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
          var allRow = d.createElement('div');
          allRow.className = 'locale-ranking-all-row';
-         var dailyRow = buildPeriodRow(
-            labels.daily,
-            isRankingEmpty(dailyTotals) ? buildEmptyRankingMessage() : buildRankingGrid(buildTopEntries(dailyTotals, LOCALE_RANKING_LIMIT), playerCountry),
-            buildContribBadge(contribs.daily)
-         );
-         bindRankingOpen(dailyRow, labels.daily, dailyTotals);
-         allRow.appendChild(dailyRow);
-         var bottomRow = buildDoublePeriodRow(
-            labels.common,
-            buildRankingGrid(buildTopEntries(totals, LOCALE_RANKING_LIMIT), playerCountry),
-            buildContribBadge(contribs.all),
-            labels.monthly,
-            isRankingEmpty(monthlyTotals) ? buildEmptyRankingMessage() : buildRankingGrid(buildTopEntries(monthlyTotals, LOCALE_RANKING_LIMIT), playerCountry),
-            buildContribBadge(contribs.monthly)
-         );
-         var innerRows = bottomRow.querySelectorAll('.locale-ranking-period-row');
-         bindRankingOpen(innerRows[0], labels.common, totals);
-         bindRankingOpen(innerRows[1], labels.monthly, monthlyTotals);
-         bottomRow.appendChild(renderLocalePickerSettingsBtn());
-         allRow.appendChild(bottomRow);
+         appendPeriodRow(allRow, labels.daily, dailyTotals, buildContribBadge(contribs.daily), true);
+         appendPeriodRow(allRow, labels.common, totals, buildContribBadge(contribs.all), false);
+         appendPeriodRow(allRow, labels.monthly, monthlyTotals, buildContribBadge(contribs.monthly), true);
+         allRow.appendChild(renderLocalePickerSettingsBtn());
          container.appendChild(allRow);
          return container;
       }
@@ -627,7 +612,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                var item = document.createElement('div');
                item.className = 'locale-ranking-detail-item';
                if (entry.locale === playerCountry) item.className += ' is-current';
-               item.textContent = (i < 3 ? medals[i] + ' ' : '') +
+               item.textContent = (i < 3 ? medals[i] : (i + 1) + '.') + ' ' +
                   (LOCALE_EMOJI[entry.locale] || '🏳️') +
                   ' ' + entry.locale.toUpperCase() +
                   ' ' + fmtScore(entry.score);
@@ -654,11 +639,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                var loadingAllRow = d.createElement('div');
                loadingAllRow.className = 'locale-ranking-all-row';
                loadingAllRow.appendChild(buildPeriodRow(labels.daily, buildLoadingGrid()));
-               var loadingBottom = buildDoublePeriodRow(
-                  labels.common, buildLoadingGrid(), null,
-                  labels.monthly, buildLoadingGrid(), null
-               );
-               loadingAllRow.appendChild(loadingBottom);
+               loadingAllRow.appendChild(buildPeriodRow(labels.common, buildLoadingGrid()));
+               loadingAllRow.appendChild(buildPeriodRow(labels.monthly, buildLoadingGrid()));
                loadingContainer.appendChild(loadingAllRow);
                scoreBlock.parentNode.insertBefore(loadingContainer, scoreBlock);
             }

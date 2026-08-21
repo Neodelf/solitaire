@@ -113,23 +113,22 @@ body {
 }
 .locale-ranking-all-row {
    display: flex;
-   flex-direction: column;
+   flex-direction: row;
+   flex-wrap: nowrap;
    align-items: center;
    justify-content: center;
    gap: 0.5em 1em;
    max-width: 100%;
+   overflow-x: auto;
 }
 .locale-ranking-period-row {
    display: flex;
    align-items: center;
    justify-content: center;
+   flex-shrink: 0;
 }
 .locale-ranking-period-row.is-clickable {
    cursor: pointer;
-}
-.locale-ranking-period-row-double {
-   flex-wrap: wrap;
-   gap: 0.5em 1em;
 }
 .locale-ranking-label {
    font-size: 1.275rem;
