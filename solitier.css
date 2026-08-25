@@ -36,6 +36,9 @@ body {
    justify-content: center;
 }
 .locale-player-country {
+   display: flex;
+   align-items: center;
+   gap: 0.5em;
    background: rgba(0,0,0,.2);
    padding: 0.5em 0.75em;
    color: #f3f5f7;
@@ -44,6 +47,9 @@ body {
    white-space: nowrap;
    width: fit-content;
    max-width: 100%;
+}
+.locale-player-country .locale-ranking-contrib {
+   padding: 0.15em 0.45em;
 }
 .locale-ranking-row {
    display: flex;

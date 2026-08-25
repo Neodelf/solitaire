@@ -393,7 +393,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
          return el;
       }
 
-      function buildPeriodRow(labelText, grid, badgeEl) {
+      function buildPeriodRow(labelText, grid) {
          var row = d.createElement('div');
          row.className = 'locale-ranking-period-row';
          var label = d.createElement('div');
@@ -401,15 +401,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
          label.textContent = labelText;
          row.appendChild(label);
          row.appendChild(grid);
-         if (badgeEl) row.appendChild(badgeEl);
          return row;
       }
 
-      function appendPeriodRow(parent, labelText, totals, badgeEl, useEmpty) {
+      function appendPeriodRow(parent, labelText, totals, useEmpty) {
          var content = useEmpty && isRankingEmpty(totals)
             ? buildEmptyRankingMessage()
             : buildRankingGrid(buildTopEntries(totals, LOCALE_RANKING_LIMIT), getPlayerCountry());
-         var row = buildPeriodRow(labelText, content, badgeEl);
+         var row = buildPeriodRow(labelText, content);
          bindRankingOpen(row, labelText, totals);
          parent.appendChild(row);
          return row;
@@ -417,16 +416,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
       function renderRankingContainer(totals, dailyTotals, monthlyTotals) {
          var labels = getRankingLabels();
-         var contribs = loadContribs();
          var container = d.createElement('div');
          container.id = 'locale-ranking';
          container.appendChild(renderPlayerCountryEl(totals));
 
          var allRow = d.createElement('div');
          allRow.className = 'locale-ranking-all-row';
-         appendPeriodRow(allRow, labels.daily, dailyTotals, buildContribBadge(contribs.daily), true);
-         appendPeriodRow(allRow, labels.monthly, monthlyTotals, buildContribBadge(contribs.monthly), true);
-         appendPeriodRow(allRow, labels.common, totals, buildContribBadge(contribs.all), false);
+         appendPeriodRow(allRow, labels.daily, dailyTotals, true);
+         appendPeriodRow(allRow, labels.monthly, monthlyTotals, true);
+         appendPeriodRow(allRow, labels.common, totals, false);
          allRow.appendChild(renderLocalePickerSettingsBtn());
          container.appendChild(allRow);
          return container;
@@ -438,6 +436,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
          el.className = 'locale-player-country';
          var score = totals && totals[locale] != null ? (parseInt(totals[locale], 10) || 0) : 0;
          el.textContent = (LOCALE_EMOJI[locale] || '🏳️') + ' ' + locale.toUpperCase() + ' ' + score;
+         var badge = buildContribBadge(loadContribs().all);
+         if (badge) el.appendChild(badge);
          return el;
       }
 
