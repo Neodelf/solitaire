@@ -434,8 +434,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
          var locale = getPlayerCountry();
          var el = document.createElement('div');
          el.className = 'locale-player-country';
-         var score = totals && totals[locale] != null ? (parseInt(totals[locale], 10) || 0) : 0;
-         el.textContent = (LOCALE_EMOJI[locale] || '🏳️') + ' ' + locale.toUpperCase() + ' ' + score;
+         var label = (LOCALE_EMOJI[locale] || '🏳️') + ' ' + locale.toUpperCase() + ' ';
+         if (totals == null) {
+            el.textContent = label;
+            var loader = document.createElement('span');
+            loader.className = 'locale-ranking-spinner';
+            el.appendChild(loader);
+         } else {
+            var score = totals[locale] != null ? (parseInt(totals[locale], 10) || 0) : 0;
+            el.textContent = label + score;
+         }
          var badge = buildContribBadge(loadContribs().all);
          if (badge) el.appendChild(badge);
          return el;
