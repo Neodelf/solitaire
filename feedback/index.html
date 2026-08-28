@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-NDGZGPFM');</script>
+  <!-- End Google Tag Manager -->
+  <!-- Ahrefs Site Verification -->
+  <script src="https://analytics.ahrefs.com/analytics.js" data-key="wi9VUQwxqS7u46H2HF8EcA" async></script>
+  <!-- Ahrefs Site Verification -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Feedback | World Solitaire</title>
+  <meta name="description" content="Send feedback about World Solitaire: name, email, rating, and a short message. We read every note." />
+  <link rel="icon" href="../img/favicon.png" />
+  <link rel="canonical" href="https://world-solitaire.com/feedback/" />
+  <link rel="alternate" hreflang="en" href="https://world-solitaire.com/feedback/" />
+  <link rel="alternate" hreflang="x-default" href="https://world-solitaire.com/" />
+  <meta property="og:title" content="Feedback | World Solitaire" />
+  <meta property="og:description" content="Send feedback about World Solitaire: name, email, rating, and a short message." />
+  <meta property="og:url" content="https://world-solitaire.com/feedback/" />
+  <meta property="og:image" content="https://world-solitaire.com/img/frontpage_solitaire_desktop@2x.png" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Feedback | World Solitaire" />
+  <meta name="twitter:description" content="Send feedback about World Solitaire: name, email, rating, and a short message." />
+  <link rel="stylesheet" href="../solitier.css">
+  <link rel="stylesheet" href="../bootstrap.min.css">
+  <script src="../analytics.js" defer></script>
+  <script src="../performance-tracker.js" defer></script>
+  <script src="../custom-dimensions.js" defer></script>
+  <script src="../ecommerce-tracker.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://world-solitaire.com/"},
+      {"@type": "ListItem", "position": 2, "name": "Feedback", "item": "https://world-solitaire.com/feedback/"}
+    ]
+  }
+  </script>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NDGZGPFM" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <main class="container seo-text">
+    <header class="article-header">
+      <a href="/">World Solitaire</a>
+      <a href="/#table" class="article-cta-btn">Play now</a>
+    </header>
+    <nav class="article-breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a><span>›</span><span>Feedback</span>
+    </nav>
+
+    <h1>Feedback</h1>
+    <p>Tell us what works and what we should fix. Every message is read.</p>
+
+    <form id="feedback-form" class="feedback-form" novalidate>
+      <label for="feedback-name">Name</label>
+      <input id="feedback-name" type="text" maxlength="100" autocomplete="name" required>
+
+      <label for="feedback-email">Email</label>
+      <input id="feedback-email" type="email" maxlength="200" autocomplete="email" required>
+
+      <fieldset class="feedback-rating">
+        <legend>Rating</legend>
+        <label><input type="radio" name="rating" value="1" required> 1</label>
+        <label><input type="radio" name="rating" value="2"> 2</label>
+        <label><input type="radio" name="rating" value="3"> 3</label>
+        <label><input type="radio" name="rating" value="4"> 4</label>
+        <label><input type="radio" name="rating" value="5"> 5</label>
+      </fieldset>
+
+      <label for="feedback-message">Message</label>
+      <textarea id="feedback-message" maxlength="2000" rows="6" required></textarea>
+
+      <input id="feedback-website" class="feedback-hp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+      <p id="feedback-error" class="feedback-error" hidden></p>
+      <button type="submit" class="article-cta-btn">Send feedback</button>
+    </form>
+
+    <p id="feedback-thanks" class="feedback-thanks" hidden>Thank you. Your feedback has been sent.</p>
+  </main>
+
+  <script>
+    (function () {
+      var ENDPOINT = 'https://script.google.com/macros/s/AKfycbz4qaCHGUoPTgJ4iWC-hJAyzdwJnZOT0Xx9Pv21PADREUBloHJQ8V1QNKtlL9LL0NPS-w/exec';
+      var form = document.getElementById('feedback-form');
+      var thanks = document.getElementById('feedback-thanks');
+      var errorEl = document.getElementById('feedback-error');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var name = document.getElementById('feedback-name').value.trim();
+        var email = document.getElementById('feedback-email').value.trim();
+        var message = document.getElementById('feedback-message').value.trim();
+        var ratingEl = form.querySelector('input[name="rating"]:checked');
+        var rating = ratingEl ? parseInt(ratingEl.value, 10) : 0;
+        if (!name || !email || email.indexOf('@') < 1 || !(rating >= 1 && rating <= 5) || !message) {
+          errorEl.hidden = false;
+          errorEl.textContent = 'Please fill in all fields with a valid email and rating.';
+          return;
+        }
+        errorEl.hidden = true;
+        if (document.getElementById('feedback-website').value) {
+          form.hidden = true;
+          thanks.hidden = false;
+          return;
+        }
+        var params = new URLSearchParams();
+        params.append('action', 'feedback');
+        params.append('name', name.slice(0, 100));
+        params.append('email', email.slice(0, 200));
+        params.append('rating', String(rating));
+        params.append('message', message.slice(0, 2000));
+        params.append('locale', 'en');
+        fetch(ENDPOINT, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+          body: params.toString()
+        }).catch(function () {});
+        form.hidden = true;
+        thanks.hidden = false;
+      });
+    })();
+  </script>
+</body>
+</html>
