@@ -1338,11 +1338,6 @@ body.is-dragging {
       margin-top: 1.5em;
       font-size: 1.1em;
    }
-   .privacy-lang {
-      margin-top: 2.5em;
-      padding-top: 1.5em;
-      border-top: 1px solid rgba(255,255,255,.3);
-   }
    @media (max-width: 576px) {
       .seo-text {
          padding: 1em 0.75em;
