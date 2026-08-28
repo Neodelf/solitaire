@@ -7,6 +7,8 @@
  */
 var SHEET_ID = '1TL35sczNPh1p2zTdtiQ8YFLwee8JFX9zoBJckdnWIFc';
 var SHEET_NAME = 'Rating';
+var FEEDBACK_SHEET_NAME = 'Feedback';
+var FEEDBACK_HEADERS = ['Timestamp', 'Name', 'Email', 'Rating', 'Message', 'Locale'];
 var SCORE_COLUMN = 'B';
 var START_ROW = 2;
 var DAILY_HEADER_ROW = 33;
@@ -32,6 +34,10 @@ function doPost(e) {
 
     if (ACCESS_TOKEN && body.token !== ACCESS_TOKEN) {
       return jsonResponse({ ok: false, error: 'unauthorized' }, 401);
+    }
+
+    if (String(body.action || '') === 'feedback') {
+      return handleFeedback(body);
     }
 
     var score = parseInt(body.score, 10);
@@ -74,6 +80,61 @@ function doPost(e) {
   } catch (err) {
     return jsonResponse({ ok: false, error: String(err) }, 500);
   }
+}
+
+function handleFeedback(body) {
+  // honeypot: bots fill hidden "website"; discard silently
+  if (String(body.website || '').trim()) {
+    return jsonResponse({ ok: true });
+  }
+
+  var name = clipText(body.name, 100);
+  var email = clipText(body.email, 200);
+  var message = clipText(body.message, 2000);
+  var rating = parseInt(body.rating, 10);
+  var locale = clipText(body.locale || 'en', 8).toLowerCase() || 'en';
+
+  if (!name || !email || email.indexOf('@') < 1 || !message) {
+    return jsonResponse({ ok: false, error: 'invalid_feedback' }, 400);
+  }
+  if (isNaN(rating) || rating < 1 || rating > 5) {
+    return jsonResponse({ ok: false, error: 'invalid_rating' }, 400);
+  }
+
+  var lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    var ss = SpreadsheetApp.openById(SHEET_ID);
+    var sheet = getOrCreateFeedbackSheet(ss);
+    sheet.appendRow([
+      Utilities.formatDate(new Date(), 'UTC', 'yyyy-MM-dd HH:mm:ss'),
+      name,
+      email,
+      rating,
+      message,
+      locale
+    ]);
+    return jsonResponse({ ok: true });
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function getOrCreateFeedbackSheet(ss) {
+  var sheet = ss.getSheetByName(FEEDBACK_SHEET_NAME);
+  if (!sheet) {
+    sheet = ss.insertSheet(FEEDBACK_SHEET_NAME);
+    sheet.getRange(1, 1, 1, FEEDBACK_HEADERS.length).setValues([FEEDBACK_HEADERS]);
+    return sheet;
+  }
+  if (sheet.getLastRow() === 0) {
+    sheet.getRange(1, 1, 1, FEEDBACK_HEADERS.length).setValues([FEEDBACK_HEADERS]);
+  }
+  return sheet;
+}
+
+function clipText(value, max) {
+  return String(value == null ? '' : value).trim().slice(0, max);
 }
 
 function jsonResponse(payload, status) {

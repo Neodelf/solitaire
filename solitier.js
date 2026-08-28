@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       window.dataLayer = window.dataLayer || [];
 
       // Google Sheets score endpoint (Apps Script Web App)
-      var SHEETS_ENDPOINT_URL = 'https://script.google.com/macros/s/AKfycbys6qHXyRTX2SFInJ3v4sZVVdRhapobEgRl2iVS5I3a0WoIJJDRY7luZFsSSX-uHrcQKw/exec';
+      var SHEETS_ENDPOINT_URL = 'https://script.google.com/macros/s/AKfycbz4qaCHGUoPTgJ4iWC-hJAyzdwJnZOT0Xx9Pv21PADREUBloHJQ8V1QNKtlL9LL0NPS-w/exec';
       var SHEETS_ENDPOINT_TOKEN = '';
       var LOCALE_RANKING_LIMIT = 3;
       var SUPPORTED_LOCALES = [
