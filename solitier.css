@@ -1480,3 +1480,33 @@ body.is-dragging {
 @media (max-width: 576px) {
    [dir="rtl"] .app-promo { text-align: center; }
 }
+
+/* Compact App Store bar above the game / locale ranking */
+.app-promo--top {
+   gap: 0.8em;
+   margin: 0.75em auto;
+   padding: 0.5em 0.9em;
+   border-radius: 14px;
+   max-width: 32rem;
+   box-shadow: none;
+}
+.app-promo--top .app-promo-icon {
+   width: 44px;
+   height: 44px;
+   border-radius: 22%;
+}
+.app-promo--top .app-promo-title {
+   margin: 0;
+   font-size: 1rem;
+}
+@media (max-width: 576px) {
+   .app-promo--top {
+      flex-direction: row;
+      text-align: left;
+      gap: 0.6em;
+      margin: 0.5em 0.5em;
+      padding: 0.45em 0.7em;
+   }
+   .app-promo--top .app-promo-title { font-size: 0.9rem; }
+   .app-promo--top .app-store-badge--sm { font-size: 0.66rem; }
+}
