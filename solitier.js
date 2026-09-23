@@ -293,9 +293,23 @@ document.addEventListener("DOMContentLoaded", function(event) {
          increment(CONTRIB_KEY_MONTHLY, 'month', month);
       }
 
+      // Puts the country badge and the App Store promo (icon + badge) on one row.
+      function buildTopRow(countryEl) {
+         var row = d.createElement('div');
+         row.className = 'locale-top-row';
+         var promo = d.querySelector('.app-promo--top');
+         if (promo) row.appendChild(promo);
+         row.appendChild(countryEl);
+         return row;
+      }
+
       function replaceRankingContainer(container, scoreBlock) {
          if (!scoreBlock || !scoreBlock.parentNode) return;
          var existing = d.querySelector('#locale-ranking');
+         var promo = d.querySelector('.app-promo--top');
+         if (!container && promo && existing && existing.contains(promo)) {
+            scoreBlock.parentNode.insertBefore(promo, scoreBlock);
+         }
          if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
          if (container) scoreBlock.parentNode.insertBefore(container, scoreBlock);
       }
@@ -418,7 +432,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
          var labels = getRankingLabels();
          var container = d.createElement('div');
          container.id = 'locale-ranking';
-         container.appendChild(renderPlayerCountryEl(totals));
+         container.appendChild(buildTopRow(renderPlayerCountryEl(totals)));
 
          var allRow = d.createElement('div');
          allRow.className = 'locale-ranking-all-row';
@@ -509,7 +523,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
          if (badge && badge.parentNode) {
             badge.parentNode.replaceChild(next, badge);
          } else {
-            ranking.insertBefore(next, ranking.firstChild);
+            var topRow = ranking.querySelector('.locale-top-row');
+            if (topRow) topRow.appendChild(next); else ranking.insertBefore(next, ranking.firstChild);
          }
          var current = getPlayerCountry();
          var items = ranking.querySelectorAll('.locale-ranking-item');
@@ -674,7 +689,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                var loadingContainer = d.createElement('div');
                loadingContainer.id = 'locale-ranking';
                loadingContainer.className = 'is-loading';
-               loadingContainer.appendChild(renderPlayerCountryEl(null));
+               loadingContainer.appendChild(buildTopRow(renderPlayerCountryEl(null)));
                var loadingAllRow = d.createElement('div');
                loadingAllRow.className = 'locale-ranking-all-row';
                loadingAllRow.appendChild(buildPeriodRow(labels.daily, buildLoadingGrid()));

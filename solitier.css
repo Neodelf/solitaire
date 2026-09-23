@@ -1481,32 +1481,36 @@ body.is-dragging {
    [dir="rtl"] .app-promo { text-align: center; }
 }
 
-/* Compact App Store bar above the game / locale ranking */
+/* Compact App Store icon + badge, on the same row as the locale country badge */
+.locale-top-row {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-wrap: wrap;
+   gap: 0.6em;
+}
+.locale-top-row .app-promo--top {
+   display: contents;
+}
+.locale-top-row .app-promo-icon { order: 0; }
+.locale-top-row .locale-player-country { order: 1; }
+.locale-top-row .app-store-badge { order: 2; }
 .app-promo--top {
-   gap: 0.8em;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: center;
+   gap: 0.6em;
    margin: 0.75em auto;
-   padding: 0.5em 0.9em;
-   border-radius: 14px;
-   max-width: 38rem;
+   padding: 0;
+   background: none;
+   border: 0;
    box-shadow: none;
 }
 .app-promo--top .app-promo-icon {
-   width: 44px;
-   height: 44px;
+   width: 40px;
+   height: 40px;
    border-radius: 22%;
+   box-shadow: 0 2px 8px rgba(0,0,0,.35);
 }
-.app-promo--top .app-promo-title {
-   margin: 0;
-   font-size: 1rem;
-}
-@media (max-width: 576px) {
-   .app-promo--top {
-      flex-direction: row;
-      text-align: left;
-      gap: 0.6em;
-      margin: 0.5em 0.5em;
-      padding: 0.45em 0.7em;
-   }
-   .app-promo--top .app-promo-title { font-size: 0.9rem; }
-   .app-promo--top .app-store-badge--sm { font-size: 0.66rem; }
-}
+.app-promo--top .app-store-badge--sm { font-size: 0.72rem; }
